@@ -33,6 +33,10 @@ class ParserTests(unittest.TestCase):
     def test_release_markdown_is_plain_text(self):
         body = sources.parse_github_atom("codex", fixture("codex_releases.atom"))[0]["body"]
         self.assertNotIn("## ", body)
+        body = sources.parse_github_atom("codex", "<feed xmlns='http://www.w3.org/2005/Atom'><entry><title>rust-v1.0.0</title>"
+            "<link href='https://x'/><updated>2026-11-24T00:00:00Z</updated><content>## Fixes\n- keep oidc.groups_jsonpath intact in the notes</content></entry></feed>")[0]["body"]
+        self.assertIn("• keep oidc.groups_jsonpath intact", body)
+        self.assertIn("- Pro $20", pricing.normalize("- Pro $20 per month"))
 
     def test_devin_bold_titles(self):
         items = FAKE["devin"]()

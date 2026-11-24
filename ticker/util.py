@@ -81,9 +81,13 @@ def html_to_text(markup):
     return "\n".join(out).strip()
 
 
+def md_structure(text):
+    """Headings become 'Heading:' and list markers '•'; nothing else is touched."""
+    text = re.sub(r"^#{1,6}\s+(.+?)\s*#*$", r"\1:", text, flags=re.M)
+    return re.sub(r"^\s*[-*+]\s+", "• ", text, flags=re.M)
+
+
 def md_to_text(md):
-    md = re.sub(r"^#{1,6}\s+(.+?)\s*#*$", r"\1:", md, flags=re.M)
-    md = re.sub(r"^\s*[-*+]\s+", "• ", md, flags=re.M)
     md = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", md)
     md = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", md)
     md = re.sub(r"[*_`]{1,3}", "", md)
