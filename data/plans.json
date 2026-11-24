@@ -1,1 +1,136 @@
-{}
+{
+ "devin": {
+  "plans": [
+   {
+    "plan": "Free",
+    "price": "$0/month",
+    "note": "Light quota to code with agents, limited model availability, unlimited inline edits & Tab"
+   },
+   {
+    "plan": "Pro",
+    "price": "$20/month",
+    "note": "Increased quotas, frontier & open source models, free SWE-2, Devin Cloud"
+   },
+   {
+    "plan": "Max",
+    "price": "$200/month",
+    "note": "Everything in Pro, plus access to Devin Bots and significantly higher quotas"
+   },
+   {
+    "plan": "Teams",
+    "price": "$80/month",
+    "note": "Everything in Pro, plus Devin Bots, up to 100 users, multiplayer, SAML/OIDC SSO"
+   },
+   {
+    "plan": "Enterprise",
+    "price": "Let's talk",
+    "note": "Highest priority support, dedicated account management, SCIM, RBAC, dedicated deployment"
+   }
+  ],
+  "checked": "2026-11-24",
+  "url": "https://devin.ai/pricing"
+ },
+ "codex": {
+  "plans": [
+   {
+    "plan": "Free",
+    "price": "$0/month",
+    "note": "GPT-6 Luna at Standard speed in the desktop app, subject to rollout"
+   },
+   {
+    "plan": "Go",
+    "price": "$8/month",
+    "note": "GPT-6 Luna at Standard speed in the desktop app, subject to rollout"
+   },
+   {
+    "plan": "Plus",
+    "price": "$20/month",
+    "note": "Codex on web, CLI, IDE extension, iOS; GPT-6.1 Sol & GPT-6 Luna; ChatGPT credits"
+   },
+   {
+    "plan": "Pro",
+    "price": "From $100/month",
+    "note": "Plans at $100, $200, or $500 USD per month; Ultrafast mode access on Pro $500"
+   },
+   {
+    "plan": "Business",
+    "price": "$20/ user / month",
+    "note": "2+ users billed annually ($25/user/month monthly); SAML SSO, MFA, ChatGPT credits"
+   },
+   {
+    "plan": "Enterprise & Edu",
+    "price": "Contact sales",
+    "note": "Priority processing, SCIM, EKM, RBAC, audit logs, data retention/residency controls"
+   }
+  ],
+  "checked": "2026-11-24",
+  "url": "https://developers.openai.com/codex/pricing.md"
+ },
+ "cursor": {
+  "plans": [
+   {
+    "plan": "Free",
+    "price": "$0/month",
+    "note": "Limited AI usage, limited agent and Chat requests"
+   },
+   {
+    "plan": "Plus",
+    "price": "$8/month",
+    "note": "Shared AI usage pool, Grok models only, Grok API access"
+   },
+   {
+    "plan": "Premium",
+    "price": "$30/month",
+    "note": "4x more usage vs Plus, latest Grok models, cloud agents"
+   },
+   {
+    "plan": "Super",
+    "price": "$100/month",
+    "note": "15x more usage vs Plus, priority model access at peak times"
+   },
+   {
+    "plan": "Ultra",
+    "price": "$200/month",
+    "note": "50x more usage vs Plus, earliest access to all products & models"
+   },
+   {
+    "plan": "Teams",
+    "price": "$30+/user/month",
+    "note": "4-50x Plus usage, centralized billing, SAML/OIDC SSO"
+   }
+  ],
+  "checked": "2026-11-24",
+  "url": "https://cursor.com/pricing"
+ },
+ "grok": {
+  "plans": [
+   {
+    "plan": "grok-4.7 (< 200k prompt tokens)",
+    "price": "$2.00 / 1M input tokens",
+    "note": "500k context; $0.50 cached input, $6.00 output / 1M tokens"
+   },
+   {
+    "plan": "grok-4.7 (≥ 200k prompt tokens)",
+    "price": "$4.00 / 1M input tokens",
+    "note": "500k context; $1.00 cached input, $12.00 output / 1M tokens"
+   },
+   {
+    "plan": "grok-imagine-image-2.0",
+    "price": "$0.04 / image",
+    "note": "Recommended for Images"
+   },
+   {
+    "plan": "grok-imagine-video-1.5",
+    "price": "$0.080 / sec",
+    "note": "Recommended for Videos"
+   },
+   {
+    "plan": "Speech to Speech (grok-voice-3.0)",
+    "price": "$0.08 / min ($4.80 / hr)",
+    "note": "Plus $0.004 / text input"
+   }
+  ],
+  "checked": "2026-11-24",
+  "url": "https://docs.x.ai/docs/models.md"
+ }
+}
