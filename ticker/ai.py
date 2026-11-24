@@ -51,9 +51,10 @@ GEMINI_MODEL = "gemini-4-hydrogen"
 
 class Editor:
     def __init__(self, token=None, base_url=None, model=None, max_calls=None):
-        self.base_url = base_url or os.environ.get("AI_BASE_URL") or GEMINI
-        self.model = model or os.environ.get("AI_MODEL") or GEMINI_MODEL
         self.token = token if token is not None else os.environ.get("AI_TOKEN")
+        openai_key = (self.token or "").startswith("sk-")  # never send an OpenAI key to the Gemini default
+        self.base_url = base_url or os.environ.get("AI_BASE_URL") or (OPENAI if openai_key else GEMINI)
+        self.model = model or os.environ.get("AI_MODEL") or ("gpt-4.1-mini" if openai_key else GEMINI_MODEL)
         self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "30"))
         self.calls = 0
         self.errors = []

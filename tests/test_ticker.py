@@ -139,6 +139,10 @@ class EditorRobustnessTests(unittest.TestCase):
             ed = ai.Editor()
         self.assertEqual((ed.base_url, ed.model), (ai.GEMINI, "gemini-4-hydrogen"))
         self.assertFalse(ed.enabled)  # the repo token is never sent to an AI endpoint
+        with mock.patch.dict(os.environ, dict(env, AI_TOKEN="AIza-k")):
+            self.assertEqual(ai.Editor().base_url, ai.GEMINI)
+        with mock.patch.dict(os.environ, dict(env, AI_TOKEN="sk-old")):
+            self.assertEqual((ai.Editor().base_url, ai.Editor().model), (ai.OPENAI, "gpt-4.1-mini"))
         with mock.patch.dict(os.environ, dict(env, AI_TOKEN="k", AI_BASE_URL=ai.OPENAI, AI_MODEL="gpt-4.1-mini")):
             ed = ai.Editor()
         self.assertEqual((ed.base_url, ed.model, ed.token, ed.enabled), (ai.OPENAI, "gpt-4.1-mini", "k", True))
