@@ -431,7 +431,7 @@
  },
  {
   "date": "2026-11-24",
-  "started": "2026-11-24T22:53:55+00:00",
+  "started": "2026-11-24T22:55:18+00:00",
   "sources": {
    "devin": {
     "ok": true,
@@ -478,13 +478,12 @@
   },
   "new": 0,
   "human_edits": 0,
-  "ai_backlog": 8,
   "pricing_changes": 0,
-  "ai_calls": 4,
+  "ai_calls": 2,
   "ai_errors": [
    "HTTP 429: RESOURCE_EXHAUSTED: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to:…"
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 48.7
+  "seconds": 27.9
  }
 ]

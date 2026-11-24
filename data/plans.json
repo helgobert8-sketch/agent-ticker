@@ -138,27 +138,27 @@
    {
     "plan": "Free",
     "price": "$0",
-    "note": "Free for everyone; limited usage every 5 hours and every week"
+    "note": "Limited usage every 5 hours and weekly; chat, web search, code, Artifacts."
    },
    {
     "plan": "Pro",
-    "price": "$17 Per month (annual) / $20 if billed monthly",
-    "note": "For everyday work; more usage, Claude Code, Projects, Fable with usage credits"
+    "price": "$17/month (annual) or $20/month",
+    "note": "More usage than Free, Claude Code, Projects, Claude Science, Fable via credits."
    },
    {
     "plan": "Max",
     "price": "$100 Per month",
-    "note": "5x Pro usage, Fable included (50% weekly limit), $100/month API credits"
+    "note": "5x Pro usage, Fable up to half weekly limit, $100/month in API credits."
    },
    {
     "plan": "Ultra",
     "price": "$200 Per month",
-    "note": "No 5-hour limit, 10x Pro weekly usage, $200/month API credits"
+    "note": "No 5-hour limit, 10x Pro weekly usage, $200/month in API credits."
    },
    {
     "plan": "Team (Standard seat)",
     "price": "$20 Per seat / month if billed annually",
-    "note": "For teams of 2 to 150; all Claude features plus more usage than Pro"
+    "note": "For teams of 2 to 150; all Claude features, plus more usage than Pro."
    }
   ],
   "checked": "2026-11-24",
