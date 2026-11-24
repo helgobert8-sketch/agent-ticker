@@ -90,7 +90,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     store.extend(new)
     store.sort(key=lambda e: (e["published"], e.get("first_seen", "")), reverse=True)
 
-    todays = [e for e in store if e.get("first_seen") == day and e.get("category") != "pricing" and (e["published"] >= (date.fromisoformat(day) - timedelta(days=3)).isoformat())]
+    todays = [e for e in store if e.get("first_seen") == day and not e.get("pricing") and (e["published"] >= (date.fromisoformat(day) - timedelta(days=3)).isoformat())]
     todays_pricing = [e["pricing"] for e in store if e.get("first_seen") == day and e.get("pricing")]
     if day in briefs and not new and not pricing_changes:
         pass  # a rerun on the same day with nothing new keeps the published brief
