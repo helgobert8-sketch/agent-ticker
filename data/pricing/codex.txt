@@ -49,7 +49,7 @@ subtitle="Power a few focused coding sessions each week."
 price="$20"
 interval="/month"
 ctaLabel="Get Plus"
-ctaHref="https://chatgpt.com/explore/plus?utminternalsource=openaideveloperscodex"
+ctaHref="https://chatgpt.com/explore/plus?utm_internal_source=openai_developers_codex"
 >
 - Codex on the web, in the CLI, in the IDE extension, and on iOS
 - Cloud-based integrations like automatic code review and Slack
@@ -66,7 +66,7 @@ priceEyebrow="From"
 price="$100"
 interval="/month"
 ctaLabel="Get Pro"
-ctaHref="https://chatgpt.com/explore/pro?utminternalsource=openaideveloperscodex"
+ctaHref="https://chatgpt.com/explore/pro?utm_internal_source=openai_developers_codex"
 highlight="Everything in Plus and:"
 footnoteLabel="Compare Pro plans and usage limits."
 footnoteHref="https://help.openai.com/en/articles/9793128-about-chatgpt-pro-plans"
@@ -115,7 +115,7 @@ name="Enterprise & Edu"
 subtitle="Unlock Codex for your entire organization with enterprise-grade functionality."
 interval=""
 ctaLabel="Contact sales"
-ctaHref="https://chatgpt.com/contact-sales?utminternalsource=openaideveloperscodex"
+ctaHref="https://chatgpt.com/contact-sales?utm_internal_source=openai_developers_codex"
 highlight="Everything in Business and:"
 >
 - Priority request processing
@@ -259,10 +259,10 @@ Fast
 Ultrafast
 | Model                                                                                                        | Included usage | Credits / PAYG |
 | ------------------------------------------------------------------------------------------------------------ | -------------- | -------------- |
-| GPT-6.2 Astra<br />GPT-6.2 Sol | 6x             | 3x\ / 6x      |
+| GPT-6.2 Astra<br />GPT-6.2 Sol | 6x             | 3x / 6x      |
 | GPT-6 Astra                                                                                                  | 8x             | 6x             |
 | GPT-6.1 Sol                                                                                                  | 8x             | 6x             |
-\ For GPT-6.2 Astra and GPT-6.2 Sol, eligible overages paid with purchased
+For GPT-6.2 Astra and GPT-6.2 Sol, eligible overages paid with purchased
 credits and eligible Enterprise pay-as-you-go usage cost 3x the Standard rate
 through February 28, 2027. Both cost 6x starting March 1, 2027 (Pacific time).
 Included usage stays at 6x throughout.

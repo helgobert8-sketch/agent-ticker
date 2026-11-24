@@ -46,7 +46,7 @@ Grok has no knowledge of current events or data beyond what was present in its t
 To incorporate realtime data with your request, enable server-side search tools (Web Search / X Search). See Web Search and X Search.
 Chat models
 No role order limitation: You can mix system, user, or assistant roles in any sequence for your conversation context.
-logprobs and toplogprobs are not supported by models grok-4.20 and newer. These fields will be silently ignored if set.
+logprobs and top_logprobs are not supported by models grok-4.20 and newer. These fields will be silently ignored if set.
 Image input models
 Maximum image size: 20MiB
 Maximum number of images: No limit
@@ -55,7 +55,7 @@ Any image/text input order is accepted (e.g. text prompt can precede image promp
 Batch API
 Not every model accepts Batch API requests. See Details on each model page.
 Encrypted reasoning
-On the Responses API, grok-4.7 always returns reasoning.encryptedcontent, even when include does not list it. See Encrypted reasoning content.
+On the Responses API, grok-4.7 always returns reasoning.encrypted_content, even when include does not list it. See Encrypted reasoning content.
 > [!NOTE]
 >
 > The knowledge cut-off date of Grok 4.7 is May 2026.
