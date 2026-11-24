@@ -116,7 +116,10 @@ class Editor:
             code = err.get("code") if isinstance(err.get("code"), str) else None
             label = code or err.get("type") or err.get("status") or str(exc.reason)
             msg = err.get("message")
-            return f"{label}: {clip(msg, 220)}" if msg and not code else label
+            if msg and not code:
+                quota = re.findall(r"Quota exceeded for metric: [^\n*]+", msg)
+                return f"{label}: {clip('; '.join(quota) if quota else msg, 300)}"
+            return label
         except Exception:
             return str(exc.reason)
 
