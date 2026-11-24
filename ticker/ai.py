@@ -60,7 +60,7 @@ class Editor:
         self.errors = []
         self.enabled = bool(self.token) and os.environ.get("AI_DISABLED") != "1"
         self.gemini = "generativelanguage.googleapis.com" in self.base_url
-        self.pace = float(os.environ.get("AI_PACE_SECONDS", "7"))
+        self.pace = float(os.environ.get("AI_PACE_SECONDS") or 7)
 
     def chat(self, system, user, max_tokens=1500):
         if not self.enabled or self.calls >= self.max_calls:
@@ -93,8 +93,9 @@ class Editor:
                     return None
                 return content
             except urllib.error.HTTPError as exc:
-                code = self._error_code(exc)
-                exhausted = code == "insufficient_quota" or bool(re.search(r"per ?day", code, re.I))
+                raw = exc.read() or b""
+                code = self._error_code(exc, raw)
+                exhausted = "insufficient_quota" in code or bool(re.search(rb"per ?day", raw, re.I))
                 if exc.code in (429, 500, 502, 503, 504) and not exhausted and attempt < 2:
                     time.sleep(5 * (attempt + 1))  # rate limit or overload: wait and retry
                     continue
@@ -107,10 +108,10 @@ class Editor:
                 return None
 
     @staticmethod
-    def _error_code(exc):
+    def _error_code(exc, raw=b""):
         """OpenAI: {"error": {"code": ...}}; Gemini: [{"error": {"status": ..., "message": "Quota exceeded for metric ..."}}]."""
         try:
-            body = json.loads(exc.read() or b"{}")
+            body = json.loads(raw or b"{}")
             err = (body[0] if isinstance(body, list) and body else body).get("error") or {}
             code = err.get("code") if isinstance(err.get("code"), str) else None
             label = code or err.get("type") or err.get("status") or str(exc.reason)
