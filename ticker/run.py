@@ -92,8 +92,8 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
 
     todays = [e for e in store if e.get("first_seen") == day and not e.get("pricing") and (e["published"] >= (date.fromisoformat(day) - timedelta(days=3)).isoformat())]
     todays_pricing = [e["pricing"] for e in store if e.get("first_seen") == day and e.get("pricing")]
-    if day in briefs and not new and not pricing_changes:
-        pass  # a rerun on the same day with nothing new keeps the published brief
+    if day in briefs and not new and not pricing_changes and not (briefs[day].get("editor") == "rules" and editor.enabled):
+        pass  # a rerun on the same day with nothing new keeps the published brief, unless AI can now rewrite it
     elif runs or todays or todays_pricing:  # first run backfills history; brief only real news
         briefs[day] = editor.brief(day, todays, todays_pricing, AGENT_NAMES)
         briefs[day]["count"] = len(todays) + len(todays_pricing)
