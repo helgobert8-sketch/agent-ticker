@@ -48,7 +48,7 @@ Not affiliated with any vendor. <a href="feed.xml">RSS</a> · <a href="data.json
 def entry_link(e):
     """Devin and xAI publish one long page; a text fragment jumps to the item on it."""
     if e["agent"] in ("devin", "grok") and not e.get("pricing") and "#" not in e["url"]:
-        return f'{e["url"]}#:~:text={quote(e["title"][:80], safe="")}'
+        return f'{e["url"]}#:~:text={quote(e["title"][:80], safe="").replace("-", "%2D")}'
     return e["url"]
 
 
