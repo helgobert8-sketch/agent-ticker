@@ -213,15 +213,15 @@ def rss(entries, briefs):
     for d in sorted(briefs, reverse=True)[:30]:
         b = briefs[d]
         desc = "<ul>" + "".join(f"<li>{E_(x)}</li>" for x in b.get("bullets", [])) + "</ul>"
-        items.append((d + "T06:30:00", f"Brief · {nice_date(d)}: {b['headline']}", f"{SITE_URL}/day-{d}.html", desc))
+        items.append((d + "T06:30:00", f"Brief · {nice_date(d)}: {b['headline']}", f"{SITE_URL}/day-{d}.html", desc, f"brief-{d}"))
     for e in entries[:50]:
         title = f"{AGENTS[e['agent']]['name']}: {e.get('headline') or e['title']}"
-        items.append((e["published"] + "T06:00:00", title, entry_link(e), e.get("takeaway") or ""))
+        items.append((e["published"] + "T06:00:00", title, entry_link(e), e.get("takeaway") or "", e["id"]))
     out = []
-    for when, title, link, desc in sorted(items, reverse=True):
+    for when, title, link, desc, guid in sorted(items, reverse=True):
         pub = format_datetime(datetime.fromisoformat(when + "+00:00"))
         out.append(
-            f"<item><title>{E_(title)}</title><link>{E_(link)}</link><guid isPermaLink=\"false\">{E_(link)}|{E_(title)}</guid>"
+            f"<item><title>{E_(title)}</title><link>{E_(link)}</link><guid isPermaLink=\"false\">{E_(guid)}</guid>"
             f"<pubDate>{pub}</pubDate><description>{E_(desc)}</description></item>"
         )
     items = out
