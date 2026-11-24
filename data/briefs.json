@@ -1,0 +1,14 @@
+{
+ "2026-11-24": {
+  "headline": "11 changes across Claude Code, Codex, Devin",
+  "bullets": [
+   "Devin: Session search moves to the command palette",
+   "Codex: Codex CLI 0.172.0",
+   "Devin: Open a session side by side",
+   "Devin: Code scan cancellations in audit logs",
+   "Devin: Warning before deleting secrets used by Preflight checks"
+  ],
+  "editor": "rules",
+  "count": 11
+ }
+}
