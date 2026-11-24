@@ -95,6 +95,13 @@ def tape(entries):
     return f'<div class="tape" aria-hidden="true"><div class="tape-in">{items}{items}</div></div>'
 
 
+def stale_attr(last, days=7):
+    """Agents quiet for a week get a note shown above their filtered timeline."""
+    if not last or (date.today() - date.fromisoformat(last["published"])).days < days:
+        return ""
+    return f' data-stale="No changes since {nice_date(last["published"], last.get("date_precision", "day"))}."'
+
+
 def last_change_by_agent(entries):
     out = {}
     for e in entries:
@@ -120,7 +127,7 @@ def build(data_dir="data", out_dir="public"):
 
     last = last_change_by_agent(entries)
     cards = "".join(
-        f'<a class="card a-border-{k}" href="index.html?agent={k}#timeline" data-jump="{k}"><span class="agent a-{k}">{E_(v["name"])}</span>'
+        f'<a class="card a-border-{k}" href="index.html?agent={k}#timeline" data-jump="{k}"{stale_attr(last.get(k))}><span class="agent a-{k}">{E_(v["name"])}</span>'
         f'<small>{E_(v["maker"])}</small><span class="last">{("Last change " + nice_date(last[k]["published"], last[k].get("date_precision","day"))) if k in last else "No changes yet"}</span></a>'
         for k, v in AGENTS.items()
     )
@@ -135,7 +142,7 @@ def build(data_dir="data", out_dir="public"):
     body = hero + (tape(entries) if entries else "")
     if latest_brief_day:
         body += brief_html(latest_brief_day, briefs[latest_brief_day])
-    body += f'<section class="cards">{cards}</section>{filters()}<div id="timeline">{"".join(timeline)}</div>' + follow_html()
+    body += f'<section class="cards">{cards}</section>{filters()}<p id="stale-note" class="stale"></p><div id="timeline">{"".join(timeline)}</div>' + follow_html()
     write(out_dir, "index.html", page("Agent-Ticker · daily changes at AI coding agents", body, "home"))
 
     archive_items = []
