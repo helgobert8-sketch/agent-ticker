@@ -1,6 +1,6 @@
 """The AI editor: classifies entries, writes one-line takeaways and the daily brief.
 
-Uses any OpenAI-compatible chat endpoint (OpenAI by default) with the AI_TOKEN secret.
+Uses Google Gemini (free tier) by default, or any OpenAI-compatible endpoint, with the AI_TOKEN secret.
 Without a token every step falls back to deterministic rules, so the site never stalls.
 """
 import json
@@ -45,12 +45,14 @@ def heuristic_takeaway(entry):
 
 
 OPENAI = "https://api.openai.com/v1"
+GEMINI = "https://generativelanguage.googleapis.com/v1beta/openai"
+GEMINI_MODEL = "gemini-4-hydrogen"
 
 
 class Editor:
     def __init__(self, token=None, base_url=None, model=None, max_calls=None):
-        self.base_url = base_url or os.environ.get("AI_BASE_URL") or OPENAI
-        self.model = model or os.environ.get("AI_MODEL") or "gpt-4.1-mini"
+        self.base_url = base_url or os.environ.get("AI_BASE_URL") or GEMINI
+        self.model = model or os.environ.get("AI_MODEL") or GEMINI_MODEL
         self.token = token if token is not None else os.environ.get("AI_TOKEN")
         self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "30"))
         self.calls = 0

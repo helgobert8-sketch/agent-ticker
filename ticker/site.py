@@ -188,7 +188,7 @@ def autonomy_html(runs, entries):
         ("05:30 UTC", "A scheduled GitHub Actions job wakes up. No server, no human."),
         ("Collect", "It reads the official changelogs: Devin release notes, Claude Code and Codex GitHub releases, Cursor's changelog feed and xAI's release notes."),
         ("Watch prices", "It re-reads each official pricing page and diffs the price and plan lines against yesterday's snapshot."),
-        ("Edit", "An AI editor (an OpenAI-compatible model) tags every new item as feature, model, pricing, removal or fix, writes a one-line takeaway and the daily brief. If the AI is unavailable, rule-based editing takes over so the site never stalls."),
+        ("Edit", "An AI editor (Google Gemini, on its free tier) tags every new item as feature, model, pricing, removal or fix, writes a one-line takeaway and the daily brief. If the AI is unavailable, rule-based editing takes over so the site never stalls."),
         ("Publish", "It rebuilds this site, the RSS feed and the JSON API, commits the data and deploys to GitHub Pages."),
         ("Report", "Every run is logged below, including source failures and human edits."),
     ]
