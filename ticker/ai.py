@@ -55,7 +55,7 @@ class Editor:
         openai_key = (self.token or "").startswith("sk-")  # never send an OpenAI key to the Gemini default
         self.base_url = base_url or os.environ.get("AI_BASE_URL") or (OPENAI if openai_key else GEMINI)
         self.model = model or os.environ.get("AI_MODEL") or ("gpt-4.1-mini" if openai_key else GEMINI_MODEL)
-        self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "30"))
+        self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "18"))
         self.calls = 0
         self.errors = []
         self.enabled = bool(self.token) and os.environ.get("AI_DISABLED") != "1"

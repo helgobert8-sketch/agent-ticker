@@ -25,8 +25,8 @@ Every run is logged on the site's *Autonomy* page.
 | `AI_MODEL` | variable | `gemini-4-hydrogen` (e.g. `gpt-4.1-mini` for OpenAI) |
 
 Rule-based editing is the fallback whenever the AI is missing or fails.
-| `AI_MAX_CALLS` | env | `30` per run |
-| `AI_BACKLOG_CALLS` | env | `10` per run: AI re-edits up to 80 older rule-written items a day |
+| `AI_MAX_CALLS` | env | `18` per run (Gemini free tier allows 20 requests a day) |
+| `AI_BACKLOG_CALLS` | env | `4` per run: AI re-edits up to 32 older rule-written items a day |
 
 ## Local run
 
