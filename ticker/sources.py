@@ -141,7 +141,7 @@ def parse_github_atom(agent, xml_text):
         if PRERELEASE.search(tag):
             continue
         link = e.find("a:link", ATOM).get("href")
-        body = html_to_text(e.findtext("a:content", "", ATOM))
+        body = md_to_text(html_to_text(e.findtext("a:content", "", ATOM)))
         if len(body) < 40:
             continue
         published = parse_date(e.findtext("a:updated", "", ATOM))

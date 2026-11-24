@@ -82,6 +82,8 @@ def html_to_text(markup):
 
 
 def md_to_text(md):
+    md = re.sub(r"^#{1,6}\s+(.+?)\s*#*$", r"\1:", md, flags=re.M)
+    md = re.sub(r"^\s*[-*+]\s+", "• ", md, flags=re.M)
     md = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", md)
     md = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", md)
     md = re.sub(r"[*_`]{1,3}", "", md)

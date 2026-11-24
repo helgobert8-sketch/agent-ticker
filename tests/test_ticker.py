@@ -30,6 +30,10 @@ class ParserTests(unittest.TestCase):
         self.assertTrue(all(len(e["published"]) == 10 for e in items))
         self.assertEqual(items[0]["published"], "2026-11-23")
 
+    def test_release_markdown_is_plain_text(self):
+        body = sources.parse_github_atom("codex", fixture("codex_releases.atom"))[0]["body"]
+        self.assertNotIn("## ", body)
+
     def test_devin_bold_titles(self):
         items = FAKE["devin"]()
         titles = {e["title"] for e in items}
@@ -114,9 +118,8 @@ class EditorRobustnessTests(unittest.TestCase):
         env = {"AI_BASE_URL": "", "AI_MODEL": "", "AI_TOKEN": "", "GITHUB_TOKEN": "gh"}
         with mock.patch.dict(os.environ, env):
             ed = ai.Editor()
-        self.assertEqual((ed.base_url, ed.model, ed.token), (ai.GITHUB_MODELS, "openai/gpt-4.1-mini", "gh"))
-        with mock.patch.dict(os.environ, dict(env, AI_BASE_URL="https://api.openai.com/v1")):
-            self.assertFalse(ai.Editor().enabled)
+        self.assertEqual((ed.base_url, ed.model), (ai.OPENAI, "gpt-4.1-mini"))
+        self.assertFalse(ed.enabled)  # the repo token is never sent to an AI endpoint
 
 
 class PipelineTests(unittest.TestCase):
