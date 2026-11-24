@@ -20,7 +20,7 @@ Every run is logged on the site's *Autonomy* page.
 
 | Name | Kind | Default |
 | --- | --- | --- |
-| `AI_TOKEN` | secret | the workflow's `GITHUB_TOKEN` (GitHub Models) |
+| `AI_TOKEN` | secret | unset: the workflow's `GITHUB_TOKEN`, used only for GitHub Models |
 | `AI_BASE_URL` | variable | `https://models.github.ai/inference` (any OpenAI-compatible endpoint) |
 | `AI_MODEL` | variable | `openai/gpt-4.1-mini` |
 | `AI_MAX_CALLS` | env | `12` per run |
