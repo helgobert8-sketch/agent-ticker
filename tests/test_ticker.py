@@ -36,6 +36,9 @@ class ParserTests(unittest.TestCase):
         self.assertIn("Paste videos into session chat", titles)
         self.assertIn("German UI Language", titles)
         self.assertNotIn("Sessions & Workspace", titles)
+        self.assertNotIn("Introducing Access and Sharing", titles)
+        scm = next(e for e in items if e["title"] == "SCM access mismatch checker")
+        self.assertIn("off by default", scm["body"])
         self.assertEqual({e["published"] for e in items if e["title"] == "German UI Language"}, {"2026-11-13"})
 
     def test_xai_newest_month_from_last_year(self):

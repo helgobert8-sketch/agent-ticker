@@ -52,34 +52,41 @@ TITLE_LINE = re.compile(r"^(?:#{2,6} +(.+)|\*\*(.+)\*\*)$")
 
 
 def parse_devin(md, url="https://docs.devin.ai/release-notes/overview"):
-    """Items are headings or bold lines followed by text; ones followed directly by another title are sections."""
-    out, day, section, title, body = [], None, None, None, []
+    """Items are headings or bold lines followed by text. A title followed directly by another title is a
+    section; a title whose text is followed by deeper titles is an intro shared by those items."""
+    out, day, section = [], None, None
+    title, level, body, intros = None, 0, [], []
 
-    def flush():
+    def flush(next_level):
         nonlocal section
-        if title and body and day:
-            e = entry("devin", title, md_to_text("\n".join(body)), url, day, SOURCES["devin"])
+        if title and body and day and next_level > level:
+            intros.append((level, " ".join(body)))
+        elif title and body and day:
+            text = " ".join([t for _, t in intros] + body)
+            e = entry("devin", title, md_to_text(text), url, day, SOURCES["devin"])
             e["section"] = section
             out.append(e)
         elif title:
             section = title
+        intros[:] = [(lv, t) for lv, t in intros if lv < next_level]
 
     for line in md.splitlines():
         line = line.strip()
         m = DATE_LINE.match(line)
         if m:
-            flush()
-            day, section, title, body = parse_date(m.group(1)), None, None, []
+            flush(0)
+            day, section, title, body, intros = parse_date(m.group(1)), None, None, [], []
             continue
         if not day or not line:
             continue
         t = TITLE_LINE.match(line)
         if t:
-            flush()
-            title, body = (t.group(1) or t.group(2)).strip(), []
+            new_level = len(line) - len(line.lstrip("#")) if t.group(1) else 7
+            flush(new_level)
+            title, level, body = (t.group(1) or t.group(2)).strip(), new_level, []
         elif title:
             body.append(line)
-    flush()
+    flush(0)
     return out
 
 
