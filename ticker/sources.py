@@ -47,29 +47,44 @@ def entry(agent, title, body, url, published, source, precision="day"):
     }
 
 
+DATE_LINE = re.compile(r"^\*\*([A-Z][a-z]+ \d{1,2}, \d{4})\*\*$")
+TITLE_LINE = re.compile(r"^(?:#{2,6} +(.+)|\*\*(.+)\*\*)$")
+
+
 def parse_devin(md, url="https://docs.devin.ai/release-notes/overview"):
-    out, current_date = [], None
-    blocks = re.split(r"^(?=\*\*[A-Z][a-z]+ \d{1,2}, \d{4}\*\*|#{2,3} )", md, flags=re.M)
-    section = None
-    for block in blocks:
-        head, _, rest = block.partition("\n")
-        m = re.match(r"\*\*([A-Z][a-z]+ \d{1,2}, \d{4})\*\*", head)
-        if m:
-            current_date = parse_date(m.group(1))
-            continue
-        if head.startswith("## "):
-            section = head[3:].strip()
-            continue
-        if head.startswith("### ") and current_date:
-            title = head[4:].strip()
-            body = md_to_text(rest)
-            e = entry("devin", title, body, url, current_date, SOURCES["devin"])
+    """Items are headings or bold lines followed by text; ones followed directly by another title are sections."""
+    out, day, section, title, body = [], None, None, None, []
+
+    def flush():
+        nonlocal section
+        if title and body and day:
+            e = entry("devin", title, md_to_text("\n".join(body)), url, day, SOURCES["devin"])
             e["section"] = section
             out.append(e)
+        elif title:
+            section = title
+
+    for line in md.splitlines():
+        line = line.strip()
+        m = DATE_LINE.match(line)
+        if m:
+            flush()
+            day, section, title, body = parse_date(m.group(1)), None, None, []
+            continue
+        if not day or not line:
+            continue
+        t = TITLE_LINE.match(line)
+        if t:
+            flush()
+            title, body = (t.group(1) or t.group(2)).strip(), []
+        elif title:
+            body.append(line)
+    flush()
     return out
 
 
-def parse_xai(md, url="https://docs.x.ai/docs/release-notes", year_hint=None):
+def parse_xai(md, url="https://docs.x.ai/docs/release-notes", year_hint=None, month_hint=None):
+    """Month headings without a year belong to year_hint, or the year before once they pass month_hint."""
     out, month, year = [], None, year_hint
     for block in re.split(r"^(?=#{2,3} )", md, flags=re.M):
         head, _, rest = block.partition("\n")
@@ -79,6 +94,8 @@ def parse_xai(md, url="https://docs.x.ai/docs/release-notes", year_hint=None):
             if m and m.group(1) in MONTHS:
                 if month and MONTHS.index(m.group(1)) > MONTHS.index(month) and year:
                     year -= 1  # list runs newest first; wrapping past January means the year before
+                elif not month and year and month_hint and MONTHS.index(m.group(1)) + 1 > month_hint:
+                    year -= 1  # newest heading is still last year's month, e.g. "December" read in January
                 month = m.group(1)
                 if m.group(2):
                     year = int(m.group(2))
@@ -138,12 +155,12 @@ def parse_github_api(agent, json_text):
     return out
 
 
-def collect(agent, year_hint=None):
+def collect(agent, year_hint=None, month_hint=None):
     """Fetch one agent's official changelog. Raises on network/parse failure."""
     if agent == "devin":
         return parse_devin(fetch(SOURCES[agent]))
     if agent == "grok":
-        return parse_xai(fetch(SOURCES[agent]), year_hint=year_hint)
+        return parse_xai(fetch(SOURCES[agent]), year_hint=year_hint, month_hint=month_hint)
     if agent == "cursor":
         return parse_cursor(fetch(SOURCES[agent]))
     if agent in GITHUB_RELEASES_API:
