@@ -37,11 +37,18 @@ def heuristic_takeaway(entry):
     return clip(highlights[0] if highlights else entry["title"], 200)
 
 
+GITHUB_MODELS = "https://models.github.ai/inference"
+
+
 class Editor:
     def __init__(self, token=None, base_url=None, model=None, max_calls=None):
-        self.token = token if token is not None else (os.environ.get("AI_TOKEN") or os.environ.get("GITHUB_TOKEN"))
-        self.base_url = base_url or os.environ.get("AI_BASE_URL", "https://models.github.ai/inference")
-        self.model = model or os.environ.get("AI_MODEL", "openai/gpt-4.1-mini")
+        self.base_url = base_url or os.environ.get("AI_BASE_URL") or GITHUB_MODELS
+        self.model = model or os.environ.get("AI_MODEL") or "openai/gpt-4.1-mini"
+        if token is None:
+            token = os.environ.get("AI_TOKEN")
+            if not token and self.base_url.rstrip("/") == GITHUB_MODELS:
+                token = os.environ.get("GITHUB_TOKEN")  # the repo token only ever goes to GitHub itself
+        self.token = token
         self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "12"))
         self.calls = 0
         self.errors = []
@@ -57,12 +64,12 @@ class Editor:
             "temperature": 0.2,
             "max_tokens": max_tokens,
         }
-        req = urllib.request.Request(
-            self.base_url.rstrip("/") + "/chat/completions",
-            data=json.dumps(payload).encode(),
-            headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"},
-        )
         try:
+            req = urllib.request.Request(
+                self.base_url.rstrip("/") + "/chat/completions",
+                data=json.dumps(payload).encode(),
+                headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"},
+            )
             with urllib.request.urlopen(req, timeout=90) as resp:
                 data = json.load(resp)
             return data["choices"][0]["message"]["content"]
@@ -99,10 +106,10 @@ class Editor:
             parsed = self._json(self.chat(system, json.dumps(items, ensure_ascii=False)))
             by_id = {}
             if isinstance(parsed, dict):
-                by_id = {str(x.get("id")): x for x in parsed.get("items", []) if isinstance(x, dict)}
+                by_id = {str(x.get("id")): x for x in (parsed.get("items") or []) if isinstance(x, dict)}
             for e in chunk:
                 got = by_id.get(e["id"])
-                if got and got.get("category") in CATEGORIES:
+                if got and got.get("category") in CATEGORIES and all(isinstance(got.get(k) or "", str) for k in ("headline", "takeaway")):
                     e["category"] = got["category"]
                     e["headline"] = clip(got.get("headline") or e["title"], 100)
                     e["takeaway"] = clip(got.get("takeaway") or heuristic_takeaway(e), 220)
@@ -130,8 +137,10 @@ class Editor:
             "and model changes, then the most useful features. No hype, no invented facts."
         )
         parsed = self._json(self.chat(system, f"Date: {day}\n" + json.dumps(items, ensure_ascii=False), 700))
-        if isinstance(parsed, dict) and parsed.get("headline") and isinstance(parsed.get("bullets"), list):
-            return {"headline": clip(parsed["headline"], 120), "bullets": [clip(b, 220) for b in parsed["bullets"][:5]], "editor": "ai"}
+        if isinstance(parsed, dict) and isinstance(parsed.get("headline"), str) and isinstance(parsed.get("bullets"), list):
+            bullets = [clip(b, 220) for b in parsed["bullets"] if isinstance(b, str)][:5]
+            if parsed["headline"].strip() and bullets:
+                return {"headline": clip(parsed["headline"], 120), "bullets": bullets, "editor": "ai"}
         order = {"pricing": 0, "model": 1, "deprecation": 2, "feature": 3, "fix": 4}
         ranked = sorted(entries, key=lambda e: order.get(e.get("category"), 5))
         bullets = [f"{agent_names[p['agent']]}: pricing page changed." for p in pricing_changes]

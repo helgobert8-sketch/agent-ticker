@@ -28,7 +28,7 @@ jobs:
       - name: Collect, edit and build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AI_TOKEN: ${{ secrets.AI_TOKEN || secrets.GITHUB_TOKEN }}
+          AI_TOKEN: ${{ secrets.AI_TOKEN }}
           AI_BASE_URL: ${{ vars.AI_BASE_URL }}
           AI_MODEL: ${{ vars.AI_MODEL }}
         run: python -m ticker.run --data-dir data --out-dir public
