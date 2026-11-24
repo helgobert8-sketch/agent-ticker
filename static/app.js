@@ -22,11 +22,26 @@
       apply();
     });
   });
+  var q = new URLSearchParams(location.search);
+  if (q.get("agent") || q.get("cat")) {
+    state = { agent: q.get("agent"), cat: q.get("cat") };
+    apply();
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var label = b.textContent;
+      navigator.clipboard.writeText(b.dataset.copy).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = label; }, 1500);
+      });
+    });
+  });
   document.querySelectorAll("[data-jump]").forEach(function (a) {
     a.addEventListener("click", function (ev) {
       ev.preventDefault();
       state = { agent: a.dataset.jump, cat: null };
       apply();
+      history.replaceState(null, "", "?agent=" + a.dataset.jump + "#timeline");
       document.querySelector(".filters").scrollIntoView({ behavior: "smooth" });
     });
   });

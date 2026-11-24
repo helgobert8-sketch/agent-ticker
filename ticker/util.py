@@ -90,8 +90,16 @@ def md_structure(text):
 def md_to_text(md):
     md = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", md)
     md = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", md)
-    md = re.sub(r"[*_`]{1,3}", "", md)
+    md = re.sub(r"\\([\\`*_{}\[\]()#+\-.!|<>])", r"\1", md)
+    md = re.sub(r"\*{1,3}|`+", "", md)
+    md = re.sub(r"(?<![\w\\])_{1,3}(?=\S)|(?<=\S)_{1,3}(?!\w)", "", md)
     return html.unescape(md).strip()
+
+
+def clip_lines(text, n):
+    """Like clip, but keeps line breaks so list items stay separate."""
+    text = "\n".join(re.sub(r"[ \t]+", " ", l).strip() for l in (text or "").splitlines() if l.strip())
+    return text if len(text) <= n else text[: n - 1].rsplit(" ", 1)[0] + "…"
 
 
 def clip(text, n):

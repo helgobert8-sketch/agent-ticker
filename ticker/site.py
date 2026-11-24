@@ -7,6 +7,9 @@ from collections import OrderedDict
 from datetime import date, datetime, timezone
 from email.utils import format_datetime
 
+from urllib.parse import quote
+
+from .pricing import PRICING_PAGES
 from .sources import AGENTS
 from .util import load_json
 
@@ -30,6 +33,8 @@ def page(title, body, active, description="What changed today at Devin, Claude C
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E_(title)}</title><meta name="description" content="{E_(description)}">
 <meta property="og:title" content="{E_(title)}"><meta property="og:description" content="{E_(description)}">
+<meta property="og:type" content="website"><meta property="og:url" content="{SITE_URL}/"><meta property="og:image" content="{SITE_URL}/og.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE_URL}/og.png">
 <link rel="alternate" type="application/rss+xml" title="Agent-Ticker" href="feed.xml">
 <link rel="stylesheet" href="style.css"></head>
 <body><header><div class="wrap bar"><a class="logo" href="index.html"><span class="dot"></span>Agent-Ticker</a><nav>{nav}</nav></div></header>
@@ -40,13 +45,20 @@ Not affiliated with any vendor. <a href="feed.xml">RSS</a> · <a href="data.json
 <script src="app.js"></script></body></html>"""
 
 
+def entry_link(e):
+    """Devin and xAI publish one long page; a text fragment jumps to the item on it."""
+    if e["agent"] in ("devin", "grok") and not e.get("pricing") and "#" not in e["url"]:
+        return f'{e["url"]}#:~:text={quote(e["title"][:80], safe="")}'
+    return e["url"]
+
+
 def entry_html(e):
     a = AGENTS[e["agent"]]
     cat = e.get("category", "feature")
     when = nice_date(e["published"], e.get("date_precision", "day"))
     return f"""<article class="item" data-agent="{e['agent']}" data-cat="{cat}">
 <div class="meta"><span class="agent a-{e['agent']}">{E_(a['name'])}</span><span class="cat c-{cat}">{CAT_LABEL.get(cat, cat)}</span><time>{when}</time></div>
-<h3><a href="{E_(e['url'])}" rel="noopener">{E_(e.get('headline') or e['title'])}</a></h3>
+<h3><a href="{E_(entry_link(e))}" rel="noopener">{E_(e.get('headline') or e['title'])}</a></h3>
 <p>{E_(e.get('takeaway') or '')}</p></article>"""
 
 
@@ -58,10 +70,23 @@ def filters():
 
 def brief_html(day, brief, link=False):
     bullets = "".join(f"<li>{E_(b)}</li>" for b in brief.get("bullets", []))
+    shown, count = len(brief.get("bullets", [])), brief.get("count") or 0
+    if count > shown and shown:
+        bullets += f'<li class="more"><a href="day-{day}.html">Top {shown} of {count}: see all {count} changes</a></li>'
     title = f'<a href="day-{day}.html">{E_(brief["headline"])}</a>' if link else E_(brief["headline"])
     by = "AI editor" if brief.get("editor") == "ai" else "rule-based editor"
     return f"""<section class="brief"><div class="kicker">Daily brief · {nice_date(day)} · by the {by}</div>
 <h2>{title}</h2>{f'<ul>{bullets}</ul>' if bullets else ''}</section>"""
+
+
+def follow_html():
+    feed = f"{SITE_URL}/feed.xml"
+    share = quote(f"What changed in your AI coding agents today: {SITE_URL}/", safe="")
+    return f"""<section class="follow" id="follow"><h2>Follow Agent-Ticker</h2>
+<p>Paste the feed address into any RSS reader (Feedly, Inoreader, NetNewsWire, Slack's /feed) and the daily brief and every new change arrive by themselves.</p>
+<div class="copy"><input id="feed-url" readonly value="{feed}"><button class="btn" data-copy="{feed}">Copy feed URL</button></div>
+<p class="cta"><a class="btn ghost" href="{REPO_URL}">Star or watch on GitHub</a><a class="btn ghost" href="https://x.com/intent/post?text={share}" rel="noopener">Share on X</a>
+<button class="btn ghost" data-copy="{SITE_URL}/">Copy link</button></p></section>"""
 
 
 def tape(entries):
@@ -95,7 +120,7 @@ def build(data_dir="data", out_dir="public"):
 
     last = last_change_by_agent(entries)
     cards = "".join(
-        f'<a class="card a-border-{k}" href="#" data-jump="{k}"><span class="agent a-{k}">{E_(v["name"])}</span>'
+        f'<a class="card a-border-{k}" href="index.html?agent={k}#timeline" data-jump="{k}"><span class="agent a-{k}">{E_(v["name"])}</span>'
         f'<small>{E_(v["maker"])}</small><span class="last">{("Last change " + nice_date(last[k]["published"], last[k].get("date_precision","day"))) if k in last else "No changes yet"}</span></a>'
         for k, v in AGENTS.items()
     )
@@ -106,11 +131,11 @@ def build(data_dir="data", out_dir="public"):
         timeline.append(f'<section class="day"><h4>{nice_date(d, precision)}</h4>{"".join(entry_html(e) for e in items)}</section>')
     hero = f"""<section class="hero"><h1>What changed in your AI coding agents today.</h1>
 <p>Features, models and pricing from <b>Devin</b>, <b>Claude Code</b>, <b>Codex</b>, <b>Cursor</b> and <b>Grok</b>, read from official changelogs every morning and explained in one line each.</p>
-<p class="cta"><a class="btn" href="feed.xml">Follow via RSS</a><a class="btn ghost" href="autonomy.html">See how the AI runs it</a></p></section>"""
+<p class="cta"><a class="btn" href="#follow">Follow the ticker</a><a class="btn ghost" href="autonomy.html">See how the AI runs it</a></p></section>"""
     body = hero + (tape(entries) if entries else "")
     if latest_brief_day:
         body += brief_html(latest_brief_day, briefs[latest_brief_day])
-    body += f'<section class="cards">{cards}</section>{filters()}<div id="timeline">{"".join(timeline)}</div>'
+    body += f'<section class="cards">{cards}</section>{filters()}<div id="timeline">{"".join(timeline)}</div>' + follow_html()
     write(out_dir, "index.html", page("Agent-Ticker · daily changes at AI coding agents", body, "home"))
 
     archive_items = []
@@ -125,7 +150,7 @@ def build(data_dir="data", out_dir="public"):
             label = b["headline"] if b else f"{n} change{'s' if n != 1 else ''} published"
             write(out_dir, f"day-{d}.html", page(f"Agent-Ticker · {nice_date(d)}", day_body, "archive", label))
             archive_items.append(f'<li><a href="day-{d}.html"><time>{d}</time> {E_(label)}</a></li>')
-    write(out_dir, "archive.html", page("Agent-Ticker · Archive", f'<h1>Archive</h1><ul class="archive">{"".join(archive_items[:400])}</ul>', "archive"))
+    write(out_dir, "archive.html", page("Agent-Ticker · Archive", f'<h1>Archive</h1><p class="muted">Every day with an official change. Days without a release are skipped; history starts with the 30 days loaded at launch.</p><ul class="archive">{"".join(archive_items[:400])}</ul>', "archive"))
 
     rows = []
     for k, v in AGENTS.items():
@@ -134,10 +159,10 @@ def build(data_dir="data", out_dir="public"):
         plan_rows = "".join(f"<tr><td>{E_(x['plan'])}</td><td><b>{E_(x['price'])}</b></td><td>{E_(x['note'])}</td></tr>" for x in (p or {}).get("plans", []))
         rows.append(
             f"""<section class="pricebox a-border-{k}"><h3><span class="agent a-{k}">{E_(v['name'])}</span></h3>
-<p class="muted">Checked {E_((p or {}).get('checked', 'daily'))} · <a href="{E_((p or {}).get('url', v['home']))}">official pricing page</a>
+<p class="muted">Checked {E_((p or {}).get('checked', 'daily'))} · <a href="{E_(PRICING_PAGES[k])}">official pricing page</a>
 {(' · last change: ' + nice_date(last_price['published'])) if last_price else ''}</p>
 {'<p class="muted">The pricing page changed; this summary is being refreshed.</p>' if (p or {}).get('stale') else ''}
-{f'<table>{plan_rows}</table>' if plan_rows else '<p class="muted">Plan summary appears after the next AI run.</p>'}</section>"""
+{f'<table>{plan_rows}</table>' if plan_rows else '<p class="muted">The plan table is filled in by the AI editor; until then, open the official pricing page.</p>'}</section>"""
         )
     write(out_dir, "pricing.html", page("Agent-Ticker · Pricing watch", "<h1>Pricing watch</h1><p>Every morning the ticker re-reads each official pricing page, compares it with yesterday and flags any price or plan line that changed.</p>" + "".join(rows), "pricing"))
 
@@ -176,15 +201,23 @@ def autonomy_html(runs, entries):
 
 
 def rss(entries, briefs):
+    """Daily briefs plus the latest individual changes, newest first."""
     items = []
     for d in sorted(briefs, reverse=True)[:30]:
         b = briefs[d]
         desc = "<ul>" + "".join(f"<li>{E_(x)}</li>" for x in b.get("bullets", [])) + "</ul>"
-        pub = format_datetime(datetime.fromisoformat(d + "T06:30:00+00:00"))
-        items.append(
-            f"<item><title>{E_(nice_date(d))}: {E_(b['headline'])}</title><link>{SITE_URL}/day-{d}.html</link>"
-            f"<guid>{SITE_URL}/day-{d}.html</guid><pubDate>{pub}</pubDate><description>{E_(desc)}</description></item>"
+        items.append((d + "T06:30:00", f"Brief · {nice_date(d)}: {b['headline']}", f"{SITE_URL}/day-{d}.html", desc))
+    for e in entries[:50]:
+        title = f"{AGENTS[e['agent']]['name']}: {e.get('headline') or e['title']}"
+        items.append((e["published"] + "T06:00:00", title, entry_link(e), e.get("takeaway") or ""))
+    out = []
+    for when, title, link, desc in sorted(items, reverse=True):
+        pub = format_datetime(datetime.fromisoformat(when + "+00:00"))
+        out.append(
+            f"<item><title>{E_(title)}</title><link>{E_(link)}</link><guid isPermaLink=\"false\">{E_(link)}|{E_(title)}</guid>"
+            f"<pubDate>{pub}</pubDate><description>{E_(desc)}</description></item>"
         )
+    items = out
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>Agent-Ticker</title><link>{SITE_URL}/</link>
 <description>Daily changes at Devin, Claude Code, Codex, Cursor and Grok, from official sources.</description><language>en</language>

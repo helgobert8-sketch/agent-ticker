@@ -100,12 +100,22 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     else:
         briefs[day] = {"headline": "Agent-Ticker went live and loaded the last 30 days of official changes.", "bullets": [], "editor": "rules", "count": 0}
 
+    backlog_calls = int(os.environ.get("AI_BACKLOG_CALLS", "10"))
+    if editor.enabled and backlog_calls > 0:
+        backlog = [e for e in store if e.get("editor") == "rules"][: backlog_calls * 8]
+        before = {e["id"]: (e.get("category"), e.get("headline"), e.get("takeaway")) for e in backlog}
+        editor.enrich(backlog, AGENT_NAMES)
+        for e in backlog:  # a failed call must not overwrite earlier text with rule output of a different shape
+            if e.get("editor") != "ai":
+                e["category"], e["headline"], e["takeaway"] = before[e["id"]]
+        log["ai_backlog"] = sum(1 for e in backlog if e.get("editor") == "ai")
+
     log.update(
         new=len(new),
         pricing_changes=len(pricing_changes),
         ai_calls=editor.calls,
         ai_errors=editor.errors[:5],
-        ai_model=editor.model if editor.enabled else None,
+        ai_model=editor.model if editor.token else None,
         seconds=round(time.time() - started, 1),
     )
     runs.append(log)

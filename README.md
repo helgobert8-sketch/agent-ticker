@@ -23,7 +23,8 @@ Every run is logged on the site's *Autonomy* page.
 | `AI_TOKEN` | secret | unset: rule-based editing only |
 | `AI_BASE_URL` | variable | `https://api.openai.com/v1` (any OpenAI-compatible endpoint) |
 | `AI_MODEL` | variable | `gpt-4.1-mini` |
-| `AI_MAX_CALLS` | env | `12` per run |
+| `AI_MAX_CALLS` | env | `30` per run |
+| `AI_BACKLOG_CALLS` | env | `10` per run: AI re-edits up to 80 older rule-written items a day |
 
 ## Local run
 

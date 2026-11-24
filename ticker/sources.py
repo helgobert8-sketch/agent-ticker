@@ -3,7 +3,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 
-from .util import clip, fetch, github_headers, html_to_text, md_structure, md_to_text, parse_date, stable_id
+from .util import clip, clip_lines, fetch, github_headers, html_to_text, md_structure, md_to_text, parse_date, stable_id
 
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
 CONTENT = "{http://purl.org/rss/1.0/modules/content/}encoded"
@@ -39,7 +39,7 @@ def entry(agent, title, body, url, published, source, precision="day"):
         "id": stable_id(agent, title.strip(), published or ""),
         "agent": agent,
         "title": clip(title, 160),
-        "body": clip(body, 1500),
+        "body": clip_lines(body, 1500),
         "url": url,
         "published": published,
         "date_precision": precision,

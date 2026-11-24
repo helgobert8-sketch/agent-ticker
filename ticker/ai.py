@@ -6,6 +6,8 @@ Without a token every step falls back to deterministic rules, so the site never 
 import json
 import os
 import re
+import time
+import urllib.error
 import urllib.request
 
 from .util import clip
@@ -13,25 +15,31 @@ from .util import clip
 CATEGORIES = ("feature", "model", "pricing", "deprecation", "fix")
 
 RULES = [
-    ("pricing", r"\b(pric(e|ing)|\$\d|cost|credits?|billing|quota|plan|discount|per (month|seat))\b"),
-    ("deprecation", r"\b(deprecat\w*|end of life|retired?|sunset|removed?|no longer (served|supported))\b"),
-    ("model", r"\b(model|gpt-[\w.]+|grok-[\w.]+|claude (opus|sonnet|haiku)|opus|sonnet|haiku|swe-\d|gemini|reasoning effort|context window)\b"),
-    ("fix", r"^(fixed|fix|bug ?fix)"),
+    ("deprecation", r"\b(deprecat\w*|end of life|retire[ds]?|retirement|sunset\w*|removed|removal|no longer (available|served|supported))\b"),
+    ("pricing", r"(\b(pric(e|es|ing)|billing|credits?|quotas?|ACUs?|subscriptions?|discounts?|spend limits?|free tier|paid plans?)\b|\$\d)"),
+    ("model", r"\b(models?|gpt-?\d[\w.-]*|o\d-[\w-]+|grok[- ](\d|code|voice|imagine)[\w.-]*|claude (opus|sonnet|haiku)|(opus|sonnet|haiku) \d[\d.]*|gemini|context window)\b"),
+    ("fix", r"^(fixed|fixes|fix|bug ?fix(es)?)\b"),
 ]
+RELEASE_TITLE = re.compile(r"^(Claude Code|Codex CLI) \d")
 
 
-def heuristic_category(title, body):
-    text = f"{title}\n{body[:400]}".lower()
+def heuristic_category(title, body, section=None):
+    """Judge by the title (bodies mention plans, models and removals in passing); release bundles by their bullets."""
+    if section and re.search(r"\bfix", section, re.I):
+        return "fix"
+    if RELEASE_TITLE.match(title):
+        bullets = [l.strip("-•* ").lower() for l in body.splitlines() if l.strip().startswith(("-", "•", "*"))]
+        return "fix" if bullets and all(b.startswith("fix") for b in bullets) else "feature"
     for cat, pat in RULES:
-        if re.search(pat, text, re.I | re.M):
+        if re.search(pat, title, re.I):
             return cat
     return "feature"
 
 
 def heuristic_takeaway(entry):
     body = entry.get("body") or ""
-    lines = [l.strip("- ").strip() for l in body.splitlines() if l.strip()]
-    lines = [l for l in lines if not re.match(r"^(what's changed|new features|bug fixes|changelog)$", l, re.I)]
+    lines = [l.strip("-•* ").strip() for l in body.splitlines() if l.strip()]
+    lines = [l for l in lines if not l.endswith(":") and not re.match(r"^(full changelog|what's changed)\b", l, re.I)]
     highlights = [l for l in lines if re.match(r"^(added|new|introduc|you can now|now )", l, re.I)] or lines
     return clip(highlights[0] if highlights else entry["title"], 200)
 
@@ -44,7 +52,7 @@ class Editor:
         self.base_url = base_url or os.environ.get("AI_BASE_URL") or OPENAI
         self.model = model or os.environ.get("AI_MODEL") or "gpt-4.1-mini"
         self.token = token if token is not None else os.environ.get("AI_TOKEN")
-        self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "12"))
+        self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "30"))
         self.calls = 0
         self.errors = []
         self.enabled = bool(self.token) and os.environ.get("AI_DISABLED") != "1"
@@ -59,18 +67,36 @@ class Editor:
             "temperature": 0.2,
             "max_tokens": max_tokens,
         }
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request(
+                    self.base_url.rstrip("/") + "/chat/completions",
+                    data=json.dumps(payload).encode(),
+                    headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"},
+                )
+                with urllib.request.urlopen(req, timeout=90) as resp:
+                    data = json.load(resp)
+                return data["choices"][0]["message"]["content"]
+            except urllib.error.HTTPError as exc:
+                code = self._error_code(exc)
+                if exc.code == 429 and code != "insufficient_quota" and attempt < 2:
+                    time.sleep(5 * (attempt + 1))  # rate limit: wait and retry
+                    continue
+                self.errors.append(f"HTTP {exc.code}: {code}")
+                if exc.code in (401, 403) or code == "insufficient_quota":
+                    self.enabled = False  # every further call would fail the same way
+                return None
+            except Exception as exc:  # network or schema: degrade to rules
+                self.errors.append(f"{type(exc).__name__}: {clip(str(exc), 160)}")
+                return None
+
+    @staticmethod
+    def _error_code(exc):
         try:
-            req = urllib.request.Request(
-                self.base_url.rstrip("/") + "/chat/completions",
-                data=json.dumps(payload).encode(),
-                headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"},
-            )
-            with urllib.request.urlopen(req, timeout=90) as resp:
-                data = json.load(resp)
-            return data["choices"][0]["message"]["content"]
-        except Exception as exc:  # network, quota or schema: degrade to rules
-            self.errors.append(f"{type(exc).__name__}: {clip(str(exc), 160)}")
-            return None
+            err = json.loads(exc.read() or b"{}").get("error") or {}
+            return err.get("code") or err.get("type") or clip(err.get("message") or exc.reason, 80)
+        except Exception:
+            return str(exc.reason)
 
     @staticmethod
     def _json(text):
@@ -88,8 +114,10 @@ class Editor:
             "You edit Agent-Ticker, a daily briefing for vibe coders on AI coding agents. "
             "For each changelog item return JSON {\"items\":[{\"id\":...,\"category\":one of "
             f"{list(CATEGORIES)},\"headline\":max 80 chars plain English,\"takeaway\":max 170 chars on what "
-            "it means for someone building apps with this agent}]}. Category 'model' = new/changed AI models; "
-            "'pricing' = plans, prices, credits, quotas; 'deprecation' = removals; 'fix' = only bug fixes. "
+            "it means for someone building apps with this agent}]}. Category 'model' only when an AI model is added, "
+            "changed or renamed; 'pricing' only for prices, plans, credits, quotas or billing; 'deprecation' only when "
+            "something is deprecated, retired or removed; 'fix' only when the item is bug fixes; otherwise 'feature'. "
+            "Keep identifiers such as env vars, flags and model ids exactly as written. "
             "Release notes that bundle many changes: headline the most useful change. Facts only from the text."
         )
         for i in range(0, len(entries), batch):
@@ -110,7 +138,7 @@ class Editor:
                     e["takeaway"] = clip(got.get("takeaway") or heuristic_takeaway(e), 220)
                     e["editor"] = "ai"
                 else:
-                    e["category"] = heuristic_category(e["title"], e["body"])
+                    e["category"] = heuristic_category(e["title"], e["body"], e.get("section"))
                     e["headline"] = e["title"]
                     e["takeaway"] = heuristic_takeaway(e)
                     e["editor"] = "rules"
