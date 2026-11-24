@@ -32,7 +32,8 @@ def merge(store, fresh, day, backfill_days, seen=None):
             e["published"] = day
         if e.get("date_precision") == "month" and not first_run:
             e["published"], e["date_precision"] = day, "day"  # month-only sources: date by first sighting
-        if (first_run and e["published"] < cutoff) or (not first_run and days_between(e["published"], day) > 45):
+        too_old = e["published"][:7] < cutoff[:7] if e.get("date_precision") == "month" else e["published"] < cutoff
+        if (first_run and too_old) or (not first_run and days_between(e["published"], day) > 45):
             seen.add(e["id"])  # history before launch, or old items surfacing late, are not news
             known.add(e["id"])
             continue
@@ -56,7 +57,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     fresh = []
     for agent in agents or sources.AGENTS:
         try:
-            got = sources.collect(agent, year_hint=int(day[:4]))
+            got = sources.collect(agent, year_hint=int(day[:4]), month_hint=int(day[5:7]))
             fresh.extend(got)
             log["sources"][agent] = {"ok": True, "items": len(got)}
         except Exception as exc:
@@ -75,10 +76,12 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
             if res["changed"]:
                 pricing_changes.append(res)
                 store.append(pricing_entry(res, day))
-            if res["changed"] or res["first"] or agent not in plans:
+            if res["changed"] or res["first"] or agent not in plans or plans[agent].get("stale"):
                 extracted = editor.summarize_pricing(AGENT_NAMES[agent], res["text"])
                 if extracted:
                     plans[agent] = {"plans": extracted, "checked": day, "url": res["url"]}
+                elif agent in plans:
+                    plans[agent]["stale"] = True  # retried on the next run; the page says it is outdated
             if agent in plans:
                 plans[agent]["checked"] = day
         except Exception as exc:
@@ -87,10 +90,13 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     store.extend(new)
     store.sort(key=lambda e: (e["published"], e.get("first_seen", "")), reverse=True)
 
-    todays = [e for e in new if e["first_seen"] == day and (e["published"] >= (date.fromisoformat(day) - timedelta(days=3)).isoformat())]
-    if runs or todays or pricing_changes:  # first run backfills history; brief only real news
-        briefs[day] = editor.brief(day, todays, pricing_changes, AGENT_NAMES)
-        briefs[day]["count"] = len(todays) + len(pricing_changes)
+    todays = [e for e in store if e.get("first_seen") == day and e.get("category") != "pricing" and (e["published"] >= (date.fromisoformat(day) - timedelta(days=3)).isoformat())]
+    todays_pricing = [e["pricing"] for e in store if e.get("first_seen") == day and e.get("pricing")]
+    if day in briefs and not new and not pricing_changes:
+        pass  # a rerun on the same day with nothing new keeps the published brief
+    elif runs or todays or todays_pricing:  # first run backfills history; brief only real news
+        briefs[day] = editor.brief(day, todays, todays_pricing, AGENT_NAMES)
+        briefs[day]["count"] = len(todays) + len(todays_pricing)
     else:
         briefs[day] = {"headline": "Agent-Ticker went live and loaded the last 30 days of official changes.", "bullets": [], "editor": "rules", "count": 0}
 
@@ -133,6 +139,7 @@ def pricing_entry(res, day):
         "category": "pricing",
         "source": res["url"],
         "editor": "pricing-watch",
+        "pricing": {"agent": res["agent"], "added": res["added"][:8], "removed": res["removed"][:8]},
     }
 
 

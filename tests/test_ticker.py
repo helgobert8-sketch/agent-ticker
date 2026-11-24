@@ -30,6 +30,18 @@ class ParserTests(unittest.TestCase):
         self.assertTrue(all(len(e["published"]) == 10 for e in items))
         self.assertEqual(items[0]["published"], "2026-11-23")
 
+    def test_devin_bold_titles(self):
+        items = FAKE["devin"]()
+        titles = {e["title"] for e in items}
+        self.assertIn("Paste videos into session chat", titles)
+        self.assertIn("German UI Language", titles)
+        self.assertNotIn("Sessions & Workspace", titles)
+        self.assertEqual({e["published"] for e in items if e["title"] == "German UI Language"}, {"2026-11-13"})
+
+    def test_xai_newest_month_from_last_year(self):
+        items = sources.parse_xai(fixture("xai_release_notes.md"), year_hint=2027, month_hint=1)
+        self.assertEqual(items[0]["published"], "2026-11-01")
+
     def test_xai_months_and_years(self):
         items = FAKE["grok"]()
         self.assertEqual(items[0]["published"], "2026-11-01")
@@ -84,17 +96,40 @@ class EditorTests(unittest.TestCase):
         self.assertEqual(items[0]["editor"], "ai")
 
 
+class EditorRobustnessTests(unittest.TestCase):
+    def test_bad_ai_shapes_fall_back(self):
+        ed = ai.Editor(token="t")
+        for reply in ('{"items": null}', '{"items": [{"id": "1", "category": "model", "headline": 5}]}'):
+            with mock.patch.object(ed, "chat", return_value=reply):
+                items = ed.enrich([{"id": "1", "agent": "grok", "title": "t", "body": "b"}], run.AGENT_NAMES)
+            self.assertEqual(items[0]["editor"], "rules")
+        with mock.patch.object(ed, "chat", return_value='{"headline": "h", "bullets": [1, null]}'):
+            b = ed.brief("2026-11-24", [{"agent": "grok", "title": "t", "headline": "t", "category": "model"}], [], run.AGENT_NAMES)
+        self.assertEqual(b["editor"], "rules")
+
+    def test_empty_env_uses_defaults_and_never_leaks_repo_token(self):
+        env = {"AI_BASE_URL": "", "AI_MODEL": "", "AI_TOKEN": "", "GITHUB_TOKEN": "gh"}
+        with mock.patch.dict(os.environ, env):
+            ed = ai.Editor()
+        self.assertEqual((ed.base_url, ed.model, ed.token), (ai.GITHUB_MODELS, "openai/gpt-4.1-mini", "gh"))
+        with mock.patch.dict(os.environ, dict(env, AI_BASE_URL="https://api.openai.com/v1")):
+            self.assertFalse(ai.Editor().enabled)
+
+
 class PipelineTests(unittest.TestCase):
     def test_two_runs_build_site(self):
         with tempfile.TemporaryDirectory() as d:
             data, out = os.path.join(d, "data"), os.path.join(d, "public")
-            with mock.patch.object(sources, "collect", side_effect=lambda a, year_hint=None: FAKE[a]()), \
+            with mock.patch.object(sources, "collect", side_effect=lambda a, **kw: FAKE[a]()), \
                  mock.patch.object(pricing, "fetch", return_value="Pro\n$20 per month"), \
                  mock.patch.object(run, "today", return_value="2026-11-24"):
                 first = run.run(data, out, backfill_days=30, editor=ai.Editor(token=""))
+                brief = json.load(open(os.path.join(data, "briefs.json")))["2026-11-24"]
                 second = run.run(data, out, backfill_days=30, editor=ai.Editor(token=""))
             self.assertGreater(first["new"], 10)
             self.assertEqual(second["new"], 0)
+            briefs = json.load(open(os.path.join(data, "briefs.json")))
+            self.assertEqual(briefs["2026-11-24"], brief)  # same-day rerun keeps the published brief
             for name in ("index.html", "archive.html", "pricing.html", "autonomy.html", "feed.xml", "data.json", "style.css"):
                 self.assertTrue(os.path.exists(os.path.join(out, name)), name)
             html = open(os.path.join(out, "index.html")).read()

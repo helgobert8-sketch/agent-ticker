@@ -117,15 +117,14 @@ def build(data_dir="data", out_dir="public"):
     for d in days:
         b = briefs.get(d)
         n = len([e for e in by_day.get(d, [])])
-        if b:
-            day_body = brief_html(d, b) + "".join(entry_html(e) for e in by_day.get(d, []))
+        if b or n:
+            day_body = (brief_html(d, b) if b else f"<h1>{nice_date(d)}</h1>") + "".join(entry_html(e) for e in by_day.get(d, []))
             new_that_day = [e for e in entries if e.get("first_seen") == d and e["published"] != d]
-            if new_that_day and b.get("count"):
+            if new_that_day and b and b.get("count"):
                 day_body += "<h4>Also spotted today</h4>" + "".join(entry_html(e) for e in new_that_day[:20])
-            write(out_dir, f"day-{d}.html", page(f"Agent-Ticker · {nice_date(d)}", day_body, "archive", b["headline"]))
-            archive_items.append(f'<li><a href="day-{d}.html"><time>{d}</time> {E_(b["headline"])}</a></li>')
-        elif n:
-            archive_items.append(f"<li><time>{d}</time> {n} change{'s' if n != 1 else ''} published</li>")
+            label = b["headline"] if b else f"{n} change{'s' if n != 1 else ''} published"
+            write(out_dir, f"day-{d}.html", page(f"Agent-Ticker · {nice_date(d)}", day_body, "archive", label))
+            archive_items.append(f'<li><a href="day-{d}.html"><time>{d}</time> {E_(label)}</a></li>')
     write(out_dir, "archive.html", page("Agent-Ticker · Archive", f'<h1>Archive</h1><ul class="archive">{"".join(archive_items[:400])}</ul>', "archive"))
 
     rows = []
@@ -137,6 +136,7 @@ def build(data_dir="data", out_dir="public"):
             f"""<section class="pricebox a-border-{k}"><h3><span class="agent a-{k}">{E_(v['name'])}</span></h3>
 <p class="muted">Checked {E_((p or {}).get('checked', 'daily'))} · <a href="{E_((p or {}).get('url', v['home']))}">official pricing page</a>
 {(' · last change: ' + nice_date(last_price['published'])) if last_price else ''}</p>
+{'<p class="muted">The pricing page changed; this summary is being refreshed.</p>' if (p or {}).get('stale') else ''}
 {f'<table>{plan_rows}</table>' if plan_rows else '<p class="muted">Plan summary appears after the next AI run.</p>'}</section>"""
         )
     write(out_dir, "pricing.html", page("Agent-Ticker · Pricing watch", "<h1>Pricing watch</h1><p>Every morning the ticker re-reads each official pricing page, compares it with yesterday and flags any price or plan line that changed.</p>" + "".join(rows), "pricing"))
