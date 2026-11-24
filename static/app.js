@@ -6,6 +6,9 @@
       var ok = (!state.agent || el.dataset.agent === state.agent) && (!state.cat || el.dataset.cat === state.cat);
       el.classList.toggle("hidden", !ok);
     });
+    var note = document.getElementById("stale-note");
+    var card = state.agent && document.querySelector('.card[data-jump="' + state.agent + '"]');
+    if (note) note.textContent = card && card.dataset.stale ? card.dataset.stale : "";
     document.querySelectorAll("#timeline .day").forEach(function (d) {
       d.classList.toggle("hidden", !d.querySelector(".item:not(.hidden)"));
     });
@@ -20,6 +23,21 @@
       else if (c.dataset.agent) state.agent = state.agent === c.dataset.agent ? null : c.dataset.agent;
       else state.cat = state.cat === c.dataset.cat ? null : c.dataset.cat;
       apply();
+      document.getElementById("timeline").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+  var q = new URLSearchParams(location.search);
+  if (q.get("agent") || q.get("cat")) {
+    state = { agent: q.get("agent"), cat: q.get("cat") };
+    apply();
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var label = b.textContent;
+      navigator.clipboard.writeText(b.dataset.copy).then(function () {
+        b.textContent = "Copied";
+        setTimeout(function () { b.textContent = label; }, 1500);
+      });
     });
   });
   document.querySelectorAll("[data-jump]").forEach(function (a) {
@@ -27,6 +45,7 @@
       ev.preventDefault();
       state = { agent: a.dataset.jump, cat: null };
       apply();
+      history.replaceState(null, "", "?agent=" + a.dataset.jump + "#timeline");
       document.querySelector(".filters").scrollIntoView({ behavior: "smooth" });
     });
   });

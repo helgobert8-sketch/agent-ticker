@@ -36,4 +36,13 @@ header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba
 .stats b{font-size:28px;display:block}.stats span{color:var(--muted);font-size:14px}.steps li{margin:8px 0}.archive{list-style:none;padding:0}.archive li{padding:8px 0;border-bottom:1px solid var(--line)}
 .archive time{color:var(--muted);margin-right:10px;font-variant-numeric:tabular-nums}.archive a{text-decoration:none}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:40px;padding:18px 20px 40px}
-@media (max-width:600px){nav a{margin-left:10px;font-size:14px}.meta time{display:none}}
+@media (max-width:600px){.bar{height:48px}.logo{font-size:15px;white-space:nowrap}nav{display:flex;overflow-x:auto;white-space:nowrap}
+nav a{margin-left:0;font-size:13px;padding:13px 5px;min-height:44px;display:inline-flex;align-items:center}.meta time{display:none}
+.filters{top:48px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.filters::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:44px;padding:0 16px}}
+
+.follow{margin:48px 0;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.follow h2{margin-top:0}.copy{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.copy input{flex:1;min-width:240px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+button.btn{cursor:pointer;font-family:inherit;font-size:inherit;border:0}.brief li.more a{color:var(--accent)}
+.stale{color:var(--muted);font-size:13px;margin:6px 0 12px}

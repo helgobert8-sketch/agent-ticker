@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest import mock
 
-from ticker import ai, pricing, run, site, sources
+from ticker import ai, pricing, run, site, sources, util
 
 FIX = os.path.join(os.path.dirname(__file__), "fixtures")
 
@@ -29,6 +29,21 @@ class ParserTests(unittest.TestCase):
         self.assertGreater(len(items), 10)
         self.assertTrue(all(len(e["published"]) == 10 for e in items))
         self.assertEqual(items[0]["published"], "2026-11-23")
+
+    def test_categories_follow_the_title(self):
+        cat = ai.heuristic_category
+        self.assertEqual(cat("Artifacts Rail Beside the Chat", "Plan, citations and pricing tabs move"), "feature")
+        self.assertEqual(cat("Shareable environments available", "admins can remove access"), "feature")
+        self.assertEqual(cat("grok-imagine-image-quality retired", "same price"), "deprecation")
+        self.assertEqual(cat("Grok Voice 3.0 is available", ""), "model")
+        self.assertEqual(cat("New ACU pricing for teams", ""), "pricing")
+        self.assertEqual(cat("Claude Code 2.1.317", "What's changed:\n• Added a warning\n• Fixed a crash"), "feature")
+        self.assertEqual(cat("Claude Code 2.1.318", "• Fixed a crash\n• Fixed a hang"), "fix")
+        self.assertEqual(ai.heuristic_takeaway({"title": "Codex CLI 0.1", "body": "Chores:\n• Bump deps\nFull Changelog: x"}), "Bump deps")
+
+    def test_markdown_keeps_identifiers(self):
+        self.assertEqual(util.md_to_text("Set `CLAUDE_CODE_X` or oidc.groups\\_jsonpath, **bold** and _em_"),
+                         "Set CLAUDE_CODE_X or oidc.groups_jsonpath, bold and em")
 
     def test_release_markdown_is_plain_text(self):
         body = sources.parse_github_atom("codex", fixture("codex_releases.atom"))[0]["body"]
@@ -122,8 +137,15 @@ class EditorRobustnessTests(unittest.TestCase):
         env = {"AI_BASE_URL": "", "AI_MODEL": "", "AI_TOKEN": "", "GITHUB_TOKEN": "gh"}
         with mock.patch.dict(os.environ, env):
             ed = ai.Editor()
-        self.assertEqual((ed.base_url, ed.model), (ai.OPENAI, "gpt-4.1-mini"))
+        self.assertEqual((ed.base_url, ed.model), (ai.GEMINI, "gemini-4-hydrogen"))
         self.assertFalse(ed.enabled)  # the repo token is never sent to an AI endpoint
+        with mock.patch.dict(os.environ, dict(env, AI_TOKEN="AIza-k")):
+            self.assertEqual(ai.Editor().base_url, ai.GEMINI)
+        with mock.patch.dict(os.environ, dict(env, AI_TOKEN="sk-old")):
+            self.assertEqual((ai.Editor().base_url, ai.Editor().model), (ai.OPENAI, "gpt-4.1-mini"))
+        with mock.patch.dict(os.environ, dict(env, AI_TOKEN="k", AI_BASE_URL=ai.OPENAI, AI_MODEL="gpt-4.1-mini")):
+            ed = ai.Editor()
+        self.assertEqual((ed.base_url, ed.model, ed.token, ed.enabled), (ai.OPENAI, "gpt-4.1-mini", "k", True))
 
 
 class PipelineTests(unittest.TestCase):
@@ -145,6 +167,30 @@ class PipelineTests(unittest.TestCase):
             html = open(os.path.join(out, "index.html")).read()
             self.assertIn("Voice Chat with Agents", html)
             self.assertEqual(len(json.load(open(os.path.join(data, "runs.json")))), 2)
+            self.assertTrue(os.path.exists(os.path.join(out, "og.png")))
+            self.assertIn('id="follow"', html)
+            self.assertIn('href="index.html?agent=cursor#timeline"', html)
+            self.assertIn("docs.devin.ai/release-notes/overview#:~:text=", html)
+            self.assertGreater(open(os.path.join(out, "feed.xml")).read().count("<item>"), 10)
+
+    def test_ai_rewrites_rule_backlog(self):
+        class FakeAI(ai.Editor):
+            def chat(self, system, user, max_tokens=1500):
+                self.calls += 1
+                if user.startswith("["):
+                    return json.dumps({"items": [{"id": x["id"], "category": "feature", "headline": "AI " + x["title"], "takeaway": "ok"} for x in json.loads(user)]})
+                return None
+
+        with tempfile.TemporaryDirectory() as d:
+            data, out = os.path.join(d, "data"), os.path.join(d, "public")
+            with mock.patch.object(sources, "collect", side_effect=lambda a, **kw: FAKE[a]()), \
+                 mock.patch.object(pricing, "fetch", return_value="Pro\n$20 per month"), \
+                 mock.patch.object(run, "today", return_value="2026-11-24"):
+                run.run(data, out, backfill_days=30, editor=ai.Editor(token=""))
+                log = run.run(data, out, backfill_days=30, editor=FakeAI(token="x", max_calls=30))
+            store = json.load(open(os.path.join(data, "entries.json")))
+            self.assertGreater(log["ai_backlog"], 10)
+            self.assertTrue(all(e["headline"].startswith("AI ") for e in store if e.get("editor") == "ai"))
 
 
 if __name__ == "__main__":
