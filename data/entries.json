@@ -10,9 +10,9 @@
   "source": "https://api.github.com/repos/openai/codex/releases/456141969",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Codex CLI 0.172.0",
-  "takeaway": "Follow thread links from search results and transcripts to open saved conversations and nested agents in the terminal. (#62332)",
-  "editor": "rules"
+  "headline": "Codex CLI 0.172.0 adds thread links, Tab completion, and Bedrock setup",
+  "takeaway": "Open saved conversations from search, Tab-complete slash commands like /mcp login, lazy-start cached MCP servers, and select Amazon Bedrock Runtime during setup.",
+  "editor": "ai"
  },
  {
   "id": "1c67f255fff9",
@@ -26,9 +26,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Open a session side by side",
-  "takeaway": "Option/Alt+click a session link to open it in a split pane.",
-  "editor": "rules"
+  "headline": "Open Devin sessions side by side with Option/Alt+click",
+  "takeaway": "Option/Alt+click any session link to open it in a split pane, making it easier to compare or monitor multiple sessions at once.",
+  "editor": "ai"
  },
  {
   "id": "6a49a0e40022",
@@ -42,9 +42,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Session search moves to the command palette",
-  "takeaway": "Search sessions with Cmd/Ctrl+K; the inline search in the Sessions sidebar is removed.",
-  "editor": "rules"
+  "headline": "Devin moves session search to the Cmd/Ctrl+K command palette",
+  "takeaway": "Search sessions using Cmd/Ctrl+K instead of the removed inline search in the Sessions sidebar.",
+  "editor": "ai"
  },
  {
   "id": "249f2abf5251",
@@ -58,9 +58,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Code scan cancellations in audit logs",
-  "takeaway": "Audit logs record who cancelled a code scan, from the web app or the v3 API.",
-  "editor": "rules"
+  "headline": "Audit logs now record who cancelled Devin code scans",
+  "takeaway": "Track who cancelled a code scan—whether from the web app or the v3 API—directly in your audit logs.",
+  "editor": "ai"
  },
  {
   "id": "a97c8f49a2cb",
@@ -74,9 +74,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Warning before deleting secrets used by Preflight checks",
-  "takeaway": "Before you delete an org secret, the Secrets page lists the automations whose Preflight checks use it.",
-  "editor": "rules"
+  "headline": "Devin warns before deleting secrets used by Preflight checks",
+  "takeaway": "Before deleting an org secret, the Secrets page lists any automations whose Preflight checks depend on it.",
+  "editor": "ai"
  },
  {
   "id": "260f56eb651b",
@@ -90,9 +90,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Offer marketplace plugins to members",
-  "takeaway": "Admins can mark a marketplace plugin as Offered to members instead of Required.",
-  "editor": "rules"
+  "headline": "Admins can mark Devin marketplace plugins as Offered",
+  "takeaway": "Instead of making a marketplace plugin Required, admins can now mark it as Offered to members.",
+  "editor": "ai"
  },
  {
   "id": "2a8641f68f4a",
@@ -106,9 +106,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Allow an MCP tool for the whole session",
-  "takeaway": "MCP tool approval cards add Allow for this session.",
-  "editor": "rules"
+  "headline": "Allow an MCP tool for the entire Devin session",
+  "takeaway": "MCP tool approval cards now include an Allow for this session option so you don't have to re-approve repeated calls.",
+  "editor": "ai"
  },
  {
   "id": "213a7efb1f17",
@@ -122,9 +122,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "API-key MCP headers bound to secrets",
-  "takeaway": "Blank headers on API-key marketplace MCP servers are bound to secrets, and unused secrets are flagged.",
-  "editor": "rules"
+  "headline": "API-key marketplace MCP headers now bind to secrets",
+  "takeaway": "Blank headers on API-key marketplace MCP servers automatically bind to secrets, and unused secrets are flagged.",
+  "editor": "ai"
  },
  {
   "id": "a3dae90752ca",

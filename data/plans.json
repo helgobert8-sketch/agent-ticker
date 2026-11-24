@@ -132,5 +132,36 @@
   ],
   "checked": "2026-11-24",
   "url": "https://docs.x.ai/docs/models.md"
+ },
+ "claude-code": {
+  "plans": [
+   {
+    "plan": "Free",
+    "price": "$0",
+    "note": "Free for everyone; limited usage every 5 hours and every week"
+   },
+   {
+    "plan": "Pro",
+    "price": "$17 Per month (annual) / $20 if billed monthly",
+    "note": "For everyday work; more usage, Claude Code, Projects, Fable with usage credits"
+   },
+   {
+    "plan": "Max",
+    "price": "$100 Per month",
+    "note": "5x Pro usage, Fable included (50% weekly limit), $100/month API credits"
+   },
+   {
+    "plan": "Ultra",
+    "price": "$200 Per month",
+    "note": "No 5-hour limit, 10x Pro weekly usage, $200/month API credits"
+   },
+   {
+    "plan": "Team (Standard seat)",
+    "price": "$20 Per seat / month if billed annually",
+    "note": "For teams of 2 to 150; all Claude features plus more usage than Pro"
+   }
+  ],
+  "checked": "2026-11-24",
+  "url": "https://claude.com/pricing"
  }
 }

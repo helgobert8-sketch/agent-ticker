@@ -1,14 +1,13 @@
 {
  "2026-11-24": {
-  "headline": "11 changes across Claude Code, Codex, Devin",
+  "headline": "Claude Code adds cloud Code Mode, Codex links threads, and Devin updates MCP and sessions",
   "bullets": [
-   "Codex: Codex CLI 0.172.0",
-   "Devin: Open a session side by side",
-   "Devin: Session search moves to the command palette",
-   "Devin: Code scan cancellations in audit logs",
-   "Devin: Warning before deleting secrets used by Preflight checks"
+   "Claude Code 2.1.331 adds Code Mode support in terminal sessions on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, and Claude Platform on AWS.",
+   "Codex CLI 0.172.0 lets you follow thread links from search results and transcripts to open saved conversations and nested agents in the terminal.",
+   "Devin adds split-pane sessions via Option/Alt+click, moves session search to Cmd/Ctrl+K, and adds Run now to the Automations right-click menu.",
+   "Devin now lets you allow an MCP tool for a whole session, binds API-key MCP headers to secrets, and defaults custom MCP servers to Automatic authentication."
   ],
-  "editor": "rules",
+  "editor": "ai",
   "count": 11
  }
 }
