@@ -1,7 +1,6 @@
 """The AI editor: classifies entries, writes one-line takeaways and the daily brief.
 
-Uses any OpenAI-compatible chat endpoint. Default is GitHub Models, which a GitHub
-Actions run can call for free with its own GITHUB_TOKEN (permission `models: read`).
+Uses any OpenAI-compatible chat endpoint (OpenAI by default) with the AI_TOKEN secret.
 Without a token every step falls back to deterministic rules, so the site never stalls.
 """
 import json
@@ -37,18 +36,14 @@ def heuristic_takeaway(entry):
     return clip(highlights[0] if highlights else entry["title"], 200)
 
 
-GITHUB_MODELS = "https://models.github.ai/inference"
+OPENAI = "https://api.openai.com/v1"
 
 
 class Editor:
     def __init__(self, token=None, base_url=None, model=None, max_calls=None):
-        self.base_url = base_url or os.environ.get("AI_BASE_URL") or GITHUB_MODELS
-        self.model = model or os.environ.get("AI_MODEL") or "openai/gpt-4.1-mini"
-        if token is None:
-            token = os.environ.get("AI_TOKEN")
-            if not token and self.base_url.rstrip("/") == GITHUB_MODELS:
-                token = os.environ.get("GITHUB_TOKEN")  # the repo token only ever goes to GitHub itself
-        self.token = token
+        self.base_url = base_url or os.environ.get("AI_BASE_URL") or OPENAI
+        self.model = model or os.environ.get("AI_MODEL") or "gpt-4.1-mini"
+        self.token = token if token is not None else os.environ.get("AI_TOKEN")
         self.max_calls = max_calls if max_calls is not None else int(os.environ.get("AI_MAX_CALLS", "12"))
         self.calls = 0
         self.errors = []

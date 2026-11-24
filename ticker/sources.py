@@ -3,7 +3,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 
-from .util import clip, fetch, github_headers, html_to_text, md_to_text, parse_date, stable_id
+from .util import clip, fetch, github_headers, html_to_text, md_structure, md_to_text, parse_date, stable_id
 
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
 CONTENT = "{http://purl.org/rss/1.0/modules/content/}encoded"
@@ -141,7 +141,7 @@ def parse_github_atom(agent, xml_text):
         if PRERELEASE.search(tag):
             continue
         link = e.find("a:link", ATOM).get("href")
-        body = html_to_text(e.findtext("a:content", "", ATOM))
+        body = md_structure(html_to_text(e.findtext("a:content", "", ATOM)))
         if len(body) < 40:
             continue
         published = parse_date(e.findtext("a:updated", "", ATOM))
@@ -154,7 +154,7 @@ def parse_github_api(agent, json_text):
     for r in json.loads(json_text):
         if r.get("prerelease") or r.get("draft") or PRERELEASE.search(r.get("tag_name", "")):
             continue
-        body = md_to_text(r.get("body") or "")
+        body = md_to_text(md_structure(r.get("body") or ""))
         if len(body) < 40:
             continue
         published = parse_date(r.get("published_at") or r.get("created_at") or "")
