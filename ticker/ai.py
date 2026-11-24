@@ -59,10 +59,14 @@ class Editor:
         self.calls = 0
         self.errors = []
         self.enabled = bool(self.token) and os.environ.get("AI_DISABLED") != "1"
+        self.gemini = "generativelanguage.googleapis.com" in self.base_url
+        self.pace = float(os.environ.get("AI_PACE_SECONDS", "7"))
 
     def chat(self, system, user, max_tokens=1500):
         if not self.enabled or self.calls >= self.max_calls:
             return None
+        if self.calls and self.gemini:
+            time.sleep(self.pace)  # Gemini's free tier allows only a few requests per minute
         self.calls += 1
         payload = {
             "model": self.model,
@@ -70,7 +74,7 @@ class Editor:
             "temperature": 0.2,
             "max_tokens": max_tokens,
         }
-        if "generativelanguage.googleapis.com" in self.base_url:
+        if self.gemini:
             # Gemini 3+/4 always think and thinking tokens count against max_tokens
             payload.update(reasoning_effort="low", max_tokens=max_tokens + 4096)
         for attempt in range(3):
@@ -94,7 +98,7 @@ class Editor:
                     time.sleep(5 * (attempt + 1))  # rate limit or overload: wait and retry
                     continue
                 self.errors.append(f"HTTP {exc.code}: {code}")
-                if exc.code in (401, 403) or code == "insufficient_quota":
+                if exc.code in (401, 403) or code == "insufficient_quota" or re.search(r"per ?day", code, re.I):
                     self.enabled = False  # every further call would fail the same way
                 return None
             except Exception as exc:  # network or schema: degrade to rules
@@ -103,9 +107,14 @@ class Editor:
 
     @staticmethod
     def _error_code(exc):
+        """OpenAI: {"error": {"code": ...}}; Gemini: [{"error": {"status": ..., "message": "Quota exceeded for metric ..."}}]."""
         try:
-            err = json.loads(exc.read() or b"{}").get("error") or {}
-            return err.get("code") or err.get("type") or clip(err.get("message") or exc.reason, 80)
+            body = json.loads(exc.read() or b"{}")
+            err = (body[0] if isinstance(body, list) and body else body).get("error") or {}
+            code = err.get("code") if isinstance(err.get("code"), str) else None
+            label = code or err.get("type") or err.get("status") or str(exc.reason)
+            msg = err.get("message")
+            return f"{label}: {clip(msg, 220)}" if msg and not code else label
         except Exception:
             return str(exc.reason)
 

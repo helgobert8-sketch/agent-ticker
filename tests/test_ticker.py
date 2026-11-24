@@ -144,6 +144,16 @@ class EditorRobustnessTests(unittest.TestCase):
         self.assertEqual((sent["reasoning_effort"], sent["max_tokens"]), ("low", 4196))
         self.assertEqual(ed.errors, ["empty reply (finish_reason: length)"])
 
+    def test_gemini_daily_quota_error_is_spelled_out_and_stops(self):
+        import urllib.error
+        body = b'[{"error": {"code": 429, "status": "RESOURCE_EXHAUSTED", "message": "Quota exceeded for metric: GenerateRequestsPerDayPerProjectPerModel-FreeTier, limit: 20"}}]'
+        err = urllib.error.HTTPError("u", 429, "Too Many Requests", {}, io.BytesIO(body))
+        ed = ai.Editor(token="k", base_url=ai.GEMINI, model="gemini-4-hydrogen")
+        with mock.patch("urllib.request.urlopen", side_effect=err), mock.patch("time.sleep"):
+            self.assertIsNone(ed.chat("s", "u"))
+        self.assertIn("RESOURCE_EXHAUSTED: Quota exceeded for metric: GenerateRequestsPerDay", ed.errors[0])
+        self.assertFalse(ed.enabled)
+
     def test_empty_env_uses_defaults_and_never_leaks_repo_token(self):
         env = {"AI_BASE_URL": "", "AI_MODEL": "", "AI_TOKEN": "", "GITHUB_TOKEN": "gh"}
         with mock.patch.dict(os.environ, env):
