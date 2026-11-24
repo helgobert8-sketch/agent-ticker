@@ -70,6 +70,9 @@ class Editor:
             "temperature": 0.2,
             "max_tokens": max_tokens,
         }
+        if "generativelanguage.googleapis.com" in self.base_url:
+            # Gemini 3+/4 always think and thinking tokens count against max_tokens
+            payload.update(reasoning_effort="low", max_tokens=max_tokens + 4096)
         for attempt in range(3):
             try:
                 req = urllib.request.Request(
@@ -79,11 +82,16 @@ class Editor:
                 )
                 with urllib.request.urlopen(req, timeout=90) as resp:
                     data = json.load(resp)
-                return data["choices"][0]["message"]["content"]
+                choice = data["choices"][0]
+                content = (choice.get("message") or {}).get("content")
+                if not content:
+                    self.errors.append(f"empty reply (finish_reason: {choice.get('finish_reason')})")
+                    return None
+                return content
             except urllib.error.HTTPError as exc:
                 code = self._error_code(exc)
-                if exc.code == 429 and code != "insufficient_quota" and attempt < 2:
-                    time.sleep(5 * (attempt + 1))  # rate limit: wait and retry
+                if exc.code in (429, 500, 502, 503, 504) and code != "insufficient_quota" and attempt < 2:
+                    time.sleep(5 * (attempt + 1))  # rate limit or overload: wait and retry
                     continue
                 self.errors.append(f"HTTP {exc.code}: {code}")
                 if exc.code in (401, 403) or code == "insufficient_quota":

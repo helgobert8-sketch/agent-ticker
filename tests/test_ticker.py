@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import tempfile
@@ -132,6 +133,16 @@ class EditorRobustnessTests(unittest.TestCase):
         with mock.patch.object(ed, "chat", return_value='{"headline": "h", "bullets": [1, null]}'):
             b = ed.brief("2026-11-24", [{"agent": "grok", "title": "t", "headline": "t", "category": "model"}], [], run.AGENT_NAMES)
         self.assertEqual(b["editor"], "rules")
+
+    def test_gemini_thinks_low_and_empty_reply_falls_back(self):
+        ed = ai.Editor(token="k", base_url=ai.GEMINI, model="gemini-4-hydrogen")
+        resp = mock.MagicMock()
+        resp.__enter__.return_value = io.BytesIO(b'{"choices": [{"message": {"role": "assistant"}, "finish_reason": "length"}]}')
+        with mock.patch("urllib.request.urlopen", return_value=resp) as op:
+            self.assertIsNone(ed.chat("s", "u", max_tokens=100))
+        sent = json.loads(op.call_args[0][0].data)
+        self.assertEqual((sent["reasoning_effort"], sent["max_tokens"]), ("low", 4196))
+        self.assertEqual(ed.errors, ["empty reply (finish_reason: length)"])
 
     def test_empty_env_uses_defaults_and_never_leaks_repo_token(self):
         env = {"AI_BASE_URL": "", "AI_MODEL": "", "AI_TOKEN": "", "GITHUB_TOKEN": "gh"}
