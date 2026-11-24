@@ -94,11 +94,12 @@ class Editor:
                 return content
             except urllib.error.HTTPError as exc:
                 code = self._error_code(exc)
-                if exc.code in (429, 500, 502, 503, 504) and code != "insufficient_quota" and attempt < 2:
+                exhausted = code == "insufficient_quota" or bool(re.search(r"per ?day", code, re.I))
+                if exc.code in (429, 500, 502, 503, 504) and not exhausted and attempt < 2:
                     time.sleep(5 * (attempt + 1))  # rate limit or overload: wait and retry
                     continue
                 self.errors.append(f"HTTP {exc.code}: {code}")
-                if exc.code in (401, 403) or code == "insufficient_quota" or re.search(r"per ?day", code, re.I):
+                if exc.code in (401, 403) or exhausted:
                     self.enabled = False  # every further call would fail the same way
                 return None
             except Exception as exc:  # network or schema: degrade to rules
