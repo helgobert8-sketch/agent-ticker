@@ -100,7 +100,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     else:
         briefs[day] = {"headline": "Agent-Ticker went live and loaded the last 30 days of official changes.", "bullets": [], "editor": "rules", "count": 0}
 
-    backlog_calls = int(os.environ.get("AI_BACKLOG_CALLS", "10"))
+    backlog_calls = int(os.environ.get("AI_BACKLOG_CALLS", "4"))
     if editor.enabled and backlog_calls > 0:
         backlog = [e for e in store if e.get("editor") == "rules"][: backlog_calls * 8]
         before = {e["id"]: (e.get("category"), e.get("headline"), e.get("takeaway")) for e in backlog}
