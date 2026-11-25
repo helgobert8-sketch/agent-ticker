@@ -42,8 +42,8 @@
   function agentExport(rows, plans, marked, format) {
     const { owned, gaps } = compare(rows, plans, marked);
     const entries = (row, evidence) => evidence.map(plan => {
-      const { source, checked } = row.cells[plan.vendor];
-      return { plan: plan.name, status: planStatus(plan, row), source, checked };
+      const { sources, checked } = row.cells[plan.vendor];
+      return { plan: plan.name, status: planStatus(plan, row), sources, checked };
     });
     const data = {
       pickedPlans: plans.filter(plan => plan.selected).map(plan => plan.name),
@@ -60,7 +60,10 @@
       })),
     };
     if (format === "json") return JSON.stringify(data, null, 2);
-    const reference = entry => `${entry.plan} — ${entry.status}, [official source](<${entry.source}>), checked ${entry.checked}`;
+    const reference = entry => {
+      const links = entry.sources.map((url, index) => `[official source${index ? " " + (index + 1) : ""}](<${url}>)`);
+      return `${entry.plan} — ${entry.status}, ${links.join(", ")}, checked ${entry.checked}`;
+    };
     const coverage = data.coverage.map(item =>
       `- ${item.row}: ${item.plans.map(reference).join("; ")}`);
     const missing = data.gaps.flatMap(item => [
@@ -108,7 +111,7 @@
       card,
       tiers: JSON.parse(card.dataset.tierEvidence),
       verified: card.dataset.verified === "true",
-      source: card.querySelector("[data-map-source]").getAttribute("href"),
+      sources: [...card.querySelectorAll("[data-map-source]")].map(link => link.getAttribute("href")),
       checked: card.querySelector("[data-map-checked]").textContent,
     }])),
   }));

@@ -56,7 +56,7 @@ def cell_html(vendor, cell, source, update, evidence):
     if "error" in source:
         flags.append('<span class="map-flag">Source scan unavailable</span>')
     primary = cell["source_url"]
-    extra = "".join(f'<li><a href="{esc(url)}">{esc(url.split("/")[2])} · source {i}</a></li>'
+    extra = "".join(f'<li><a data-map-source href="{esc(url)}">{esc(url.split("/")[2])} · source {i}</a></li>'
                     for i, url in enumerate(dict.fromkeys(cell.get("source_urls", [])), start=2) if url != primary)
     notes = "".join(f'<p>{label}{esc(cell[key])}</p>' for key, label in (("note", ""), ("eu_note", "EU: ")) if cell.get(key))
     if extra:

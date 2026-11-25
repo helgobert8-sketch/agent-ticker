@@ -99,9 +99,9 @@ test("unchecked and excluded plans retain the full vendor source card and flags"
 
 test("agent exports include coverage, must-haves and unchecked gaps with cited evidence", () => {
   const picked = [{ name: "SuperGrok Lite", vendor: "grok", selected: true }];
-  const source = "https://docs.x.ai/grok";
+  const sources = ["https://docs.x.ai/grok", "https://docs.x.ai/grok/faq"];
   const checked = "2026-11-25";
-  const proof = status => ({ ...tierCell(["SuperGrok Lite"], status), source, checked });
+  const proof = status => ({ ...tierCell(["SuperGrok Lite"], status), sources, checked });
   const rows = [
     { id: "usage", label: "Usage limits", cells: { grok: proof("conditional") } },
     { id: "coding", label: "Coding agent", cells: { grok: proof("not checked") } },
@@ -111,15 +111,15 @@ test("agent exports include coverage, must-haves and unchecked gaps with cited e
   assert.deepEqual(data.pickedPlans, ["SuperGrok Lite"]);
   assert.deepEqual(data.mustHaves, ["Coding agent"]);
   assert.deepEqual(data.coverage, [{ row: "Usage limits", plans: [
-    { plan: "SuperGrok Lite", status: "conditional", source, checked },
+    { plan: "SuperGrok Lite", status: "conditional", sources, checked },
   ] }]);
   assert.deepEqual(data.gaps, [{ row: "Coding agent", mustHave: true, picked: [
-    { plan: "SuperGrok Lite", status: "not checked", source, checked },
+    { plan: "SuperGrok Lite", status: "not checked", sources, checked },
   ], alternatives: [] }]);
   const markdown = compare.agentExport(rows, picked, marked, "markdown");
   assert.ok(markdown.includes("## Coverage\n- Usage limits: SuperGrok Lite — conditional"));
   assert.ok(markdown.includes("## Gaps\n- Coding agent (must-have)"));
-  assert.ok(markdown.includes("not checked, [official source](<https://docs.x.ai/grok>), checked 2026-11-25"));
+  assert.ok(markdown.includes("not checked, [official source](<https://docs.x.ai/grok>), [official source 2](<https://docs.x.ai/grok/faq>), checked 2026-11-25"));
   assert.ok(markdown.includes("Check my marked gaps first, then the others. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage."));
   const unmarked = compare.agentExport(rows, picked, new Set(), "markdown");
   assert.ok(unmarked.includes("Check the gaps listed. Cite current original sources"));

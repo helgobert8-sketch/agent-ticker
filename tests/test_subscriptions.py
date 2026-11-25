@@ -81,6 +81,9 @@ class SubscriptionTests(unittest.TestCase):
         self.assertIn(f'id="item-{linked["id"]}"', ticker_day)
         self.assertIn('href="subscriptions.html"', ticker_day)
         self.assertIn('data-vendor="claude" data-status="verified" data-verified="false"', page)
+        for url in ("https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+                    "https://openai.com/index/introducing-chatgpt-go/"):
+            self.assertIn(f'data-map-source href="{url}"', page)
 
     def test_baseline_grok_evidence_is_scoped_to_the_checked_tiers(self):
         baseline, _ = subscriptions.load(self.data)
