@@ -4,15 +4,15 @@
   "2026-11-25": {
    "id": 5,
    "name": "Agent-Ticker daily brief 2026-11-25",
-   "status": "queued",
+   "status": "sent",
    "created": "2026-11-25T22:57:55+00:00",
    "listIds": [
     3
    ],
    "sendRequested": "2026-11-25T22:57:56+00:00",
-   "recipients": 0,
-   "sentDate": null,
-   "checked": "2026-11-25T22:57:56+00:00"
+   "recipients": 1,
+   "sentDate": "2026-11-25T23:58:08.000+01:00",
+   "checked": "2026-11-25T22:58:46+00:00"
   }
  },
  "list": {
