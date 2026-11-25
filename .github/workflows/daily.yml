@@ -30,8 +30,7 @@ jobs:
           AI_TOKEN: ${{ secrets.AI_TOKEN }}
           AI_BASE_URL: ${{ vars.AI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai' }}
           AI_MODEL: ${{ vars.AI_MODEL || 'gemini-4-hydrogen' }}
-          AI_DISABLED: ${{ github.event_name == 'push' && '1' || '' }}  # code-update runs keep the daily Gemini quota for the scheduled run
-        run: python -m ticker.run --data-dir data --out-dir public ${{ github.event_name == 'schedule' && '--skip-if-ran-today' || '' }}
+        run: python -m ticker.run --data-dir data --out-dir public ${{ github.event_name == 'schedule' && '--skip-if-ran-today' || '' }} ${{ github.event_name == 'push' && '--build-only' || '' }}  # a code update only rebuilds the site: no collection, no AI quota, no rules brief over the AI one
       - name: Commit data
         run: |
           git config user.name "agent-ticker-bot"
