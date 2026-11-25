@@ -677,9 +677,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Share Ask threads from the sidebar on mobile",
-  "takeaway": "On mobile, Ask thread rows in the sidebar now have a Share action that opens the device share sheet.",
-  "editor": "rules"
+  "headline": "Share Ask threads from mobile sidebar",
+  "takeaway": "You can now share Ask threads directly from the mobile sidebar using your device's native share sheet.",
+  "editor": "ai"
  },
  {
   "id": "b3e81c4ddfa2",
@@ -693,9 +693,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Copy link for Ask threads in the sidebar",
-  "takeaway": "Ask thread rows in the sidebar now have a Copy link action.",
-  "editor": "rules"
+  "headline": "Copy links to Ask threads from the sidebar",
+  "takeaway": "Grab a direct link to any Ask thread right from the sidebar to share or reference it quickly.",
+  "editor": "ai"
  },
  {
   "id": "805bebf7c08c",
@@ -708,10 +708,10 @@
   "source": "https://docs.devin.ai/release-notes/overview.md",
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
-  "category": "feature",
-  "headline": "Typing outside a text box no longer enters the composer",
-  "takeaway": "Characters typed while no input is focused, such as after clicking in the transcript, are no longer inserted into the session or new-session composer; click the composer to type.",
-  "editor": "rules"
+  "category": "fix",
+  "headline": "Typing outside inputs no longer hits the composer",
+  "takeaway": "Clicking the transcript and typing won't accidentally enter text into the composer; click the composer first.",
+  "editor": "ai"
  },
  {
   "id": "dfa1ce26325f",
@@ -725,9 +725,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Session header shows \"Syncing\" while a session catches up",
-  "takeaway": "When you open a session, its header shows an animated \"Syncing\" label next to the title until the session has caught up with the server.",
-  "editor": "rules"
+  "headline": "Session header shows Syncing status while catching up",
+  "takeaway": "An animated Syncing label in the header lets you know when an opened session is still catching up with the server.",
+  "editor": "ai"
  },
  {
   "id": "8828bc216f9a",
@@ -741,9 +741,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Plugin edits show as a plugin card in sessions",
-  "takeaway": "When Devin edits a plugin without needing an approval card (a pre-approved personal plugin or a Security plugin), the session transcript now shows the saved plugin card with what the edit changed…",
-  "editor": "rules"
+  "headline": "Pre-approved plugin edits now show a card in sessions",
+  "takeaway": "When Devin edits a pre-approved personal or Security plugin, the transcript displays a saved card with changes and a link.",
+  "editor": "ai"
  },
  {
   "id": "8133cf7e826d",
@@ -757,9 +757,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Quote attachments in chat from their tab",
-  "takeaway": "Attachment tabs in a session now have a \"Quote in chat\" button that adds the document to your message, and inline attachment cards keep a single Copy menu.",
-  "editor": "rules"
+  "headline": "Quote attachments in chat directly from their tab",
+  "takeaway": "Use the Quote in chat button on attachment tabs to add documents to your message, with a single Copy menu on inline cards.",
+  "editor": "ai"
  },
  {
   "id": "03bfb11b7bbb",
@@ -773,9 +773,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Artifact publishing names who will see it",
-  "takeaway": "Before you publish an artifact, the share dialog now says that anyone in your organization (named) will be able to view the page, and shows a warning when the session itself is private.",
-  "editor": "rules"
+  "headline": "Artifact share dialog names who can view it",
+  "takeaway": "Before publishing, the dialog now names your organization as viewers and warns you if the underlying session is private.",
+  "editor": "ai"
  },
  {
   "id": "52dc1996414e",
@@ -788,10 +788,10 @@
   "source": "https://docs.devin.ai/release-notes/overview.md",
   "section": "Devin Review",
   "first_seen": "2026-11-24",
-  "category": "feature",
-  "headline": "Charge a repository's Reviews to an organization or budget",
-  "takeaway": "Repository billing rules in Review settings (Billing tab) let admins pick a repository and charge its Reviews, including Review chat, to an organization or budget instead of the PR author, manual…",
-  "editor": "rules"
+  "category": "pricing",
+  "headline": "Charge repository Reviews to an organization or budget",
+  "takeaway": "Admins and Review managers can set billing rules to charge a repo's Reviews and Review chat to an org or budget instead of the author.",
+  "editor": "ai"
  },
  {
   "id": "bda4139ff9a9",
@@ -805,9 +805,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Turn the Review list reading pane on or off",
-  "takeaway": "The Review list's reading pane beside the PR list can now be switched off, so clicking a row opens the pull request's full page instead; the choice is saved per account.",
-  "editor": "rules"
+  "headline": "Toggle Review list reading pane on or off",
+  "takeaway": "You can now switch off the reading pane beside the PR list so clicking a row opens the full PR page; your preference is saved per account.",
+  "editor": "ai"
  },
  {
   "id": "5ce40cc7c4be",
@@ -821,9 +821,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Show a stacked PR's merge target as its branch name",
-  "takeaway": "In Devin Review, the merge-target chip for a stacked PR can be switched between showing the target PR and its branch name, and the choice is remembered.",
-  "editor": "rules"
+  "headline": "Display stacked PR merge target as branch name",
+  "takeaway": "In Devin Review, you can switch a stacked PR's merge-target chip between the target PR and its branch name, and the setting is remembered.",
+  "editor": "ai"
  },
  {
   "id": "7c57e67b1d08",
@@ -837,9 +837,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Before image shown for renamed image files",
-  "takeaway": "Devin Review's diff viewer now shows the Before image for image files a PR renames.",
-  "editor": "rules"
+  "headline": "Show Before image for renamed image files in diffs",
+  "takeaway": "Devin Review's diff viewer now displays the original Before image when a pull request renames an image file.",
+  "editor": "ai"
  },
  {
   "id": "390d786c6332",
@@ -854,8 +854,8 @@
   "first_seen": "2026-11-24",
   "category": "feature",
   "headline": "Security sidebar groups less-used pages under More",
-  "takeaway": "The Security sidebar now moves less-used pages into a More menu, and you can pin a page to the sidebar or unpin it.",
-  "editor": "rules"
+  "takeaway": "Less-used Security pages now live in a More menu, and you can pin or unpin any page to customize your sidebar.",
+  "editor": "ai"
  },
  {
   "id": "e7e2d39e5fe5",
@@ -869,9 +869,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Findings gains a By repository tab",
-  "takeaway": "On the Security Findings page, a new By repository tab lists each repository with its open findings count and last scan time, replacing the separate Security > Repositories page.",
-  "editor": "rules"
+  "headline": "Security Findings adds a By repository tab",
+  "takeaway": "A new By repository tab on Security Findings shows each repo's open findings count and last scan time, replacing the separate Repositories page.",
+  "editor": "ai"
  },
  {
   "id": "2475fb13c693",
@@ -886,8 +886,8 @@
   "first_seen": "2026-11-24",
   "category": "feature",
   "headline": "Link code-scan findings to an existing session via API",
-  "takeaway": "The v3 API and the devin_code_scan_manage MCP tool can now link one or more code-scan findings to an existing Devin session you own.",
-  "editor": "rules"
+  "takeaway": "Use the v3 API or devin_code_scan_manage MCP tool to attach one or more code-scan findings directly to an existing Devin session you own.",
+  "editor": "ai"
  },
  {
   "id": "089979e196f3",
@@ -901,9 +901,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Validation screenshots shown inline on findings",
-  "takeaway": "On a Security finding's detail page, image artifacts from the finding's validation are now shown inline instead of only as file links.",
-  "editor": "rules"
+  "headline": "Show validation screenshots inline on Security findings",
+  "takeaway": "Image artifacts from a finding's validation now render inline on its detail page instead of appearing only as file links.",
+  "editor": "ai"
  },
  {
   "id": "14ec8d300d95",
@@ -918,8 +918,8 @@
   "first_seen": "2026-11-24",
   "category": "feature",
   "headline": "Choose base branch and PR grouping in Fix with Devin",
-  "takeaway": "Fix with Devin on code scan findings now always opens a dialog where you can set a base branch (default: repository default) and, for 2+ security-scan findings, choose one PR per root cause, one per…",
-  "editor": "rules"
+  "takeaway": "Fix with Devin now opens a dialog to pick a base branch and, for 2+ findings, group fixes into one PR per root cause, per finding, or all together.",
+  "editor": "ai"
  },
  {
   "id": "4b6d128b79f0",
@@ -933,9 +933,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "See running and failed validations on code scan findings",
-  "takeaway": "The code scan finding detail sheet now shows when a finding's validation is running (\"Validating\") or failed without a result (\"Validation failed\"), with a link to the validation session and the…",
-  "editor": "rules"
+  "headline": "Code scan findings show running and failed validations",
+  "takeaway": "You can now track validation status directly in the finding detail sheet, with links to the validation session and previous result.",
+  "editor": "ai"
  },
  {
   "id": "0bf5a5cbc980",
@@ -949,9 +949,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Validate with Devin from a finding's detail view",
-  "takeaway": "The finding detail action bar in Security scans now has a Validate with Devin button for findings that can be validated.",
-  "editor": "rules"
+  "headline": "Validate with Devin button added to Security scan findings",
+  "takeaway": "You can trigger Devin to validate eligible security scan findings directly from the finding detail action bar.",
+  "editor": "ai"
  },
  {
   "id": "78d77bfc892f",
@@ -965,9 +965,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "MCPs list redesigned with an Installed group and search",
-  "takeaway": "In Settings > Customize > MCPs, the MCP catalog now uses plugin-style rows, groups your installed MCPs under Installed above Available, and moves search into the header.",
-  "editor": "rules"
+  "headline": "MCPs list redesigned with Installed group and header search",
+  "takeaway": "In Settings > Customize > MCPs, installed MCPs now appear above available ones with plugin-style rows and header search.",
+  "editor": "ai"
  },
  {
   "id": "e12227b0fca0",
@@ -981,9 +981,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Confirm before discarding unsaved MCP setup changes",
-  "takeaway": "MCP setup sheets and editors (including enterprise MCP server settings) now ask for confirmation before closing or navigating away would discard unsaved input.",
-  "editor": "rules"
+  "headline": "Confirmation prompt before discarding unsaved MCP setup changes",
+  "takeaway": "Prevents accidentally losing unsaved input when closing or navigating away from MCP setup sheets and enterprise server settings.",
+  "editor": "ai"
  },
  {
   "id": "b7042656d36c",
@@ -997,9 +997,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Customize shows organization- or enterprise-level installs",
-  "takeaway": "In Settings > Customize, plugins and MCPs that come from your organization or enterprise now say which level they are installed at.",
-  "editor": "rules"
+  "headline": "Customize shows org- or enterprise-level install badges",
+  "takeaway": "In Settings > Customize, you can now see whether plugins and MCPs were installed at the organization or enterprise level.",
+  "editor": "ai"
  },
  {
   "id": "6d7793c6883e",
@@ -1013,9 +1013,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "MCP approval cards say what Always allow covers",
-  "takeaway": "The MCP tool approval card in sessions now names the tool and whether Always allow applies to all your sessions or everyone in the organization, and the resolved row shows Always allowed with a…",
-  "editor": "rules"
+  "headline": "MCP approval cards clarify Always allow scope",
+  "takeaway": "Approval cards now name the tool and show if Always allow applies to your sessions or the whole org, with a Change link afterward.",
+  "editor": "ai"
  },
  {
   "id": "9696a3c60e77",
@@ -1029,9 +1029,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Plugin sheet notes MCPs you already installed separately",
-  "takeaway": "A plugin's sheet now tells you when its MCP is already installed on its own, explains that installing the plugin keeps it, and links to View MCP.",
-  "editor": "rules"
+  "headline": "Plugin sheet flags separately installed MCPs",
+  "takeaway": "If a plugin's MCP is already installed, the plugin sheet notes that installing the plugin keeps it and provides a View MCP link.",
+  "editor": "ai"
  },
  {
   "id": "d778cc21075b",
@@ -1045,9 +1045,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Warning when an MCP sign-in is shared organization-wide",
-  "takeaway": "Signing in to an MCP installed for an organization or enterprise now warns that the sign-in and credentials are shared with everyone who can use it and suggests a service account.",
-  "editor": "rules"
+  "headline": "Warning added for organization-wide shared MCP sign-ins",
+  "takeaway": "Signing in to an org or enterprise MCP now warns that credentials are shared with all users and suggests using a service account.",
+  "editor": "ai"
  },
  {
   "id": "0a264afea54c",
@@ -1061,9 +1061,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Choose the Entra tenant for Azure DevOps",
-  "takeaway": "In Settings > Integrations > Azure DevOps, org admins whose Microsoft account belongs to more than one Entra tenant can now choose which tenant to connect.",
-  "editor": "rules"
+  "headline": "Choose which Entra tenant to connect for Azure DevOps",
+  "takeaway": "Org admins with multiple Microsoft Entra tenants can pick the exact tenant to connect in Settings > Integrations > Azure DevOps.",
+  "editor": "ai"
  },
  {
   "id": "cb18acadb1da",
@@ -1077,9 +1077,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Switched-off MCP installations show as Disabled",
-  "takeaway": "In Customize (MCPs list and plugin details), an MCP installation that is signed in but switched off now reads \"Disabled\" without the green dot, and is no longer counted in the \"N connected\" summaries.",
-  "editor": "rules"
+  "headline": "Switched-off MCPs now show as Disabled",
+  "takeaway": "Signed-in but switched-off MCPs in Customize now read \"Disabled\" without a green dot and are excluded from \"N connected\" counts.",
+  "editor": "ai"
  },
  {
   "id": "9887e621c122",
@@ -1093,9 +1093,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Marketplace hides MCPs replaced by native integrations",
-  "takeaway": "The MCP marketplace and MCP suggestions no longer offer servers such as Slack, Linear, GitLab or Pylon that a native integration or marketplace plugin replaces.",
-  "editor": "rules"
+  "headline": "MCP marketplace hides servers replaced by native integrations",
+  "takeaway": "Slack, Linear, GitLab, and Pylon MCPs are hidden from the marketplace and suggestions when a native integration or plugin replaces them.",
+  "editor": "ai"
  },
  {
   "id": "76c5226418fa",
@@ -1109,9 +1109,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Security notice before each additional plugin MCP connection",
-  "takeaway": "Adding another installation of a plugin's MCP server in Settings > Customize now shows the plugin security notice before it connects.",
-  "editor": "rules"
+  "headline": "Security notice shown before extra plugin MCP connections",
+  "takeaway": "Adding another installation of a plugin's MCP server in Settings > Customize now displays the plugin security notice before connecting.",
+  "editor": "ai"
  },
  {
   "id": "b3f9e3f8c250",
@@ -1125,9 +1125,9 @@
   "section": "Automations & Oncall",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Oncall user group mention triggers can match thread replies",
-  "takeaway": "Oncall responders with a Slack user group mention trigger can add an \"is thread reply\" condition so mentions of the group inside threads also start a run.",
-  "editor": "rules"
+  "headline": "Oncall user group triggers can match Slack thread replies",
+  "takeaway": "Oncall responders using a Slack user group mention trigger can add an \"is thread reply\" condition so mentions inside threads start a run.",
+  "editor": "ai"
  },
  {
   "id": "fe5935fbff00",
@@ -1140,9 +1140,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/451777787",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.329",
-  "takeaway": "Added a trust dialog warning that says where a folder's hooks are declared",
-  "editor": "rules"
+  "headline": "Claude Code 2.1.329: /tasks, /mcp, and Code Mode updates",
+  "takeaway": "Adds scheduled tasks and forks to /tasks, remote HTTP error details in /mcp, Code Mode with OpenTelemetry events, and a ~/.claude.json reset fix.",
+  "editor": "ai"
  },
  {
   "id": "43b72a6d660d",
@@ -1155,9 +1155,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/450696184",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.328",
-  "takeaway": "Added auto mode for Claude Opus 4.6 and Sonnet 4.6 on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry and Claude apps gateway; interactive sessions with no permission mode start in it",
-  "editor": "rules"
+  "headline": "Claude Code 2.1.328: auto mode for Opus 4.6 & Sonnet 4.6",
+  "takeaway": "Adds auto mode for Claude Opus 4.6 and Sonnet 4.6 on Bedrock, Agent Platform, and Foundry, plus \"onFailure\": \"block\" for mcp_tool hooks.",
+  "editor": "ai"
  },
  {
   "id": "b1cc1f23970c",
@@ -1171,9 +1171,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Choose who a new session is shared with",
-  "takeaway": "The home composer has a Shared with picker that shows who a new session will be visible to (you, your organization or your enterprise, per your organization's sharing settings) and lets you keep it…",
-  "editor": "rules"
+  "headline": "Pick who can see a new session before it starts",
+  "takeaway": "The home composer's Shared with picker lets you keep a new session private to you or share it with your organization or enterprise.",
+  "editor": "ai"
  },
  {
   "id": "0f02f862c326",
