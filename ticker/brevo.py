@@ -8,6 +8,7 @@ so a newsletter outage can never fail the ticker run.
 import html
 import json
 import os
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -102,12 +103,15 @@ def choose_list(key, state):
         found = next((x for x in lists if x.get("id") == saved), None)
         if found:
             return found
-    for x in lists:
-        name = (x.get("name") or "").lower().replace("_", "-")
-        if "agent" in name and "ticker" in name:
-            return x
-    if len(lists) == 1:
-        return lists[0]
+    def normalized(x):
+        return re.sub(r"[^a-z0-9]", "", (x.get("name") or "").lower())
+
+    matches = [x for x in lists if "agentticker" in normalized(x)]
+    if len(matches) == 1:
+        return matches[0]
+    exact_daily = [x for x in matches if normalized(x) == "agenttickerdaily"]
+    if len(exact_daily) == 1:
+        return exact_daily[0]
     raise BrevoError("no unambiguous Agent-Ticker list found; set BREVO_LIST_ID or BREVO_LIST_NAME")
 
 

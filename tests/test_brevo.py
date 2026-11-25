@@ -105,6 +105,17 @@ class BrevoTests(unittest.TestCase):
              mock.patch.dict(os.environ, {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": "New list"}):
             self.assertEqual(brevo.choose_list("k", {"list": {"id": 1}})["id"], 2)
 
+    def test_automatic_list_choice_never_uses_an_unmatched_or_ambiguous_list(self):
+        env = {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": ""}
+        with mock.patch.dict(os.environ, env):
+            with mock.patch.object(brevo, "api", return_value={"lists": [{"id": 1, "name": "Customers"}]}):
+                with self.assertRaises(brevo.BrevoError):
+                    brevo.choose_list("k", {})
+            ambiguous = {"lists": [{"id": 1, "name": "Agent-Ticker Subscribers"}, {"id": 2, "name": "Agent Ticker Newsletter"}]}
+            with mock.patch.object(brevo, "api", return_value=ambiguous):
+                with self.assertRaises(brevo.BrevoError):
+                    brevo.choose_list("k", {})
+
     def test_signup_slot_is_hidden_until_url_is_configured(self):
         with mock.patch.dict(os.environ, {"BREVO_SIGNUP_URL": ""}):
             self.assertNotIn("Sign up for the newsletter", site.follow_html())
