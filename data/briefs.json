@@ -11,13 +11,15 @@
   "count": 11
  },
  "2026-11-25": {
-  "headline": "Codex extends free Sites hosting; Claude Code adds MCP skills",
+  "headline": "16 changes across Claude Code, Codex, Devin",
   "bullets": [
-   "Codex extended free Sites hosting through January 31, 2027, with overage billing for Plus, Pro, and Business plans starting February 1, 2027.",
-   "Codex plans to display Sites hosting usage in-app starting January 1, 2027, and updated pricing tables with credit tiers.",
-   "Claude Code 2.1.332 added beta support for skills from MCP servers, appearing as server:skill in the / menu."
+   "Codex: pricing page changed.",
+   "Devin: Split scans start with a threat model",
+   "Claude Code: MCP server skills (beta) and PreSkillShellCommand hook",
+   "Devin: Format text in the message box",
+   "Devin: Category tabs and page results in Cmd+K"
   ],
-  "editor": "ai",
-  "count": 2
+  "editor": "rules",
+  "count": 16
  }
 }
