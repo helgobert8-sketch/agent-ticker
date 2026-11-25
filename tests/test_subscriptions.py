@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from ticker import ai, pricing, run, site, sources, subscriptions, util
+from ticker import ai, pricing, run, site, sources, subscription_page, subscriptions, util
 
 ROOT = Path(__file__).resolve().parents[1]
 DAY = "2026-11-26"
@@ -81,6 +81,19 @@ class SubscriptionTests(unittest.TestCase):
         self.assertIn(f'id="item-{linked["id"]}"', ticker_day)
         self.assertIn('href="subscriptions.html"', ticker_day)
         self.assertIn('data-vendor="claude" data-status="verified" data-verified="false"', page)
+
+    def test_baseline_grok_evidence_is_scoped_to_the_checked_tiers(self):
+        baseline, _ = subscriptions.load(self.data)
+        tiers = baseline["meta"]["tiers"]["grok"]
+        for row in ("top_model_access", "coding_agent"):
+            status = baseline["rows"][row]["grok"]["status"]
+            evidence = subscription_page.tier_evidence(row, "grok", status, tiers)
+            self.assertTrue(all(evidence[tier] == "not checked" for tier in tiers["legacy"]))
+            self.assertEqual(evidence["The X Subscription Premium"], "conditional")
+        status = baseline["rows"]["always_on_agent"]["grok"]["status"]
+        evidence = subscription_page.tier_evidence("always_on_agent", "grok", status, tiers)
+        self.assertEqual(evidence["SuperGrok Lite"], "not included")
+        self.assertEqual(evidence["SuperGrok Heavy"], "conditional")
 
     @unittest.skipUnless(shutil.which("node"), "Node is needed to exercise the browser comparison rules")
     def test_stack_comparison(self):

@@ -1,22 +1,17 @@
 (function () {
   "use strict";
 
-  function offers(plan, cell) {
-    return cell && cell.verified && plan.group !== "legacy";
-  }
-
-  function conditionalOffer(plan, row) {
+  function planStatus(plan, row) {
     const cell = row.cells[plan.vendor];
-    if (!cell || cell.status !== "conditional") return false;
-    return !(row.id === "always_on_agent" && plan.vendor === "grok" &&
-      ["The X Subscription Plus", "SuperGrok Lite"].includes(plan.name));
+    const status = cell?.tiers[plan.name] ?? "not checked";
+    return status === "verified" && !cell.verified ? "review needed" : status;
   }
 
   function coverage(row, plans) {
     return {
       row,
-      verified: plans.filter(plan => offers(plan, row.cells[plan.vendor])),
-      conditional: plans.filter(plan => conditionalOffer(plan, row)),
+      verified: plans.filter(plan => planStatus(plan, row) === "verified"),
+      conditional: plans.filter(plan => planStatus(plan, row) === "conditional"),
     };
   }
 
@@ -47,7 +42,7 @@
     label: el.dataset.label,
     cells: Object.fromEntries([...el.querySelectorAll(".map-cell")].map(card => [card.dataset.vendor, {
       card,
-      status: card.dataset.status,
+      tiers: JSON.parse(card.dataset.tierEvidence),
       verified: card.dataset.verified === "true",
     }])),
   }));
@@ -63,6 +58,10 @@
     const labels = [
       verified.length && `verified: ${verified.map(plan => plan.name).join(", ")}`,
       conditional.length && `conditional: ${conditional.map(plan => plan.name).join(", ")}`,
+      ...["not checked", "not included", "review needed"].map(status => {
+        const names = evidence.filter(plan => planStatus(plan, row) === status).map(plan => plan.name);
+        return names.length && `${status}: ${names.join(", ")}`;
+      }),
     ].filter(Boolean);
     const status = " — " + (labels.join(" · ") || "no verified or conditional coverage");
     const details = node("details", null, "stack-row");
@@ -70,6 +69,7 @@
     const cards = node("div", null, "stack-evidence");
     const grouped = new Map();
     for (const plan of evidence) {
+      if (["not checked", "not included"].includes(planStatus(plan, row))) continue;
       if (!grouped.has(plan.vendor)) grouped.set(plan.vendor, []);
       grouped.get(plan.vendor).push(plan);
     }
@@ -77,12 +77,13 @@
       const cell = row.cells[vendor];
       const card = cell.card.cloneNode(true);
       card.querySelector("h3").after(node("p", group.map(plan => plan.name).join(", "), "stack-plan-label"));
-      if (group.some(plan => !offers(plan, cell))) {
-        card.append(node("small", "Vendor-level evidence; not verified for all listed plans."));
+      if (group.some(plan => planStatus(plan, row) !== "verified")) {
+        card.append(node("small", "Vendor-level evidence; check the terms for your tier."));
       }
       cards.append(card);
     }
     if (!evidence.length) cards.append(node("p", "No other plan has an offer documented here."));
+    else if (!grouped.size) cards.append(node("p", "See the map for the vendor sources and notes."));
     details.append(cards);
     return details;
   }
@@ -92,7 +93,7 @@
     priorities.forEach(box => { box.disabled = !box.checked && marked.size >= 3; });
     document.querySelector("#priority-count").textContent = `${marked.size} of 3`;
     const picked = plans.map(box => ({
-      name: box.value, vendor: box.dataset.vendor, group: box.dataset.group, selected: box.checked,
+      name: box.value, vendor: box.dataset.vendor, selected: box.checked,
     }));
     const count = picked.filter(plan => plan.selected).length;
     results.hidden = !count;

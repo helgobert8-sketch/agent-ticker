@@ -2,22 +2,29 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 const compare = require("../static/subscriptions.js");
 
-const verified = { status: "verified", verified: true };
-const stale = { status: "verified", verified: false };
-const conditional = { status: "conditional", verified: false };
-const unchecked = { status: "not checked", verified: false };
+const tierCell = (names, status, verified = false) => ({
+  tiers: Object.fromEntries(names.map(name => [name, status])), verified,
+});
+const aPlans = ["A Pro", "A Ultra"];
+const aVerified = tierCell(aPlans, "verified", true);
+const aStale = tierCell(aPlans, "verified");
+const aConditional = tierCell(aPlans, "conditional");
+const bVerified = tierCell(["B Pro"], "verified", true);
+const cVerified = tierCell(["C Pro"], "verified", true);
+const dConditional = tierCell(["D Legacy"], "conditional");
+const unchecked = tierCell(["A Pro", "A Ultra", "B Pro", "C Pro"], "not checked");
 const rows = [
-  { id: "price", cells: { a: verified, b: verified, c: verified, d: verified } },
-  { id: "usage", cells: { a: conditional, b: unchecked, c: verified, d: conditional } },
-  { id: "model", cells: { a: unchecked, b: unchecked, c: verified } },
-  { id: "coding", cells: { a: stale, b: unchecked, c: unchecked, d: conditional } },
+  { id: "price", cells: { a: aVerified, b: bVerified, c: cVerified, d: tierCell(["D"], "verified", true) } },
+  { id: "usage", cells: { a: aConditional, b: unchecked, c: cVerified, d: dConditional } },
+  { id: "model", cells: { a: unchecked, b: unchecked, c: cVerified } },
+  { id: "coding", cells: { a: aStale, b: unchecked, c: unchecked, d: dConditional } },
 ];
 const plans = [
   { name: "A Pro", vendor: "a", selected: true },
   { name: "A Ultra", vendor: "a", selected: true },
   { name: "B Pro", vendor: "b", selected: true },
   { name: "C Pro", vendor: "c", selected: false },
-  { name: "D Legacy", vendor: "d", group: "legacy", selected: false },
+  { name: "D Legacy", vendor: "d", selected: false },
 ];
 
 test("three picked plans count a verified overlap once per row", () => {
@@ -46,12 +53,29 @@ test("conditional picks cover a row without increasing verified overlap", () => 
 });
 
 test("a conditional cell does not grant coverage to Grok tiers explicitly excluded by the baseline", () => {
-  const alwaysOn = [{ id: "always_on_agent", cells: { grok: conditional } }];
-  const grokPlans = ["The X Subscription Plus", "SuperGrok Lite", "The X Subscription Premium"].map(name => ({
-    name, vendor: "grok", selected: true,
-  }));
+  const names = ["The X Subscription Plus", "SuperGrok Lite", "The X Subscription Premium"];
+  const alwaysOn = [{ id: "always_on_agent", cells: { grok: {
+    tiers: { [names[0]]: "not included", [names[1]]: "not included", [names[2]]: "conditional" },
+  } } }];
+  const grokPlans = names.map(name => ({ name, vendor: "grok", selected: true }));
   const { owned } = compare(alwaysOn, grokPlans, new Set());
   assert.deepEqual(owned[0].conditional.map(plan => plan.name), ["The X Subscription Premium"]);
+});
+
+test("picking only SuperGrok Lite leaves top model access and coding agent gaps", () => {
+  const rows = ["top_model_access", "coding_agent"].map(id => ({
+    id,
+    cells: { grok: { tiers: { "SuperGrok Lite": "not checked", "The X Subscription Premium": "conditional" } } },
+  }));
+  const picks = [
+    { name: "SuperGrok Lite", vendor: "grok", selected: true },
+    { name: "The X Subscription Premium", vendor: "grok", selected: false },
+  ];
+  const { owned, gaps, overlap } = compare(rows, picks, new Set());
+  assert.ok(owned.every(result => !result.verified.length && !result.conditional.length));
+  assert.deepEqual(gaps.map(result => result.row.id), ["top_model_access", "coding_agent"]);
+  assert.ok(gaps.every(result => result.conditional[0].name === "The X Subscription Premium"));
+  assert.equal(overlap, 0);
 });
 
 test("a vendor-level verified cell does not verify legacy entitlements", () => {

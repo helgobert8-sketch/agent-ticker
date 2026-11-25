@@ -1,4 +1,5 @@
 """Render the baseline as HTML, with evidence reused by the browser-only stack check."""
+import json
 from html import escape as esc
 
 VENDORS = {
@@ -16,9 +17,32 @@ LABELS = {
     "coding_agent": "Coding agent",
     "always_on_agent": "Always-on agent",
 }
+GROK_CURRENT = ("The X Subscription Plus", "The X Subscription Premium", "The X Subscription Super", "The X Subscription Ultra")
+GROK_ROUTINES = (*GROK_CURRENT[1:], "SuperGrok", "SuperGrok Plus", "SuperGrok Heavy", "X Premium+")
+GROK_TIER_EVIDENCE = {
+    "price_plans": dict.fromkeys(GROK_CURRENT, "conditional"),
+    "billing_model": {**dict.fromkeys(GROK_CURRENT, "verified"), "SuperGrok": "conditional"},
+    "usage_limits": dict.fromkeys((*GROK_CURRENT, "SuperGrok"), "conditional"),
+    "top_model_access": dict.fromkeys(GROK_CURRENT[1:], "conditional"),
+    "coding_agent": dict.fromkeys(GROK_CURRENT, "conditional"),
+    "always_on_agent": {**dict.fromkeys(GROK_ROUTINES, "conditional"),
+                        GROK_CURRENT[0]: "not included", "SuperGrok Lite": "not included"},
+}
 
 
-def cell_html(vendor, cell, source, update):
+def plan_label(vendor, tier):
+    return tier if vendor in ("grok", "gemini") else f"{VENDORS[vendor][0]} {tier}"
+
+
+def tier_evidence(row, vendor, status, tiers):
+    if vendor == "grok" and status in ("verified", "conditional"):
+        evidence = GROK_TIER_EVIDENCE.get(row, {})
+        return {tier: evidence.get(tier, "not checked") for names in tiers.values() for tier in names}
+    names = (name for group in tiers.values() for name in group) if isinstance(tiers, dict) else tiers
+    return {plan_label(vendor, tier): status for tier in names}
+
+
+def cell_html(vendor, cell, source, update, evidence):
     name, color = VENDORS[vendor]
     changed = source.get("changed", "") >= cell["checked"]
     update = update if update.get("date", "") >= cell["checked"] else None
@@ -39,7 +63,7 @@ def cell_html(vendor, cell, source, update):
         notes += f'<ul>{extra}</ul>'
     details = f'<details><summary>Notes &amp; sources</summary>{notes}</details>' if notes else ""
     scan = f'<small>Source scan <time>{esc(source["checked"])}</time></small>' if source.get("checked") else ''
-    return f"""<article class="map-cell" data-vendor="{vendor}" data-status="{esc(cell['status'])}" data-verified="{str(verified).lower()}">
+    return f"""<article class="map-cell" data-vendor="{vendor}" data-status="{esc(cell['status'])}" data-verified="{str(verified).lower()}" data-tier-evidence="{esc(json.dumps(evidence))}">
 <h3 class="a-{color}">{name}</h3><span class="map-status">{esc(cell['status'].capitalize())}</span>
 {''.join(flags)}<p>{esc(cell['value'])}</p><small><a href="{esc(primary)}">Official source</a> · checked <time>{esc(cell['checked'])}</time></small>
 {scan}{details}</article>"""
@@ -53,9 +77,9 @@ def plan_groups(meta):
         groups.append(f'<details class="plan-group"><summary class="a-{color}">{label}</summary>')
         for group, names in (tiers.items() if isinstance(tiers, dict) else [("current", tiers)]):
             for name in names:
-                plan = name if vendor in ("grok", "gemini") else f"{label} {name}"
+                plan = plan_label(vendor, name)
                 tag = " <small>(legacy)</small>" if group == "legacy" else ""
-                groups.append(f'<label><input type="checkbox" data-plan data-vendor="{vendor}" data-group="{group}" value="{esc(plan)}" autocomplete="off"> {esc(name)}{tag}</label>')
+                groups.append(f'<label><input type="checkbox" data-plan data-vendor="{vendor}" value="{esc(plan)}" autocomplete="off"> {esc(name)}{tag}</label>')
         groups.append("</details>")
     return "".join(groups)
 
@@ -72,7 +96,9 @@ def render(baseline, state):
         row_links.append(f'<a class="chip" href="#{row}">{label}</a>')
         priorities.append(f'<label><input type="checkbox" data-priority="{row}" autocomplete="off"> {label}</label>')
         cards = "".join(cell_html(vendor, cells[vendor], state.get("sources", {}).get(cells[vendor]["source_url"], {}),
-                                  state.get("updates", {}).get(row, {}).get(vendor, {})) for vendor in meta["vendors"])
+                                  state.get("updates", {}).get(row, {}).get(vendor, {}),
+                                  tier_evidence(row, vendor, cells[vendor]["status"], meta["tiers"][vendor]))
+                        for vendor in meta["vendors"])
         rows.append(f'<section class="map-row" id="{row}" data-label="{label}"><h2>{label}</h2><div class="map-grid">{cards}</div></section>')
     definitions = "".join(f'<li><b>{esc(status.capitalize())}:</b> {esc(text)}</li>' for status, text in meta["status_definitions"].items())
     return f"""<section class="hero map-hero"><div class="kicker">5 vendors · 6 rows · official sources</div>
