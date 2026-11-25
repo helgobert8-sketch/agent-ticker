@@ -97,6 +97,32 @@ test("unchecked and excluded plans retain the full vendor source card and flags"
   }
 });
 
+test("agent exports include coverage, must-haves and unchecked gaps with cited evidence", () => {
+  const picked = [{ name: "SuperGrok Lite", vendor: "grok", selected: true }];
+  const source = "https://docs.x.ai/grok";
+  const checked = "2026-11-25";
+  const proof = status => ({ ...tierCell(["SuperGrok Lite"], status), source, checked });
+  const rows = [
+    { id: "usage", label: "Usage limits", cells: { grok: proof("conditional") } },
+    { id: "coding", label: "Coding agent", cells: { grok: proof("not checked") } },
+  ];
+  const marked = new Set(["coding"]);
+  const data = JSON.parse(compare.agentExport(rows, picked, marked, "json"));
+  assert.deepEqual(data.pickedPlans, ["SuperGrok Lite"]);
+  assert.deepEqual(data.mustHaves, ["Coding agent"]);
+  assert.deepEqual(data.coverage, [{ row: "Usage limits", plans: [
+    { plan: "SuperGrok Lite", status: "conditional", source, checked },
+  ] }]);
+  assert.deepEqual(data.gaps, [{ row: "Coding agent", mustHave: true, picked: [
+    { plan: "SuperGrok Lite", status: "not checked", source, checked },
+  ], alternatives: [] }]);
+  const markdown = compare.agentExport(rows, picked, marked, "markdown");
+  assert.ok(markdown.includes("## Coverage\n- Usage limits: SuperGrok Lite — conditional"));
+  assert.ok(markdown.includes("## Gaps\n- Coding agent (must-have)"));
+  assert.ok(markdown.includes("not checked, [official source](<https://docs.x.ai/grok>), checked 2026-11-25"));
+  assert.ok(markdown.includes("Check only my marked gaps. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage."));
+});
+
 test("a vendor-level verified cell does not verify legacy entitlements", () => {
   const legacyOnly = [{ ...plans[4], selected: true }];
   const { verified } = compare(rows, legacyOnly, new Set()).owned[0];

@@ -85,5 +85,13 @@ button.btn{cursor:pointer;font-family:inherit;font-size:inherit;border:0}.brief 
 .stack-row{padding:7px 0;border-bottom:1px solid var(--line)}
 .stack-evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin:8px 0}
 .stack-plan-label{color:var(--muted);font-weight:700}
+.stack-export{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:12px 0}
+.stack-export>p{margin:0 0 8px}
+.stack-export-actions{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.stack-export-actions select,.stack-export textarea{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:6px;font:inherit}
+.stack-export button:disabled{opacity:.55;cursor:default}
+#stack-copy-status{font-size:14px;color:var(--accent)}
+#stack-copy-preview{margin-top:10px}
+.stack-export textarea{display:block;width:100%;resize:vertical;font:13px/1.5 ui-monospace,monospace}
 @media(max-width:760px){.map-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:460px){.map-grid{grid-template-columns:1fr}.map-cell{padding:12px 14px}}

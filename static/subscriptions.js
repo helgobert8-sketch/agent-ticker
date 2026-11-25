@@ -39,9 +39,55 @@
     }));
   }
 
+  function agentExport(rows, plans, marked, format) {
+    const { owned, gaps } = compare(rows, plans, marked);
+    const entries = (row, evidence) => evidence.map(plan => {
+      const { source, checked } = row.cells[plan.vendor];
+      return { plan: plan.name, status: planStatus(plan, row), source, checked };
+    });
+    const data = {
+      pickedPlans: plans.filter(plan => plan.selected).map(plan => plan.name),
+      mustHaves: rows.filter(row => marked.has(row.id)).map(row => row.label),
+      coverage: owned.filter(result => result.verified.length || result.conditional.length).map(result => ({
+        row: result.row.label,
+        plans: entries(result.row, [...result.verified, ...result.conditional]),
+      })),
+      gaps: gaps.map(({ row, evidence }) => ({
+        row: row.label,
+        mustHave: marked.has(row.id),
+        picked: entries(row, plans.filter(plan => plan.selected)),
+        alternatives: entries(row, evidence),
+      })),
+    };
+    if (format === "json") return JSON.stringify(data, null, 2);
+    const reference = entry => `${entry.plan} — ${entry.status}, [official source](<${entry.source}>), checked ${entry.checked}`;
+    const coverage = data.coverage.map(item =>
+      `- ${item.row}: ${item.plans.map(reference).join("; ")}`);
+    const missing = data.gaps.flatMap(item => [
+      `- ${item.row}${item.mustHave ? " (must-have)" : ""}`,
+      ...item.picked.map(entry => `  - Picked: ${reference(entry)}`),
+      ...item.alternatives.map(entry => `  - Other plan: ${reference(entry)}`),
+    ]);
+    return [
+      "# Agent-Ticker stack check",
+      "",
+      `**Picked plans:** ${data.pickedPlans.join(", ")}`,
+      `**Must-haves:** ${data.mustHaves.join(", ") || "None marked"}`,
+      "",
+      "## Coverage",
+      ...(coverage.length ? coverage : ["- None documented for these plans."]),
+      "",
+      "## Gaps",
+      ...(missing.length ? missing : ["- None: verified or conditional coverage in every row."]),
+      "",
+      "**Suggested prompt:** Check only my marked gaps. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage.",
+    ].join("\n");
+  }
+
   if (typeof module !== "undefined") {
     module.exports = compare;
     module.exports.evidenceCards = evidenceCards;
+    module.exports.agentExport = agentExport;
     return;
   }
 
@@ -50,6 +96,11 @@
   const priorities = [...controls.querySelectorAll("[data-priority]")];
   const results = document.querySelector("#stack-results");
   const summary = document.querySelector("#stack-summary");
+  const copy = document.querySelector("#stack-copy");
+  const format = document.querySelector("#stack-format");
+  const copyStatus = document.querySelector("#stack-copy-status");
+  const output = document.querySelector("#stack-copy-output");
+  const preview = document.querySelector("#stack-copy-preview");
   const rows = [...document.querySelectorAll(".map-row")].map(el => ({
     id: el.id,
     label: el.dataset.label,
@@ -57,6 +108,8 @@
       card,
       tiers: JSON.parse(card.dataset.tierEvidence),
       verified: card.dataset.verified === "true",
+      source: card.querySelector("[data-map-source]").getAttribute("href"),
+      checked: card.querySelector("[data-map-checked]").textContent,
     }])),
   }));
 
@@ -92,15 +145,28 @@
     return details;
   }
 
-  function render() {
+  function inputs() {
     const marked = new Set(priorities.filter(box => box.checked).map(box => box.dataset.priority));
-    priorities.forEach(box => { box.disabled = !box.checked && marked.size >= 3; });
-    document.querySelector("#priority-count").textContent = `${marked.size} of 3`;
     const picked = plans.map(box => ({
       name: box.value, vendor: box.dataset.vendor, selected: box.checked,
     }));
+    return { marked, picked };
+  }
+
+  function resetExport() {
+    preview.hidden = true;
+    output.value = "";
+    copyStatus.textContent = "";
+  }
+
+  function render() {
+    const { marked, picked } = inputs();
+    priorities.forEach(box => { box.disabled = !box.checked && marked.size >= 3; });
+    document.querySelector("#priority-count").textContent = `${marked.size} of 3`;
     const count = picked.filter(plan => plan.selected).length;
     results.hidden = !count;
+    copy.disabled = !count;
+    resetExport();
     if (!count) {
       summary.textContent = "Pick at least one plan to see your stack.";
       return;
@@ -113,6 +179,21 @@
       : [node("p", "Your picked plans have verified or conditional coverage in every row.")]));
   }
 
+  copy.addEventListener("click", async () => {
+    const { picked, marked } = inputs();
+    const text = agentExport(rows, picked, marked, format.value);
+    output.value = text;
+    preview.hidden = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      if (output.value === text) copyStatus.textContent = "Copied.";
+    } catch {
+      if (output.value !== text) return;
+      copyStatus.textContent = "Clipboard unavailable. Copy the selected text below.";
+      output.focus();
+      output.select();
+    }
+  });
   controls.addEventListener("change", render);
   controls.hidden = false;
   render();

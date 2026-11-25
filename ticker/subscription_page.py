@@ -65,7 +65,7 @@ def cell_html(vendor, cell, source, update, evidence):
     scan = f'<small>Source scan <time>{esc(source["checked"])}</time></small>' if source.get("checked") else ''
     return f"""<article class="map-cell" data-vendor="{vendor}" data-status="{esc(cell['status'])}" data-verified="{str(verified).lower()}" data-tier-evidence="{esc(json.dumps(evidence))}">
 <h3 class="a-{color}">{name}</h3><span class="map-status">{esc(cell['status'].capitalize())}</span>
-{''.join(flags)}<p>{esc(cell['value'])}</p><small><a href="{esc(primary)}">Official source</a> · checked <time>{esc(cell['checked'])}</time></small>
+{''.join(flags)}<p>{esc(cell['value'])}</p><small><a data-map-source href="{esc(primary)}">Official source</a> · checked <time data-map-checked>{esc(cell['checked'])}</time></small>
 {scan}{details}</article>"""
 
 
@@ -119,7 +119,13 @@ No EU note is not a guarantee of availability.</p><ul>{definitions}</ul>
 <fieldset><legend>Matters to me <small id="priority-count" aria-live="polite">0 of 3</small></legend>
 <p class="muted">Optional: mark up to three rows to put them first in the gap view.</p><div class="map-priorities">{"".join(priorities)}</div></fieldset>
 <p class="muted">The “both offer” count includes only verified, unflagged coverage. A row counts once when two or more picked plans meet that bar; it doesn’t mean they offer the same thing. Conditional coverage is shown separately and may depend on tier, region or rollout.</p>
-<p id="stack-summary" role="status"></p><div id="stack-results" hidden>
+<p id="stack-summary" role="status"></p>
+<section class="stack-export" aria-label="Export stack check">
+<p class="muted">Includes picked plans, marked must-haves, coverage, gaps and source links with check dates. No personal data; nothing is sent.</p>
+<div class="stack-export-actions"><label>Format <select id="stack-format"><option value="markdown">Markdown</option><option value="json">JSON</option></select></label>
+<button type="button" class="btn" id="stack-copy" disabled>Copy for my agent</button><span id="stack-copy-status" role="status"></span></div>
+<div id="stack-copy-preview" hidden><label for="stack-copy-output">Export text</label><textarea id="stack-copy-output" rows="12" readonly spellcheck="false"></textarea></div></section>
+<div id="stack-results" hidden>
 <details open><summary>What your plans cover</summary><div id="stack-owned"></div></details>
 <section><h3>Where your stack has no documented coverage</h3><p class="muted">Only rows with neither verified nor conditional coverage in your picked plans. Other plans are shown for comparison, not as recommendations.</p><div id="stack-gaps"></div></section>
 </div></div><noscript>Enable JavaScript to compare your plans locally.</noscript></section>
