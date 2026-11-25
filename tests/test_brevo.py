@@ -142,10 +142,11 @@ class BrevoTests(unittest.TestCase):
                 return {"lists": [{"id": 7, "name": "Agent-Ticker Daily"}]}
             if path.startswith("/contacts/lists/7/contacts"):
                 return {
-                    "count": 2,
+                    "count": 3,
                     "contacts": [
-                        {"id": 1, "emailBlacklisted": False, "listUnsubscribed": []},
-                        {"id": 2, "emailBlacklisted": True, "listUnsubscribed": []},
+                        {"id": 1, "email": "one@example.com", "emailBlacklisted": False, "listUnsubscribed": []},
+                        {"id": 2, "email": "two@example.com", "emailBlacklisted": True, "listUnsubscribed": []},
+                        {"id": 3, "emailBlacklisted": False, "listUnsubscribed": []},
                     ],
                 }
             raise AssertionError((method, path))
@@ -154,7 +155,7 @@ class BrevoTests(unittest.TestCase):
              mock.patch.object(brevo, "api", side_effect=fake_api), \
              mock.patch.dict(os.environ, {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": ""}):
             result = brevo.list_status(d, key="k")
-        self.assertEqual((result["status"], result["contacts"], result["deliverableContacts"]), ("ok", 2, 1))
+        self.assertEqual((result["status"], result["contacts"], result["deliverableContacts"]), ("ok", 3, 1))
         self.assertNotIn("email", json.dumps(result))
 
     def test_signup_slot_is_hidden_until_url_is_configured(self):

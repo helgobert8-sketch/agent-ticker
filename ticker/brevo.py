@@ -148,7 +148,7 @@ def deliverable_contact_count(contacts, list_id):
     return sum(
         1
         for contact in contacts
-        if not contact.get("emailBlacklisted") and list_id not in (contact.get("listUnsubscribed") or [])
+        if contact.get("email") and not contact.get("emailBlacklisted") and list_id not in (contact.get("listUnsubscribed") or [])
     )
 
 
