@@ -1187,9 +1187,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Start sessions as Only you",
-  "takeaway": "A new toggle in Settings > Preferences, Start sessions as Only you, keeps the sessions you start from the composer hidden from everyone else unless you share them.",
-  "editor": "rules"
+  "headline": "Devin adds a preference to start sessions as private",
+  "takeaway": "You can now keep new composer sessions hidden from your team by default until you choose to share them.",
+  "editor": "ai"
  },
  {
   "id": "63d849847ceb",
@@ -1203,9 +1203,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Private sessions don't post to Slack",
-  "takeaway": "Picking Only you for a new session on the home composer detaches any Slack channel and turns off the Slack toggle, with a note that Slack is unavailable for private sessions.",
-  "editor": "rules"
+  "headline": "Private Devin sessions automatically disable Slack posting",
+  "takeaway": "Selecting Only you for a new session detaches Slack channels and disables the Slack toggle so private work stays off Slack.",
+  "editor": "ai"
  },
  {
   "id": "637d9f967a75",
@@ -1219,9 +1219,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Confirm before making a hidden session visible",
-  "takeaway": "Make visible to team on a hidden session now asks for confirmation and names who will gain access, and an organization-wide MCP install card in a private session warns that every member gets the…",
-  "editor": "rules"
+  "headline": "Devin adds confirmation before sharing hidden sessions",
+  "takeaway": "You'll see who gains access before making a hidden session visible to the team, plus warnings when installing org-wide MCP servers.",
+  "editor": "ai"
  },
  {
   "id": "123d052cdfbe",
@@ -1235,9 +1235,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Warnings before a private session's results reach more people",
-  "takeaway": "In a private session, approval cards for knowledge, playbooks, schedules, automations and shared plugins warn who else will see the result, and widening a session's General access in the Share…",
-  "editor": "rules"
+  "headline": "Devin warns before private session outputs become shared",
+  "takeaway": "Approval cards and the Share dialog now warn you who else will see results or gain access before you widen a private session's reach.",
+  "editor": "ai"
  },
  {
   "id": "1e60757b26df",
@@ -1251,9 +1251,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Attachments follow session visibility",
-  "takeaway": "An organization attachment linked to sessions can now be opened only by people who can read one of those sessions, in the web app and the API.",
-  "editor": "rules"
+  "headline": "Devin restricts attachment access to session readers",
+  "takeaway": "Organization attachments linked to sessions can now only be opened by people with read access to those sessions, both in the web app and API.",
+  "editor": "ai"
  },
  {
   "id": "ded670d62104",
@@ -1267,9 +1267,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Attach a long message as a file",
-  "takeaway": "Sending a message that is too long now asks first and offers to attach its quoted text, or the whole prompt, as a Markdown file.",
-  "editor": "rules"
+  "headline": "Devin offers to attach long prompts as Markdown files",
+  "takeaway": "When a message exceeds the length limit, you can now attach the quoted text or the entire prompt as a Markdown file instead of trimming it.",
+  "editor": "ai"
  },
  {
   "id": "3743fa5fa938",
@@ -1283,9 +1283,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Zoom in the image viewer",
-  "takeaway": "The full-screen image viewer has zoom in and out buttons; Cmd/Ctrl + and - zoom the image and Cmd/Ctrl 0 fits it, instead of zooming the page.",
-  "editor": "rules"
+  "headline": "Devin's full-screen image viewer adds zoom controls",
+  "takeaway": "You can now zoom in, out, and fit images in the full-screen viewer using buttons or Cmd/Ctrl +, -, and 0 without zooming the whole page.",
+  "editor": "ai"
  },
  {
   "id": "7756a42f7933",
@@ -1299,9 +1299,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Repeated pushes show as one worklog row",
-  "takeaway": "In the session worklog, repeated pushes of the same commit to the same branch within five minutes show as one Pushed branch row.",
-  "editor": "rules"
+  "headline": "Devin groups repeated pushes in the session worklog",
+  "takeaway": "Repeatedly pushing the same commit to the same branch within five minutes now collapses into a single Pushed branch row for a cleaner worklog.",
+  "editor": "ai"
  },
  {
   "id": "76e44290c051",
