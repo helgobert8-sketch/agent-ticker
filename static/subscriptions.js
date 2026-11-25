@@ -5,22 +5,29 @@
     return cell && cell.verified && plan.group !== "legacy";
   }
 
+  function conditionalOffer(plan, row) {
+    const cell = row.cells[plan.vendor];
+    if (!cell || cell.status !== "conditional") return false;
+    return !(row.id === "always_on_agent" && plan.vendor === "grok" &&
+      ["The X Subscription Plus", "SuperGrok Lite"].includes(plan.name));
+  }
+
+  function coverage(row, plans) {
+    return {
+      row,
+      verified: plans.filter(plan => offers(plan, row.cells[plan.vendor])),
+      conditional: plans.filter(plan => conditionalOffer(plan, row)),
+    };
+  }
+
   function compare(rows, plans, priorities) {
     const selected = plans.filter(plan => plan.selected);
     const others = plans.filter(plan => !plan.selected);
-    const owned = rows.map(row => ({
-      row,
-      verified: selected.filter(plan => offers(plan, row.cells[plan.vendor])),
-      evidence: selected,
-    }));
-    const gaps = owned.filter(result => !result.verified.length).map(({ row }) => ({
-      row,
-      verified: others.filter(plan => offers(plan, row.cells[plan.vendor])),
-      evidence: others.filter(plan => {
-        const cell = row.cells[plan.vendor];
-        return cell && !["not checked", "not included"].includes(cell.status);
-      }),
-    }));
+    const owned = rows.map(row => ({ ...coverage(row, selected), evidence: selected }));
+    const gaps = owned.filter(result => !result.verified.length && !result.conditional.length).map(({ row }) => {
+      const result = coverage(row, others);
+      return { ...result, evidence: [...result.verified, ...result.conditional] };
+    });
     gaps.sort((a, b) => Number(priorities.has(b.row.id)) - Number(priorities.has(a.row.id)));
     return { owned, gaps, overlap: owned.filter(result => result.verified.length >= 2).length };
   }
@@ -52,8 +59,12 @@
     return el;
   }
 
-  function rowDetails({ row, verified, evidence }, marked) {
-    const status = verified.length ? ` — verified: ${verified.map(plan => plan.name).join(", ")}` : " — none verified";
+  function rowDetails({ row, verified, conditional, evidence }, marked) {
+    const labels = [
+      verified.length && `verified: ${verified.map(plan => plan.name).join(", ")}`,
+      conditional.length && `conditional: ${conditional.map(plan => plan.name).join(", ")}`,
+    ].filter(Boolean);
+    const status = " — " + (labels.join(" · ") || "no verified or conditional coverage");
     const details = node("details", null, "stack-row");
     details.append(node("summary", row.label + status + (marked ? " · Matters to me" : "")));
     const cards = node("div", null, "stack-evidence");
@@ -94,7 +105,7 @@
     document.querySelector("#stack-owned").replaceChildren(...owned.map(result => rowDetails(result, false)));
     document.querySelector("#stack-gaps").replaceChildren(...(gaps.length
       ? gaps.map(result => rowDetails(result, marked.has(result.row.id)))
-      : [node("p", "Your picked plans have verified coverage in all map rows.")]));
+      : [node("p", "Your picked plans have verified or conditional coverage in every row.")]));
   }
 
   controls.addEventListener("change", render);

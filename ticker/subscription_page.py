@@ -92,9 +92,9 @@ No EU note is not a guarantee of availability.</p><ul>{definitions}</ul>
 <fieldset><legend>Your paid plans</legend><div class="plan-groups">{plan_groups(meta)}</div></fieldset>
 <fieldset><legend>Matters to me <small id="priority-count" aria-live="polite">0 of 3</small></legend>
 <p class="muted">Optional: mark up to three rows to put them first in the gap view.</p><div class="map-priorities">{"".join(priorities)}</div></fieldset>
-<p class="muted">Only verified, unflagged coverage counts. Conditional, not included and not checked cells do not count. Whenever two or more picked plans both offer verified coverage, the row counts once; that does not mean they offer the same thing.</p>
+<p class="muted">The “both offer” count includes only verified, unflagged coverage. A row counts once when two or more picked plans meet that bar; it doesn’t mean they offer the same thing. Conditional coverage is shown separately and may depend on tier, region or rollout.</p>
 <p id="stack-summary" role="status"></p><div id="stack-results" hidden>
 <details open><summary>What your plans cover</summary><div id="stack-owned"></div></details>
-<section><h3>Where your stack has nothing verified</h3><p class="muted">Other plans’ verified coverage and conditional evidence, not recommendations.</p><div id="stack-gaps"></div></section>
+<section><h3>Where your stack has no documented coverage</h3><p class="muted">Only rows with neither verified nor conditional coverage in your picked plans. Other plans are shown for comparison, not as recommendations.</p><div id="stack-gaps"></div></section>
 </div></div><noscript>Enable JavaScript to compare your plans locally.</noscript></section>
 <script src="subscriptions.js" defer></script>"""
