@@ -80,7 +80,7 @@
       "## Gaps",
       ...(missing.length ? missing : ["- None: verified or conditional coverage in every row."]),
       "",
-      "**Suggested prompt:** Check only my marked gaps. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage.",
+      `**Suggested prompt:** ${marked.size ? "Check my marked gaps first, then the others" : "Check the gaps listed"}. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage.`,
     ].join("\n");
   }
 

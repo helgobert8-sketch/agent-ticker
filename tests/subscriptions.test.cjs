@@ -120,7 +120,9 @@ test("agent exports include coverage, must-haves and unchecked gaps with cited e
   assert.ok(markdown.includes("## Coverage\n- Usage limits: SuperGrok Lite — conditional"));
   assert.ok(markdown.includes("## Gaps\n- Coding agent (must-have)"));
   assert.ok(markdown.includes("not checked, [official source](<https://docs.x.ai/grok>), checked 2026-11-25"));
-  assert.ok(markdown.includes("Check only my marked gaps. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage."));
+  assert.ok(markdown.includes("Check my marked gaps first, then the others. Cite current original sources and distinguish documented product feature, plan entitlement and unknown usage."));
+  const unmarked = compare.agentExport(rows, picked, new Set(), "markdown");
+  assert.ok(unmarked.includes("Check the gaps listed. Cite current original sources"));
 });
 
 test("a vendor-level verified cell does not verify legacy entitlements", () => {
