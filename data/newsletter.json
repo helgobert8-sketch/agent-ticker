@@ -4,8 +4,17 @@
   "2026-11-25": {
    "name": "Agent-Ticker daily brief 2026-11-25",
    "status": "error",
-   "error": "BrevoError: HTTP 403 permission_denied: api key is not authorized for resource \"account\"",
-   "checked": "2026-11-25T22:23:08+00:00"
+   "error": "BrevoError: HTTP 405 method_not_allowed: You are not allowed to avail tag option for your campaign",
+   "checked": "2026-11-25T22:54:45+00:00"
   }
+ },
+ "list": {
+  "id": 3,
+  "name": "Agent-Ticker Daily"
+ },
+ "sender": {
+  "id": null,
+  "email": "helgobert8@gmail.com",
+  "name": "Agent-Ticker"
  }
 }
