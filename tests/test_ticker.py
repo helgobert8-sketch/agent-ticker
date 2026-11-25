@@ -53,6 +53,8 @@ class ParserTests(unittest.TestCase):
             "<link href='https://x'/><updated>2026-11-24T00:00:00Z</updated><content>## Fixes\n- keep oidc.groups_jsonpath intact in the notes</content></entry></feed>")[0]["body"]
         self.assertIn("• keep oidc.groups_jsonpath intact", body)
         self.assertIn("- Pro $20", pricing.normalize("- Pro $20 per month"))
+        md = '<td style="text-align:center">250 credits</td>\n<PricingCard price="$20" />'
+        self.assertEqual(pricing.normalize(md), '250 credits\n<PricingCard price="$20" />')
 
     def test_devin_bold_titles(self):
         items = FAKE["devin"]()
