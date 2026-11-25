@@ -6,7 +6,7 @@ Live: https://helgobert8-sketch.github.io/agent-ticker/
 
 ## How it runs itself
 
-A GitHub Actions cron (`.github/workflows/daily.yml`, 08:30 UTC, right after the Gemini daily quota resets, with a 14:30 UTC backup slot that skips itself if the first one ran) does the daily work with no human in the loop. Runs started by a push to `main` use rules only, so they never use up the AI quota:
+A GitHub Actions cron (`.github/workflows/daily.yml`, 08:30 UTC, right after the Gemini daily quota resets, with a 14:30 UTC backup slot that skips itself if the first one ran) does the daily work with no human in the loop. A push to `main` only rebuilds the site from the stored data, so it never uses up the AI quota:
 
 1. **Collect** official sources only: release notes, RSS feeds, GitHub releases via the REST API and pricing pages (see `ticker/sources.py`). Every page fetch checks the site's robots.txt first.
 2. **Dedupe** against everything seen before (`data/entries.json`, `data/seen.json`).
