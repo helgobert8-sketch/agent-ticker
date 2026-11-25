@@ -35,37 +35,36 @@
    {
     "plan": "Free",
     "price": "$0/month",
-    "note": "GPT-6 Luna at Standard speed in the desktop app, subject to rollout"
+    "note": "Explore Codex capabilities on quick coding tasks; GPT-6 Luna in desktop app"
    },
    {
     "plan": "Go",
     "price": "$8/month",
-    "note": "GPT-6 Luna at Standard speed in the desktop app, subject to rollout"
+    "note": "Use Codex for lightweight coding tasks; GPT-6 Luna in desktop app"
    },
    {
     "plan": "Plus",
     "price": "$20/month",
-    "note": "Codex on web, CLI, IDE extension, iOS; GPT-6.1 Sol & GPT-6 Luna; ChatGPT credits"
+    "note": "Codex on web, CLI, IDE, iOS; GPT-6.1 Sol & GPT-6 Luna; ChatGPT credits"
    },
    {
     "plan": "Pro",
     "price": "From $100/month",
-    "note": "Plans at $100, $200, or $500 USD per month; Ultrafast mode access on Pro $500"
+    "note": "Plans at $100, $200, or $500 USD/month; Ultrafast mode on Pro $500"
    },
    {
     "plan": "Business",
     "price": "$20/ user / month",
-    "note": "2+ users billed annually ($25/user/month monthly); SAML SSO, MFA, ChatGPT credits"
+    "note": "2+ users billed annually ($25/user/month monthly); SAML SSO, MFA"
    },
    {
     "plan": "Enterprise & Edu",
     "price": "Contact sales",
-    "note": "Priority processing, SCIM, EKM, RBAC, audit logs, data retention/residency controls"
+    "note": "Priority processing, SCIM, EKM, RBAC, audit logs, data residency controls"
    }
   ],
   "checked": "2026-11-25",
-  "url": "https://developers.openai.com/codex/pricing.md",
-  "stale": true
+  "url": "https://developers.openai.com/codex/pricing.md"
  },
  "cursor": {
   "plans": [

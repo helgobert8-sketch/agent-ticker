@@ -11,12 +11,13 @@
   "count": 11
  },
  "2026-11-25": {
-  "headline": "2 changes across Claude Code, Codex",
+  "headline": "Codex extends free Sites hosting; Claude Code adds MCP skills",
   "bullets": [
-   "Codex: pricing page changed.",
-   "Claude Code: Claude Code 2.1.332"
+   "Codex extended free Sites hosting through January 31, 2027, with overage billing for Plus, Pro, and Business plans starting February 1, 2027.",
+   "Codex plans to display Sites hosting usage in-app starting January 1, 2027, and updated pricing tables with credit tiers.",
+   "Claude Code 2.1.332 added beta support for skills from MCP servers, appearing as server:skill in the / menu."
   ],
-  "editor": "rules",
+  "editor": "ai",
   "count": 2
  }
 }

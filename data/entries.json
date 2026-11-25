@@ -41,9 +41,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/457391405",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Claude Code 2.1.332",
-  "takeaway": "Added skills from MCP servers (beta). They show as server:skill in the / menu; other skills keep their names",
-  "editor": "rules"
+  "headline": "MCP server skills (beta) and PreSkillShellCommand hook",
+  "takeaway": "You can now invoke skills from MCP servers via server:skill in the / menu and block inline shell commands in skills using PreSkillShellCommand.",
+  "editor": "ai"
  },
  {
   "id": "8f5bab403b72",
@@ -184,9 +184,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Custom MCP servers default to Automatic authentication",
-  "takeaway": "New custom MCP servers start with Automatic authentication selected.",
-  "editor": "rules"
+  "headline": "Custom MCP servers now default to Automatic authentication",
+  "takeaway": "When adding a new custom MCP server in Devin, Automatic authentication is pre-selected to speed up setup.",
+  "editor": "ai"
  },
  {
   "id": "0ae4fffb86d7",
@@ -200,9 +200,9 @@
   "section": "Automations",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Run automations from the right-click menu",
-  "takeaway": "Right-click a row on the Automations list for Run now, Open in new tab and Copy link.",
-  "editor": "rules"
+  "headline": "Right-click menu added to Automations list",
+  "takeaway": "You can now right-click any automation row to quickly run it, open it in a new tab, or copy its link.",
+  "editor": "ai"
  },
  {
   "id": "93711dc75d53",
@@ -215,9 +215,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/455828330",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.331",
-  "takeaway": "Added Code Mode support in terminal sessions on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry and Claude Platform on AWS",
-  "editor": "rules"
+  "headline": "Code Mode in terminal sessions on Bedrock, Vertex, and Foundry",
+  "takeaway": "Terminal sessions now support Code Mode on Bedrock, Google Cloud, Foundry, and AWS, plus claude doctor checks API connectivity.",
+  "editor": "ai"
  },
  {
   "id": "dc8fe0416adf",
@@ -231,9 +231,9 @@
   "section": "Repositories & Environments",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "SCM access mismatch checker",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Admins get a report of repos where access in…",
-  "editor": "rules"
+  "headline": "SCM access mismatch checker and repo sync",
+  "takeaway": "Enterprise admins can spot GitHub/GitLab vs. Devin repo access mismatches and sync repos to the picker (off by default).",
+  "editor": "ai"
  },
  {
   "id": "3b199bee9c0c",
@@ -247,9 +247,9 @@
   "section": "Repositories & Environments",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Shareable environments available",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. All users by default will be able to create an…",
-  "editor": "rules"
+  "headline": "Shareable environments across orgs",
+  "takeaway": "Users can create an environment once and reuse it in any org where they have repo access (enterprise opt-in).",
+  "editor": "ai"
  },
  {
   "id": "dfe44aaf5a29",
@@ -263,9 +263,9 @@
   "section": "Sharing",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Share with user groups",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Settings has a User groups page where you create…",
-  "editor": "rules"
+  "headline": "Share Devin resources with user groups",
+  "takeaway": "Admins can create user groups in Settings and share secrets, environments, sessions, and automations with them (enterprise opt-in).",
+  "editor": "ai"
  },
  {
   "id": "e0bb602ed526",
@@ -279,9 +279,9 @@
   "section": "Sharing",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Per-session sharing",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Each session has its own sharing setting: just…",
-  "editor": "rules"
+  "headline": "Per-session sharing controls",
+  "takeaway": "Each session can be scoped to just you, user groups, your org, or account-wide, with warnings before widening private resources.",
+  "editor": "ai"
  },
  {
   "id": "150c68221b57",
@@ -295,9 +295,9 @@
   "section": "Sharing",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Slack session sharing change",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Sessions started from Slack still reply in the…",
-  "editor": "rules"
+  "headline": "Devin restricts Slack session instructions to shared users",
+  "takeaway": "Enterprise opt-in: Devin still replies in Slack channels, but only shared users can instruct it, with one-click sharing for others.",
+  "editor": "ai"
  },
  {
   "id": "dc32d8444c8b",
@@ -311,9 +311,9 @@
   "section": "Sharing",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Granularly shareable secrets",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. When adding or editing a secret in an org, you…",
-  "editor": "rules"
+  "headline": "Devin adds user-group sharing for org secrets",
+  "takeaway": "Enterprise opt-in: you can now scope secrets to specific user groups instead of the entire org, while keeping org-wide sharing as default.",
+  "editor": "ai"
  },
  {
   "id": "05d3ad91263d",
@@ -327,9 +327,9 @@
   "section": "Sharing",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Plugins, playbooks, skills, MCP servers and knowledge",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Each can be shared with a user group instead of…",
-  "editor": "rules"
+  "headline": "Devin supports user-group sharing for plugins, MCP servers, and knowledge",
+  "takeaway": "Enterprise opt-in: share playbooks, skills, knowledge, and non-OAuth MCP servers with specific user groups instead of the whole org.",
+  "editor": "ai"
  },
  {
   "id": "66185c33326e",
@@ -343,9 +343,9 @@
   "section": "Automations & Service Users",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Automations",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Automations also receive more granular…",
-  "editor": "rules"
+  "headline": "Devin adds user-group permissions for automations",
+  "takeaway": "Enterprise opt-in: share automations with specific user groups, and any sessions they start inherit those same sharing permissions.",
+  "editor": "ai"
  },
  {
   "id": "70e88e0239e7",
@@ -359,9 +359,9 @@
   "section": "Automations & Service Users",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Service users and bots",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. Service users and shared bots use only the repos…",
-  "editor": "rules"
+  "headline": "Devin scopes service users and bots to explicit resources",
+  "takeaway": "Enterprise opt-in: service users and shared bots only access explicitly granted repos and resources, without automatic repo sync.",
+  "editor": "ai"
  },
  {
   "id": "46082655d432",
@@ -375,9 +375,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Review shows only your repos",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. In an org, Review lists only repos and PRs you…",
-  "editor": "rules"
+  "headline": "Devin Review filters repos and PRs by user access",
+  "takeaway": "Enterprise opt-in: Review only lists repos and PRs you can access, including SCM mirrored access.",
+  "editor": "ai"
  },
  {
   "id": "e1e556aa57c9",
@@ -391,9 +391,9 @@
   "section": "DeepWiki & Ask",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "DeepWiki and Ask use your repos",
-  "takeaway": "The access changes below are rolling out gradually and are off by default. Contact your Cognition representative to enable them for your enterprise. DeepWiki and Ask answer from the repos you can…",
-  "editor": "rules"
+  "headline": "Devin DeepWiki and Ask scope answers to your accessible repos",
+  "takeaway": "Enterprise opt-in: DeepWiki and Ask only answer using repos you can access, including SCM mirrored access.",
+  "editor": "ai"
  },
  {
   "id": "9626f4ca8c3a",
@@ -407,9 +407,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Paste videos into session chat",
-  "takeaway": "Paste a video into the session chat composer to attach it, the same way you paste images.",
-  "editor": "rules"
+  "headline": "Devin lets you paste videos directly into session chat",
+  "takeaway": "You can now paste videos into the session chat composer to attach them, just like pasting images.",
+  "editor": "ai"
  },
  {
   "id": "e2cba53c3834",
@@ -423,9 +423,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "More search options in the session IDE",
-  "takeaway": "The IDE's Search view adds match case, whole word and regex options, replace and replace all, and files to include or exclude.",
-  "editor": "rules"
+  "headline": "Session IDE search adds regex, replace, and file filters",
+  "takeaway": "You can now use match case, whole word, regex, replace/replace all, and include/exclude file filters directly in the session IDE's Search view.",
+  "editor": "ai"
  },
  {
   "id": "bb06d89d9470",
@@ -439,9 +439,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Citations open at the cited lines",
-  "takeaway": "Clicking a citation in Devin's message opens the file on the exact lines it cites.",
-  "editor": "rules"
+  "headline": "Message citations jump directly to cited file lines",
+  "takeaway": "Clicking a citation in Devin's message opens the referenced file right at the exact lines cited, making code review faster.",
+  "editor": "ai"
  },
  {
   "id": "34bc2fd1962c",
@@ -455,9 +455,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Typo-tolerant settings search",
-  "takeaway": "Settings search and the command palette now find results even when a letter is missing.",
-  "editor": "rules"
+  "headline": "Settings search and command palette tolerate typos",
+  "takeaway": "Settings search and the command palette still return matching results even if you miss a letter while typing.",
+  "editor": "ai"
  },
  {
   "id": "d390ff9f4e0c",
@@ -471,9 +471,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Recent repositories first in repo pickers",
-  "takeaway": "The composer's repository picker and the @-mention repository list show your recently used repositories first.",
-  "editor": "rules"
+  "headline": "Repo pickers sort recently used repositories first",
+  "takeaway": "Both the composer's repository picker and the @-mention repository list now surface your recently used repos at the top.",
+  "editor": "ai"
  },
  {
   "id": "113705c37a3f",
@@ -487,9 +487,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Triaged state for findings",
-  "takeaway": "Security findings gain a Triaged state and tab, for findings someone has looked at but not resolved yet.",
-  "editor": "rules"
+  "headline": "Security findings add a Triaged state and tab",
+  "takeaway": "You can mark security findings as Triaged to track issues that have been reviewed but aren't resolved yet.",
+  "editor": "ai"
  },
  {
   "id": "a6a5676c7f52",
@@ -503,9 +503,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Summary cards and reviewer counts on PR reviews",
-  "takeaway": "Security > PR reviews adds summary cards and a Findings filter, and the reviewers card shows how many findings each reviewer found, fixed and dismissed.",
-  "editor": "rules"
+  "headline": "PR reviews add summary cards, filters, and reviewer counts",
+  "takeaway": "Security > PR reviews now includes summary cards, a Findings filter, and counts of findings each reviewer found, fixed, and dismissed.",
+  "editor": "ai"
  },
  {
   "id": "471bebe32c96",
@@ -519,9 +519,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Set a finding's assignee through the API and MCP",
-  "takeaway": "A new API endpoint and MCP tool set or clear the assignee of a code scan finding.",
-  "editor": "rules"
+  "headline": "Assign or clear code scan findings via API and MCP",
+  "takeaway": "A new API endpoint and MCP tool let you programmatically set or clear the assignee on a code scan finding.",
+  "editor": "ai"
  },
  {
   "id": "21de6bfc5a1c",
@@ -535,9 +535,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Disable a plugin at a scope",
-  "takeaway": "In Settings > Customize, admins can disable a plugin for their organization or enterprise without uninstalling it.",
-  "editor": "rules"
+  "headline": "Admins can disable plugins at org or enterprise scope",
+  "takeaway": "In Settings > Customize, admins can turn off a plugin for an organization or enterprise without uninstalling it.",
+  "editor": "ai"
  },
  {
   "id": "2407ded3a710",
@@ -551,9 +551,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Convert a shared outpost pool without draining it",
-  "takeaway": "Converting a shared outpost pool to account-wide no longer requires draining its organizations first.",
-  "editor": "rules"
+  "headline": "Convert shared outpost pools without draining",
+  "takeaway": "You can switch a shared outpost pool to account-wide immediately without having to drain its organizations first.",
+  "editor": "ai"
  },
  {
   "id": "32978d320185",
@@ -567,9 +567,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Sazabi plugin",
-  "takeaway": "The Sazabi plugin is now in the plugin marketplace.",
-  "editor": "rules"
+  "headline": "Sazabi plugin added to Devin marketplace",
+  "takeaway": "You can now install and use the Sazabi plugin directly from Devin's plugin marketplace.",
+  "editor": "ai"
  },
  {
   "id": "e130a63dc0ab",
@@ -583,9 +583,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Several installations of an API-key plugin MCP",
-  "takeaway": "An API-key plugin MCP can have another installation at personal, organization or enterprise scope.",
-  "editor": "rules"
+  "headline": "Multiple scopes for API-key plugin MCPs",
+  "takeaway": "You can now install an API-key plugin MCP multiple times across personal, organization, or enterprise scopes.",
+  "editor": "ai"
  },
  {
   "id": "f9c5840c5dea",
@@ -599,9 +599,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Skills in the v3 Sessions API",
-  "takeaway": "The v3 Sessions API returns the skills each session used.",
-  "editor": "rules"
+  "headline": "v3 Sessions API now returns skills used",
+  "takeaway": "When querying the v3 Sessions API, you can now see which skills each Devin session used.",
+  "editor": "ai"
  },
  {
   "id": "ef7d6546b54e",
@@ -615,9 +615,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Slack sender shown on watched thread replies",
-  "takeaway": "Replies in a watched Slack thread show in the session transcript under the sender's Slack name.",
-  "editor": "rules"
+  "headline": "Slack sender names shown in watched threads",
+  "takeaway": "Replies from watched Slack threads now appear in your session transcript attributed to the sender's Slack name.",
+  "editor": "ai"
  },
  {
   "id": "4cec767d5cd0",
@@ -630,9 +630,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/453086311",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.330",
-  "takeaway": "Added sign-in to organizations managed in Anthropic's Enterprise Admin Console: after claude auth login, Claude Code applies the organization's settings and uses its cloud provider or gateway",
-  "editor": "rules"
+  "headline": "Claude Code adds Enterprise sign-in and easel charts",
+  "takeaway": "Sign in to Enterprise Admin Console orgs via claude auth login, draw charts with easel, and set --start-dir or CLAUDE_CODE_FULL_SIGN_IN_LINK=1.",
+  "editor": "ai"
  },
  {
   "id": "26baff5c46a9",
@@ -644,10 +644,10 @@
   "date_precision": "day",
   "source": "https://api.github.com/repos/openai/codex/releases/452122665",
   "first_seen": "2026-11-24",
-  "category": "feature",
-  "headline": "Codex CLI 0.171.0",
-  "takeaway": "Added GPT-6.2 Sol and Astra to model catalogs, with Sol as the default catalog selection. (#62106)",
-  "editor": "rules"
+  "category": "model",
+  "headline": "Codex CLI adds GPT-6.2 Sol and Astra models",
+  "takeaway": "GPT-6.2 Sol (default) and Astra are now in the model catalog, alongside a default TUI workspace, codex exec --remote, and /rc remote control.",
+  "editor": "ai"
  },
  {
   "id": "13d43f06f408",
@@ -661,9 +661,9 @@
   "section": null,
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Introducing Devin Bots",
-  "takeaway": "Devin Bots are always-on Devins with their own identity, memory and permissions. Give a Bot a goal and it keeps doing the job: it breaks the work down, runs Devin sessions in parallel, each on its…",
-  "editor": "rules"
+  "headline": "Devin Bots launch as always-on autonomous Devins",
+  "takeaway": "Assign goals to always-on Devin Bots that run parallel sessions until PRs are ready, and message or call them via web, Slack, or group chat.",
+  "editor": "ai"
  },
  {
   "id": "0cddaaeeaef3",
