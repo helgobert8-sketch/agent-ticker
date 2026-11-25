@@ -13,12 +13,17 @@ PRICING_PAGES = {
     "grok": "https://docs.x.ai/docs/models.md",
 }
 
+HTML_TAG = re.compile(r"</?[a-z][a-z0-9]*\b[^>]*>")  # lowercase only: MDX components carry prices in props
 NOISE = re.compile(r"(dpl_[A-Za-z0-9]+|\?[^ )]*&w=\d+[^ )]*|\b\d{10,}\b)")
 
 
 def normalize(raw):
     looks_html = raw.lstrip().startswith("<")
-    text = html_to_text(raw) if looks_html else md_to_text(raw)
+    if looks_html:
+        text = html_to_text(raw)
+    else:
+        text = md_to_text(raw)
+        text = HTML_TAG.sub("", text)  # markdown pages embed HTML tables
     text = NOISE.sub("", text)
     lines = [line.strip() for line in text.splitlines()]
     keep = [line for line in lines if line and len(line) < 400]
