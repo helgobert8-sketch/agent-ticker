@@ -197,6 +197,24 @@ class Editor:
         n = len(entries) + len(pricing_changes)
         return {"headline": f"{n} change{'s' if n != 1 else ''} across {', '.join(agents)}", "bullets": bullets[:5], "editor": "rules"}
 
+    def pricing_note(self, agent_name, added, removed):
+        """Return {'headline','takeaway','editor'} saying what changed on a pricing page."""
+        system = (
+            "Lines were added to and removed from an official pricing page since yesterday. Return JSON "
+            "{\"headline\": max 80 chars saying what changed, starting with the product name, \"takeaway\": max 170 chars "
+            "on what it means for someone paying for it}. If the lines only moved or were reworded without a price, plan "
+            "or limit change, say so. Facts only from the lines."
+        )
+        user = json.dumps({"product": agent_name, "added": added[:8], "removed": removed[:8]}, ensure_ascii=False)
+        parsed = self._json(self.chat(system, user, 400))
+        if isinstance(parsed, dict) and all(isinstance(parsed.get(k), str) and parsed[k].strip() for k in ("headline", "takeaway")):
+            return {"headline": clip(parsed["headline"], 100), "takeaway": clip(parsed["takeaway"], 220), "editor": "ai"}
+        lead = added[0] if added else (removed[0] if removed else "")
+        verb = "now lists" if added else "no longer lists"
+        headline = f"{agent_name} pricing page {verb}: {clip(lead, 60)}" if lead else f"{agent_name} pricing page changed"
+        parts = ([f"Added: {'; '.join(added[:4])}."] if added else []) + ([f"Removed: {'; '.join(removed[:3])}."] if removed else [])
+        return {"headline": headline, "takeaway": clip(" ".join(parts), 220) or "Official pricing page text changed.", "editor": "pricing-watch"}
+
     def summarize_pricing(self, agent_name, text):
         """Extract current plans as [{'plan','price','note'}] from a pricing page snapshot."""
         system = (

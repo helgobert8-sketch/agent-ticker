@@ -12,7 +12,7 @@ AGENTS = {
     "devin": {"name": "Devin", "maker": "Cognition", "home": "https://devin.ai"},
     "claude-code": {"name": "Claude Code", "maker": "Anthropic", "home": "https://claude.com/product/claude-code"},
     "codex": {"name": "Codex", "maker": "OpenAI", "home": "https://developers.openai.com/codex"},
-    "cursor": {"name": "Cursor", "maker": "Anysphere", "home": "https://cursor.com"},
+    "cursor": {"name": "Cursor", "maker": "Anysphere (SpaceX)", "home": "https://cursor.com"},
     "grok": {"name": "Grok", "maker": "xAI", "home": "https://docs.x.ai"},
 }
 
@@ -171,8 +171,5 @@ def collect(agent, year_hint=None, month_hint=None):
     if agent == "cursor":
         return parse_cursor(fetch(SOURCES[agent]))
     if agent in GITHUB_RELEASES_API:
-        try:
-            return parse_github_api(agent, fetch(GITHUB_RELEASES_API[agent], headers=github_headers()))
-        except Exception:
-            return parse_github_atom(agent, fetch(SOURCES[agent]))
+        return parse_github_api(agent, fetch(GITHUB_RELEASES_API[agent], headers=github_headers()))  # github.com's robots.txt disallows *.atom
     raise KeyError(agent)

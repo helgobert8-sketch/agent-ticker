@@ -108,8 +108,53 @@ class PricingTests(unittest.TestCase):
             self.assertIn("$25 per month", moved["added"])
             self.assertIn("$20 per month", moved["removed"])
 
+    def test_cleanup_change_rebases_without_alert(self):
+        with tempfile.TemporaryDirectory() as d:
+            pricing.check("devin", d, raw="Pro\n$20 per month")
+            with mock.patch.object(pricing, "NORMALIZE_VERSION", pricing.NORMALIZE_VERSION + 1):
+                res = pricing.check("devin", d, raw="Pro\n$25 per month")
+                self.assertEqual((res["changed"], res["rebased"]), (False, True))
+                self.assertTrue(pricing.check("devin", d, raw="Pro\n$30 per month")["changed"])
+
+
+class RobotsTests(unittest.TestCase):
+    GITHUB = "User-agent: baidu\ncrawl-delay: 1\n\nUser-agent: *\nAllow: /*?tab=achievements\nDisallow: /*.atom$\nDisallow: /*/*/commits/\n"
+
+    def test_wildcards_and_end_anchor(self):
+        rules = util.parse_robots(self.GITHUB)
+        self.assertFalse(util.robots_allows(rules, "https://github.com/openai/codex/releases.atom"))
+        self.assertTrue(util.robots_allows(rules, "https://github.com/openai/codex/releases.atom.html"))
+        self.assertFalse(util.robots_allows(rules, "https://github.com/a/b/commits/main"))
+        self.assertTrue(util.robots_allows(rules, "https://github.com/openai/codex"))
+
+    def test_longest_match_and_allow_wins_ties(self):
+        rules = util.parse_robots("User-agent: *\nDisallow: /docs/\nAllow: /docs/public\n")
+        self.assertTrue(util.robots_allows(rules, "https://x/docs/public/a"))
+        self.assertFalse(util.robots_allows(rules, "https://x/docs/private"))
+
+    def test_fetch_refuses_disallowed_page(self):
+        util._robots_cache.clear()
+        with mock.patch.object(util, "_get", return_value="User-agent: *\nDisallow: /secret\n") as get:
+            with self.assertRaises(util.RobotsDisallowed):
+                util.fetch("https://example.com/secret/page")
+            self.assertEqual(util.fetch("https://example.com/open"), "User-agent: *\nDisallow: /secret\n")
+        self.assertEqual(get.call_count, 2)  # robots.txt once, then the allowed page
+        util._robots_cache.clear()
+
 
 class EditorTests(unittest.TestCase):
+    def test_pricing_note_rules_and_ai(self):
+        note = ai.Editor(token="").pricing_note("Codex", ["Plus $25/month"], ["Plus $20/month"])
+        self.assertEqual(note["headline"], "Codex pricing page now lists: Plus $25/month")
+        self.assertEqual(note["editor"], "pricing-watch")
+
+        class FakeAI(ai.Editor):
+            def chat(self, system, user, max_tokens=1500):
+                return json.dumps({"headline": "Codex Plus rises to $25", "takeaway": "Plus costs $5 more a month."})
+
+        note = FakeAI(token="x").pricing_note("Codex", ["Plus $25/month"], ["Plus $20/month"])
+        self.assertEqual((note["headline"], note["editor"]), ("Codex Plus rises to $25", "ai"))
+
     def test_rules_fallback_without_token(self):
         ed = ai.Editor(token="")
         items = ed.enrich([{"id": "1", "agent": "grok", "title": "grok-4.7 is available", "body": "New model."}], run.AGENT_NAMES)
@@ -195,6 +240,35 @@ class PipelineTests(unittest.TestCase):
             self.assertIn('href="index.html?agent=cursor#timeline"', html)
             self.assertIn("docs.devin.ai/release-notes/overview#:~:text=", html)
             self.assertGreater(open(os.path.join(out, "feed.xml")).read().count("<item>"), 10)
+
+    def test_run_log_is_honest(self):
+        with tempfile.TemporaryDirectory() as d:
+            data, out = os.path.join(d, "data"), os.path.join(d, "public")
+            counts = {"grok": [FAKE["grok"](), []]}
+            collect = lambda a, **kw: counts[a].pop(0) if a in counts else FAKE[a]()
+            with mock.patch.object(sources, "collect", side_effect=collect), \
+                 mock.patch.object(pricing, "fetch", return_value="Pro\n$20 per month"), \
+                 mock.patch.object(run, "today", return_value="2026-11-24"), \
+                 mock.patch.dict(os.environ, {"GITHUB_EVENT_NAME": "schedule"}):
+                run.run(data, out, backfill_days=30, editor=ai.Editor(token=""))
+                log = run.run(data, out, backfill_days=30, editor=ai.Editor(token=""))
+            self.assertEqual(log["trigger"], "schedule")
+            self.assertIn("0 items", log["sources"]["grok"]["warning"])
+            self.assertNotIn("warning", log["sources"]["devin"])
+            runs = json.load(open(os.path.join(data, "runs.json")))
+            for r in runs:
+                r["started"] = "2026-11-24T00:40:00+00:00"
+            json.dump(runs, open(os.path.join(data, "runs.json"), "w"))
+            self.assertFalse(run.ran_on_schedule(data, "2026-11-24"))  # late backup slot after midnight
+            for r in runs:
+                r["started"] = "2026-11-24T08:41:00+00:00"
+            json.dump(runs, open(os.path.join(data, "runs.json"), "w"))
+            self.assertTrue(run.ran_on_schedule(data, "2026-11-24"))
+            self.assertFalse(run.ran_on_schedule(data, "2026-11-25"))
+            page = open(os.path.join(out, "autonomy.html")).read()
+            self.assertNotIn("human edits", page.lower())
+            self.assertIn("2 scheduled", page)
+            self.assertIn("1 warning", page)
 
     def test_ai_rewrites_rule_backlog(self):
         class FakeAI(ai.Editor):
