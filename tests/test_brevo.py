@@ -64,6 +64,8 @@ class BrevoTests(unittest.TestCase):
             self.assertEqual(second["reason"], "campaign already exists")
             self.assertEqual(sum(1 for m, p, _ in calls if m == "POST" and p == "/emailCampaigns"), 1)
             self.assertEqual(sum(1 for m, p, _ in calls if m == "POST" and p == "/emailCampaigns/42/sendNow"), 1)
+            create_payload = next(payload for m, p, payload in calls if m == "POST" and p == "/emailCampaigns")
+            self.assertNotIn("tag", create_payload)  # campaign tags are not available on Brevo's free plan
             state = json.load(open(os.path.join(d, "newsletter.json")))
             self.assertEqual(state["list"], {"id": 7, "name": "Agent-Ticker Daily"})
             self.assertEqual(state["campaigns"]["2026-11-25"]["status"], "sent")

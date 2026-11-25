@@ -16,7 +16,6 @@ import urllib.request
 from .util import load_json, now_iso, save_json
 
 API_URL = "https://api.brevo.com/v3"
-CAMPAIGN_TAG = "agent-ticker-daily"
 STATE_FILE = "newsletter.json"
 # Public in this repository's commit authors; also the default sender of the owner's Brevo account.
 FALLBACK_SENDER = {"email": "helgobert8@gmail.com", "name": "Agent-Ticker"}
@@ -275,7 +274,6 @@ def send_daily_brief(data_dir="data", day=None, site_url="https://helgobert8-ske
                 "sender": sender_payload,
                 "recipients": {"listIds": [contact_list["id"]]},
                 "htmlContent": campaign_html(day, brief, site_url.rstrip("/")),
-                "tag": CAMPAIGN_TAG,
                 "mirrorActive": True,
             }
             created = api(key, "POST", "/emailCampaigns", payload)
