@@ -105,6 +105,20 @@ class BrevoTests(unittest.TestCase):
              mock.patch.dict(os.environ, {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": "New list"}):
             self.assertEqual(brevo.choose_list("k", {"list": {"id": 1}})["id"], 2)
 
+    def test_contact_list_search_pages_past_the_first_50(self):
+        first = [{"id": n, "name": f"List {n}"} for n in range(50)]
+        second = [{"id": 51, "name": "Agent-Ticker Daily"}]
+        calls = []
+
+        def fake_api(key, method, path, payload=None, timeout=20):
+            calls.append(path)
+            return {"count": 51, "lists": second if "offset=50" in path else first}
+
+        env = {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": ""}
+        with mock.patch.object(brevo, "api", side_effect=fake_api), mock.patch.dict(os.environ, env):
+            self.assertEqual(brevo.choose_list("k", {})["id"], 51)
+        self.assertEqual(len(calls), 2)
+
     def test_automatic_list_choice_never_uses_an_unmatched_or_ambiguous_list(self):
         env = {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": ""}
         with mock.patch.dict(os.environ, env):

@@ -83,10 +83,23 @@ def configured_list_id():
         raise BrevoError("BREVO_LIST_ID must be a number")
 
 
+def contact_lists(key):
+    out, offset = [], 0
+    while offset < 1000:
+        query = urllib.parse.urlencode({"limit": 50, "offset": offset, "sort": "desc"})
+        data = api(key, "GET", "/contacts/lists?" + query)
+        batch = data.get("lists") or []
+        out.extend(batch)
+        count = data.get("count")
+        if len(batch) < 50 or (count and len(out) >= count):
+            return out
+        offset += 50
+    raise BrevoError("too many Brevo contact lists to scan safely")
+
+
 def choose_list(key, state):
     wanted = configured_list_id()
-    data = api(key, "GET", "/contacts/lists?limit=50&sort=desc")
-    lists = data.get("lists") or []
+    lists = contact_lists(key)
     if wanted:
         found = next((x for x in lists if x.get("id") == wanted), None)
         if not found:
