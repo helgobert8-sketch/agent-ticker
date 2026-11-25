@@ -30,6 +30,8 @@ Rule-based editing is the fallback whenever the AI is missing or fails.
 
 ## Local run
 
+The **Subscription map** starts from the checked baseline in `data/subscription_map_baseline_2026-11-25.json`. Each daily run fetches the primary official sources using the ticker's robots-aware fetcher and stores normalized text fingerprints and ticker matches in `data/subscription_map_monitor.json`. This uses no AI. The first successful scan is a fingerprint baseline, not a fact-check. To clear a review flag, verify the cell and update its editorial check date (or acknowledge a same-day review by clearing the corresponding monitor flag). The stack check runs in the browser and does not save or transmit selections.
+
 ```
 python -m ticker.run --data-dir data --out-dir public
 python -m unittest discover -s tests
