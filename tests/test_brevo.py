@@ -130,6 +130,33 @@ class BrevoTests(unittest.TestCase):
                 with self.assertRaises(brevo.BrevoError):
                     brevo.choose_list("k", {})
 
+    def test_sender_falls_back_when_restricted_key_cannot_read_senders(self):
+        env = {"BREVO_SENDER_ID": "", "BREVO_SENDER_EMAIL": ""}
+        with mock.patch.object(brevo, "api", side_effect=brevo.BrevoError('HTTP 403 permission_denied: api key is not authorized for resource "account"')), \
+             mock.patch.dict(os.environ, env):
+            self.assertEqual(brevo.choose_sender("k", {}), brevo.FALLBACK_SENDER)
+
+    def test_list_status_counts_deliverable_contacts_without_exposing_addresses(self):
+        def fake_api(key, method, path, payload=None, timeout=20):
+            if path.startswith("/contacts/lists?"):
+                return {"lists": [{"id": 7, "name": "Agent-Ticker Daily"}]}
+            if path.startswith("/contacts/lists/7/contacts"):
+                return {
+                    "count": 2,
+                    "contacts": [
+                        {"id": 1, "emailBlacklisted": False, "listUnsubscribed": []},
+                        {"id": 2, "emailBlacklisted": True, "listUnsubscribed": []},
+                    ],
+                }
+            raise AssertionError((method, path))
+
+        with tempfile.TemporaryDirectory() as d, \
+             mock.patch.object(brevo, "api", side_effect=fake_api), \
+             mock.patch.dict(os.environ, {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": ""}):
+            result = brevo.list_status(d, key="k")
+        self.assertEqual((result["status"], result["contacts"], result["deliverableContacts"]), ("ok", 2, 1))
+        self.assertNotIn("email", json.dumps(result))
+
     def test_signup_slot_is_hidden_until_url_is_configured(self):
         with mock.patch.dict(os.environ, {"BREVO_SIGNUP_URL": ""}):
             self.assertNotIn("Sign up for the newsletter", site.follow_html())

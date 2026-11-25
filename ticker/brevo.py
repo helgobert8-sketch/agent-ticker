@@ -18,6 +18,8 @@ from .util import load_json, now_iso, save_json
 API_URL = "https://api.brevo.com/v3"
 CAMPAIGN_TAG = "agent-ticker-daily"
 STATE_FILE = "newsletter.json"
+# Public in this repository's commit authors; also the default sender of the owner's Brevo account.
+FALLBACK_SENDER = {"email": "helgobert8@gmail.com", "name": "Agent-Ticker"}
 E_ = html.escape
 
 
@@ -128,6 +130,28 @@ def choose_list(key, state):
     raise BrevoError("no unambiguous Agent-Ticker list found; set BREVO_LIST_ID or BREVO_LIST_NAME")
 
 
+def list_contacts(key, list_id):
+    contacts, offset = [], 0
+    while offset < 5000:
+        query = urllib.parse.urlencode({"limit": 500, "offset": offset, "sort": "desc"})
+        data = api(key, "GET", f"/contacts/lists/{list_id}/contacts?" + query)
+        batch = data.get("contacts") or []
+        contacts.extend(batch)
+        count = data.get("count")
+        if len(batch) < 500 or (count and len(contacts) >= count):
+            return contacts, count or len(contacts)
+        offset += 500
+    raise BrevoError("too many Brevo contacts to scan safely")
+
+
+def deliverable_contact_count(contacts, list_id):
+    return sum(
+        1
+        for contact in contacts
+        if not contact.get("emailBlacklisted") and list_id not in (contact.get("listUnsubscribed") or [])
+    )
+
+
 def choose_sender(key, state):
     wanted_id = os.environ.get("BREVO_SENDER_ID")
     wanted_email = (os.environ.get("BREVO_SENDER_EMAIL") or "").strip().lower()
@@ -138,7 +162,10 @@ def choose_sender(key, state):
             raise BrevoError("BREVO_SENDER_ID must be a number")
     if wanted_email:
         return {"email": wanted_email, "name": os.environ.get("BREVO_SENDER_NAME") or "Agent-Ticker"}
-    data = api(key, "GET", "/senders")
+    try:
+        data = api(key, "GET", "/senders")
+    except BrevoError:
+        return dict(FALLBACK_SENDER)
     senders = data.get("senders") or []
     active = [x for x in senders if x.get("active")]
     saved = state.get("sender") or {}
@@ -276,6 +303,25 @@ def send_daily_brief(data_dir="data", day=None, site_url="https://helgobert8-ske
         return {"status": "error", "error": error, "date": day, "id": current.get("id")}
 
 
+def list_status(data_dir="data", key=None):
+    key = key if key is not None else os.environ.get("BREVO_API_KEY", "")
+    if not key:
+        return {"status": "error", "error": "BREVO_API_KEY is not set"}
+    state = load_json(os.path.join(data_dir, STATE_FILE), {})
+    try:
+        contact_list = choose_list(key, state)
+        contacts, total = list_contacts(key, contact_list["id"])
+        return {
+            "status": "ok",
+            "listId": contact_list.get("id"),
+            "listName": contact_list.get("name"),
+            "contacts": total,
+            "deliverableContacts": deliverable_contact_count(contacts, contact_list["id"]),
+        }
+    except Exception as exc:
+        return {"status": "error", "error": f"{type(exc).__name__}: {exc}"[:300]}
+
+
 def verify_daily_brief(data_dir="data", day=None, key=None):
     day = day or now_iso()[:10]
     key = key if key is not None else os.environ.get("BREVO_API_KEY", "")
@@ -306,9 +352,13 @@ def main():
     group = ap.add_mutually_exclusive_group()
     group.add_argument("--send", action="store_true")
     group.add_argument("--verify", action="store_true")
+    group.add_argument("--list-status", action="store_true")
     args = ap.parse_args()
-    fn = verify_daily_brief if args.verify else send_daily_brief
-    result = fn(args.data_dir, args.day)
+    if args.list_status:
+        result = list_status(args.data_dir)
+    else:
+        fn = verify_daily_brief if args.verify else send_daily_brief
+        result = fn(args.data_dir, args.day)
     print("newsletter:", json.dumps(result, sort_keys=True))
     # Newsletter delivery must never fail the ticker run, even when Brevo is down.
 

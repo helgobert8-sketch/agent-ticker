@@ -10,7 +10,7 @@ on:
         required: false
         default: full
         type: choice
-        options: [full, send-only, verify-only]
+        options: [full, send-only, verify-only, list-status]
   push:
     branches: [main]
     paths: ["ticker/**", "static/**", ".github/workflows/daily.yml"]
@@ -46,7 +46,7 @@ jobs:
           fi
           python -m ticker.run --data-dir data --out-dir public $args
       - name: Send daily Brevo newsletter
-        if: ${{ github.event_name != 'push' && inputs.brevo_action != 'verify-only' }}
+        if: ${{ github.event_name != 'push' && inputs.brevo_action != 'verify-only' && inputs.brevo_action != 'list-status' }}
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
           BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
@@ -59,6 +59,13 @@ jobs:
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: python -m ticker.brevo --data-dir data --verify
+      - name: Check Brevo list status
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.brevo_action == 'list-status' }}
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
+          BREVO_LIST_NAME: ${{ vars.BREVO_LIST_NAME }}
+        run: python -m ticker.brevo --data-dir data --list-status
       - name: Commit data
         run: |
           git config user.name "agent-ticker-bot"
