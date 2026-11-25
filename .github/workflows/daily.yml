@@ -4,6 +4,13 @@ on:
     - cron: "30 8 * * *"  # Gemini RPD quota resets at midnight Pacific (08:00 UTC)
     - cron: "30 14 * * *"  # backup: GitHub can start schedules hours late or drop them
   workflow_dispatch:
+    inputs:
+      brevo_action:
+        description: "Brevo newsletter action"
+        required: false
+        default: full
+        type: choice
+        options: [full, send-only, verify-only]
   push:
     branches: [main]
     paths: ["ticker/**", "static/**", ".github/workflows/daily.yml"]
@@ -30,7 +37,28 @@ jobs:
           AI_TOKEN: ${{ secrets.AI_TOKEN }}
           AI_BASE_URL: ${{ vars.AI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai' }}
           AI_MODEL: ${{ vars.AI_MODEL || 'gemini-4-hydrogen' }}
-        run: python -m ticker.run --data-dir data --out-dir public ${{ github.event_name == 'schedule' && '--skip-if-ran-today' || '' }} ${{ github.event_name == 'push' && '--build-only' || '' }}  # a code update only rebuilds the site: no collection, no AI quota, no rules brief over the AI one
+          BREVO_ACTION: ${{ inputs.brevo_action || 'full' }}
+          BREVO_SIGNUP_URL: ${{ vars.BREVO_SIGNUP_URL }}
+        run: |
+          args="${{ github.event_name == 'schedule' && '--skip-if-ran-today' || '' }}"
+          if [ "$GITHUB_EVENT_NAME" = "push" ] || [ "$BREVO_ACTION" != "full" ]; then
+            args="--build-only"  # push and newsletter-only runs never spend Gemini quota
+          fi
+          python -m ticker.run --data-dir data --out-dir public $args
+      - name: Send daily Brevo newsletter
+        if: ${{ github.event_name != 'push' && inputs.brevo_action != 'verify-only' }}
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
+          BREVO_LIST_NAME: ${{ vars.BREVO_LIST_NAME }}
+          BREVO_SENDER_ID: ${{ vars.BREVO_SENDER_ID }}
+          BREVO_SENDER_EMAIL: ${{ vars.BREVO_SENDER_EMAIL }}
+        run: python -m ticker.brevo --data-dir data --send
+      - name: Verify daily Brevo newsletter
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.brevo_action == 'verify-only' }}
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: python -m ticker.brevo --data-dir data --verify
       - name: Commit data
         run: |
           git config user.name "agent-ticker-bot"
