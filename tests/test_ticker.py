@@ -255,6 +255,14 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(log["trigger"], "schedule")
             self.assertIn("0 items", log["sources"]["grok"]["warning"])
             self.assertNotIn("warning", log["sources"]["devin"])
+            runs = json.load(open(os.path.join(data, "runs.json")))
+            for r in runs:
+                r["started"] = "2026-11-24T00:40:00+00:00"
+            json.dump(runs, open(os.path.join(data, "runs.json"), "w"))
+            self.assertFalse(run.ran_on_schedule(data, "2026-11-24"))  # late backup slot after midnight
+            for r in runs:
+                r["started"] = "2026-11-24T08:41:00+00:00"
+            json.dump(runs, open(os.path.join(data, "runs.json"), "w"))
             self.assertTrue(run.ran_on_schedule(data, "2026-11-24"))
             self.assertFalse(run.ran_on_schedule(data, "2026-11-25"))
             page = open(os.path.join(out, "autonomy.html")).read()

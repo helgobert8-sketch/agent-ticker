@@ -83,7 +83,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
             if res["changed"]:
                 pricing_changes.append(res)
                 store.append(pricing_entry(res, day, editor))
-            if res["changed"] or res["first"] or agent not in plans or plans[agent].get("stale"):
+            if res["changed"] or res["first"] or res["rebased"] or agent not in plans or plans[agent].get("stale"):
                 extracted = editor.summarize_pricing(AGENT_NAMES[agent], res["text"])
                 if extracted:
                     plans[agent] = {"plans": extracted, "checked": day, "url": res["url"]}
@@ -167,7 +167,8 @@ def pricing_entry(res, day, editor):
 
 def ran_on_schedule(data_dir, day):
     runs = load_json(os.path.join(data_dir, "runs.json"), [])
-    return any(r.get("date") == day and r.get("trigger") == "schedule" for r in runs)
+    after_reset = f"{day}T08:00"  # a backup slot GitHub starts after midnight must not use up the next day's run
+    return any(r.get("date") == day and r.get("trigger") == "schedule" and r.get("started", "") >= after_reset for r in runs)
 
 
 def main():
