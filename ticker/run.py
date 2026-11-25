@@ -9,7 +9,7 @@ import time
 import traceback
 from datetime import date, timedelta
 
-from . import pricing, site, sources
+from . import pricing, site, sources, subscriptions
 from .ai import Editor
 from .util import days_between, load_json, now_iso, save_json, today
 
@@ -74,6 +74,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
         e.pop("body_full", None)
 
     pricing_changes = []
+    pricing_items = []
     for agent in agents or sources.AGENTS:
         try:
             res = pricing.check(agent, data_dir)
@@ -82,7 +83,7 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
                 log["pricing"][agent]["rebased"] = True  # page cleanup changed: new baseline, no alert
             if res["changed"]:
                 pricing_changes.append(res)
-                store.append(pricing_entry(res, day, editor))
+                pricing_items.append(pricing_entry(res, day, editor))
             if res["changed"] or res["first"] or res["rebased"] or agent not in plans or plans[agent].get("stale"):
                 extracted = editor.summarize_pricing(AGENT_NAMES[agent], res["text"])
                 if extracted:
@@ -94,6 +95,11 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
         except Exception as exc:
             log["pricing"][agent] = {"ok": False, "error": f"{type(exc).__name__}: {exc}"[:200]}
 
+    subscription_checks = subscriptions.refresh(data_dir, [*new, *pricing_items], day)
+    if subscription_checks is not None:
+        log["subscription_map"] = subscription_checks
+
+    store.extend(pricing_items)
     store.extend(new)
     store.sort(key=lambda e: (e["published"], e.get("first_seen", "")), reverse=True)
 
@@ -194,6 +200,8 @@ def main():
     failed = [a for a, s in log["sources"].items() if not s["ok"]]
     if failed:
         print("source failures:", failed)
+    if "subscription_map" in log:
+        print("subscription map:", log["subscription_map"])
 
 
 if __name__ == "__main__":

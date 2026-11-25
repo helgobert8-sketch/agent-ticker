@@ -9,6 +9,7 @@ from email.utils import format_datetime
 
 from urllib.parse import quote
 
+from . import subscription_page, subscriptions
 from .pricing import PRICING_PAGES
 from .sources import AGENTS
 from .util import load_json
@@ -27,8 +28,11 @@ def nice_date(d, precision="day"):
 def page(title, body, active, description="What changed today at Devin, Claude Code, Codex, Cursor and Grok."):
     nav = "".join(
         f'<a href="{href}"{" class=on" if key == active else ""}>{label}</a>'
-        for key, href, label in [("home", "index.html", "Today"), ("archive", "archive.html", "Archive"), ("pricing", "pricing.html", "Pricing"), ("autonomy", "autonomy.html", "How it runs")]
+        for key, href, label in [("home", "index.html", "Today"), ("subscriptions", "subscriptions.html", "Subscription map"), ("archive", "archive.html", "Archive"), ("pricing", "pricing.html", "Pricing"), ("autonomy", "autonomy.html", "How it runs")]
     )
+    footer_intro = ("Subscription facts use a checked baseline and are not rewritten by daily scans."
+                    if active == "subscriptions" else
+                    "Agent-Ticker is written and published every day by an AI editor from official changelogs, release notes and pricing pages only.")
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E_(title)}</title><meta name="description" content="{E_(description)}">
@@ -39,7 +43,7 @@ def page(title, body, active, description="What changed today at Devin, Claude C
 <link rel="stylesheet" href="style.css"></head>
 <body><header><div class="wrap bar"><a class="logo" href="index.html"><span class="dot"></span>Agent-Ticker</a><nav>{nav}</nav></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><p>Agent-Ticker is written and published every day by an AI editor from official changelogs, release notes and pricing pages only.
+<footer class="wrap"><p>{footer_intro}
 Not affiliated with any vendor. <a href="feed.xml">RSS</a> · <a href="data.json">JSON</a> · <a href="{REPO_URL}">Source</a> ·
 <a href="{REPO_URL}/issues/new?title=Sponsor%20Agent-Ticker">Sponsor a day</a></p></footer>
 <script src="app.js"></script></body></html>"""
@@ -56,7 +60,7 @@ def entry_html(e):
     a = AGENTS[e["agent"]]
     cat = e.get("category", "feature")
     when = nice_date(e["published"], e.get("date_precision", "day"))
-    return f"""<article class="item" data-agent="{e['agent']}" data-cat="{cat}">
+    return f"""<article class="item" id="item-{E_(e['id'])}" data-agent="{e['agent']}" data-cat="{cat}">
 <div class="meta"><span class="agent a-{e['agent']}">{E_(a['name'])}</span><span class="cat c-{cat}">{CAT_LABEL.get(cat, cat)}</span><time>{when}</time></div>
 <h3><a href="{E_(entry_link(e))}" rel="noopener">{E_(e.get('headline') or e['title'])}</a></h3>
 <p>{E_(e.get('takeaway') or '')}</p></article>"""
@@ -173,6 +177,9 @@ def build(data_dir="data", out_dir="public"):
         )
     write(out_dir, "pricing.html", page("Agent-Ticker · Pricing watch", "<h1>Pricing watch</h1><p>Every day the ticker re-reads each official pricing page, compares it with yesterday and flags any price or plan line that changed.</p>" + "".join(rows), "pricing"))
 
+    baseline, monitor = subscriptions.load(data_dir)
+    write(out_dir, "subscriptions.html", page("Agent-Ticker · Subscription map", subscription_page.render(baseline, monitor), "subscriptions",
+                                            "Compare paid AI subscriptions from five vendors and check your stack privately."))
     write(out_dir, "autonomy.html", page("Agent-Ticker · How it runs itself", autonomy_html(runs, entries), "autonomy"))
     write(out_dir, "feed.xml", rss(entries, briefs))
     write(out_dir, "data.json", json.dumps({"generated": datetime.now(timezone.utc).isoformat(), "entries": entries[:300], "briefs": briefs, "plans": plans}, ensure_ascii=False))

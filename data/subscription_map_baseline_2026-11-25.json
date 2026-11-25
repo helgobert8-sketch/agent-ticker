@@ -1,0 +1,445 @@
+{
+  "meta": {
+    "title": "Agent-Ticker subscription map baseline",
+    "checked": "2026-11-25",
+    "scope": "Individual paid subscriptions only; products are listed as benefits of their plan. No free, team, enterprise, standalone Cursor, or API-only plans. Listed prices are standard public web rates, not promotional or app-store quotes; EU examples are country-specific.",
+    "audience": "Vibe coders first; business decision-makers second.",
+    "vendors": [
+      "claude",
+      "chatgpt",
+      "grok",
+      "devin",
+      "gemini"
+    ],
+    "rows": [
+      "price_plans",
+      "billing_model",
+      "usage_limits",
+      "top_model_access",
+      "coding_agent",
+      "always_on_agent"
+    ],
+    "statuses": [
+      "verified",
+      "conditional",
+      "not included",
+      "not checked"
+    ],
+    "status_definitions": {
+      "verified": "Official sources state this benefit or buying term.",
+      "conditional": "Availability, allowance, rollout or legacy plan varies, or the cell combines verified statements with explicitly named unknowns.",
+      "not included": "Official source explicitly excludes the feature for the whole cell.",
+      "not checked": "No cell-level claim was verified; the URL is the official starting point."
+    },
+    "status_counts": {
+      "verified": 14,
+      "conditional": 16,
+      "not included": 0,
+      "not checked": 0
+    },
+    "tiers": {
+      "claude": [
+        "Pro",
+        "Max (formerly Max 5×)",
+        "Ultra (formerly Max 20×)"
+      ],
+      "chatgpt": [
+        "Go",
+        "Plus",
+        "Pro 100",
+        "Pro 200",
+        "Pro 500"
+      ],
+      "grok": {
+        "current": [
+          "The X Subscription Plus",
+          "The X Subscription Premium",
+          "The X Subscription Super",
+          "The X Subscription Ultra"
+        ],
+        "legacy": [
+          "SuperGrok Lite",
+          "SuperGrok",
+          "SuperGrok Plus",
+          "SuperGrok Heavy",
+          "X Premium+"
+        ]
+      },
+      "devin": [
+        "Pro",
+        "Max"
+      ],
+      "gemini": [
+        "Google AI Plus",
+        "Google AI Pro",
+        "Google AI Ultra 5×",
+        "Google AI Ultra 20×"
+      ]
+    },
+    "eu_note_null": "No specific EU qualification asserted; not a guarantee of feature availability.",
+    "feature_definitions": {
+      "always_on_agent": "Can start scheduled work without an open user session; remote access or a one-off cloud run alone does not qualify."
+    }
+  },
+  "rows": {
+    "price_plans": {
+      "claude": {
+        "value": "US web: Pro USD $20/mo or $200/yr; Max $100/mo; Ultra $200/mo. Local pricing may differ; EU amount not checked.",
+        "source_url": "https://claude.com/pricing",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": "Anthropic says Pro pricing varies by country and local currency where supported; no fixed EU-wide quote verified.",
+        "note": "Max is the former Max 5×; Ultra replaces Max 20× without a price change.",
+        "source_urls": [
+          "https://support.claude.com/en/articles/11049741-what-is-the-max-plan",
+          "https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan",
+          "https://support.claude.com/de/articles/8325606-was-ist-der-pro-plan"
+        ]
+      },
+      "chatgpt": {
+        "value": "US web: Go USD $8/mo, Plus $20/mo, Pro $100/$200/$500 per month. EEA bills in EUR; exact local rates not checked.",
+        "source_url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": "OpenAI lists EUR billing for the EEA; the cited pages do not give EEA tier prices.",
+        "source_urls": [
+          "https://openai.com/index/introducing-chatgpt-go/",
+          "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+          "https://help.openai.com/en/articles/10421635-multicurrency-billing"
+        ]
+      },
+      "grok": {
+        "value": "New X Subscription (USD, pre-tax): Plus $8, Premium $30, Super $100, Ultra $200/mo; $80/$300/$1,000/$2,000/yr. Legacy renewals and EUR quotes not checked.",
+        "source_url": "https://docs.x.ai/x-subscription/pricing",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": "List prices exclude applicable VAT; EU checkout prices not checked.",
+        "note": "New self-serve customers start on The X Subscription. Existing SuperGrok and X Premium plans continue; account holders may switch. Legacy includes SuperGrok Lite, SuperGrok, SuperGrok Plus, SuperGrok Heavy and X Premium+; this cell does not quote their individual renewal prices.",
+        "source_urls": [
+          "https://x.ai/pricing",
+          "https://docs.x.ai/x-subscription/eligibility",
+          "https://docs.x.ai/grok-bot/faq"
+        ]
+      },
+      "devin": {
+        "value": "Pro USD $20/mo; Max USD $200/mo. EUR quote not checked.",
+        "source_url": "https://devin.ai/pricing",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "source_urls": [
+          "https://docs.devin.ai/admin/billing/self-serve"
+        ]
+      },
+      "gemini": {
+        "value": "US/mo: AI Plus USD $4.99, Pro $19.99, Ultra 5× $99.99, Ultra 20× $199.99. Germany/mo: €4.99 or €9.99, €21.99, €99.99, €219.99.",
+        "source_url": "https://one.google.com/intl/en_us/about/google-ai-plans/",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": "Germany amounts listed in tier order; Ireland lists AI Plus €4.99/mo and the same Pro and Ultra prices. These are local examples, not EU-wide quotes.",
+        "source_urls": [
+          "https://one.google.com/intl/de_de/about/google-ai-plans/",
+          "https://one.google.com/intl/en_ie/about/google-ai-plans/"
+        ]
+      }
+    },
+    "billing_model": {
+      "claude": {
+        "value": "Mixed: flat subscription plus optional usage credits at API rates; Pro pays from first Fable use outside promotions.",
+        "source_url": "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Model usage credits are distinct from the Max and Ultra monthly API-credit benefit.",
+        "source_urls": [
+          "https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan",
+          "https://claude.com/pricing"
+        ]
+      },
+      "chatgpt": {
+        "value": "Mixed on Plus/Pro: monthly fee plus optional credits for eligible overage. Go: monthly fee; overage credits only for selected accounts.",
+        "source_url": "https://help.openai.com/en/articles/12642688-using-credits-for-flexible-usage-in-chatgpt-personal-plans",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Credits are not API credits. Eligible Plus/Pro accounts can also buy an instant allowance reset; availability varies by billing country.",
+        "source_urls": [
+          "https://help.openai.com/en/articles/20001507-paid-weekly-work-and-codex-rate-limit-resets",
+          "https://chatgpt.com/pricing/"
+        ]
+      },
+      "grok": {
+        "value": "Mixed: subscription plus prepaid top-ups past the weekly pool; third-party coding models are charged separately from first use.",
+        "source_url": "https://docs.x.ai/x-subscription/pricing",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Third-party model rule applies to the bundled coding editor. Legacy SuperGrok also documents optional pay-as-you-go after included usage.",
+        "source_urls": [
+          "https://docs.x.ai/grok/faq",
+          "https://docs.x.ai/x-subscription/usage-limits"
+        ]
+      },
+      "devin": {
+        "value": "Mixed: monthly fee with a usage allowance; optional prepaid overage credits billed at API rates.",
+        "source_url": "https://docs.devin.ai/admin/billing/self-serve",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "source_urls": [
+          "https://devin.ai/pricing"
+        ]
+      },
+      "gemini": {
+        "value": "AI Plus: flat fee for the core AI allowance; Pro/Ultra: mixed, with optional purchased AI credits after included usage.",
+        "source_url": "https://support.google.com/googleone/answer/16287445?hl=en",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Google says AI Plus cannot buy general Google One AI credits; separate product-specific credit systems (e.g. Flow Music) are not the general AI-credit balance.",
+        "source_urls": [
+          "https://support.google.com/googleone/answer/16882689?hl=en",
+          "https://one.google.com/intl/en_us/about/google-ai-plans/"
+        ]
+      }
+    },
+    "usage_limits": {
+      "claude": {
+        "value": "Chat + Code share caps: Pro 5-hour/weekly; Max 5× Pro in both; Ultra 10× weekly, no 5-hour cap once verified. Fable: up to half the weekly bucket on Max/Ultra.",
+        "source_url": "https://claude.com/pricing",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Unverified Ultra accounts have a temporary 5-hour cap; task size, model and context change how quickly usage burns.",
+        "source_urls": [
+          "https://support.claude.com/en/articles/17728952-what-is-the-ultra-plan",
+          "https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-max-or-ultra-plan"
+        ]
+      },
+      "chatgpt": {
+        "value": "Go: limited Codex; Plus: 5-hour and weekly Work/Codex caps; Pro: weekly allowance, currently no 5-hour Work/Codex cap. Chat caps are separate.",
+        "source_url": "https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Work/Codex use varies by task, model and settings. Pro 100/200/500 have different allowances; no single fixed message count applies. Go does not include Codex Cloud.",
+        "source_urls": [
+          "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+          "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "https://help.openai.com/en/articles/20001354-gpt-6-and-other-models-in-chatgpt",
+          "https://help.openai.com/en/articles/11989085-what-is-chatgpt-go"
+        ]
+      },
+      "grok": {
+        "value": "Shared weekly pool: Plus base, Premium 4×, Super 15×, Ultra 50×. Legacy SuperGrok also has a weekly pool; exact legacy allotments not checked.",
+        "source_url": "https://docs.x.ai/x-subscription/usage-limits",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "New pool is shared across eligible bundled tools, including Grok Bot where included. These are usage ratios, not message counts.",
+        "source_urls": [
+          "https://docs.x.ai/x-subscription/pricing",
+          "https://docs.x.ai/grok/faq"
+        ]
+      },
+      "devin": {
+        "value": "Pro: daily and weekly caps. Max: larger weekly allowance, no daily cap. Desktop, CLI and cloud draw from the same pool.",
+        "source_url": "https://docs.devin.ai/admin/billing/self-serve",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Public plan docs do not give fixed per-plan token or task totals."
+      },
+      "gemini": {
+        "value": "Gemini app usage: AI Plus 2× and Pro 4× standard; Ultra 5× or 20× Pro. Antigravity has its own limits.",
+        "source_url": "https://support.google.com/gemini/answer/16275805?hl=en-GB",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Ratios are not fixed prompt counts; request complexity, feature and model affect usage.",
+        "source_urls": [
+          "https://antigravity.google/docs/plans/"
+        ]
+      }
+    },
+    "top_model_access": {
+      "claude": {
+        "value": "Fable 5.2: pay-as-you-go credits on Pro; included up to half the weekly limit on Max/Ultra. Opus included on all three.",
+        "source_url": "https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Ignores temporary launch offers; update Claude Code for Fable 5.2.",
+        "source_urls": [
+          "https://claude.com/pricing"
+        ]
+      },
+      "chatgpt": {
+        "value": "Go: GPT-5.6 Luna in Chat; Plus: GPT-6.2 reasoning where rolled out; Pro: GPT-6 Pro in Chat and GPT-6.2 Astra/Sol in eligible Work/Codex.",
+        "source_url": "https://help.openai.com/en/articles/20001354-gpt-6-and-other-models-in-chatgpt",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Model choices vary by account and surface. Pro $200 has GPT-6.2 Sol Ultrafast in Codex only; Pro $500 offers GPT-6.2 Astra/Sol Ultrafast. Plus can have limited Astra usage in Work/Codex; check the model picker.",
+        "source_urls": [
+          "https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex",
+          "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers",
+          "https://chatgpt.com/pricing/"
+        ]
+      },
+      "grok": {
+        "value": "Premium/Super/Ultra promise the latest Grok models; Grok 4.7 is documented for Build. Exact Chat model access by tier and legacy plan: not checked.",
+        "source_url": "https://x.ai/pricing",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Don't infer chat access from the API catalog or the Build rollout. Grok Bot routes models itself; there is no picker.",
+        "source_urls": [
+          "https://x.ai/news/grok-4-7",
+          "https://docs.x.ai/grok-bot/faq"
+        ]
+      },
+      "devin": {
+        "value": "Pro/Max: frontier model picker and SWE-2.1 in Desktop/CLI; SWE-2.1 in cloud is a time-limited preview.",
+        "source_url": "https://docs.devin.ai/desktop/models",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Cloud SWE-2.1 preview documented through December 22, 2026. The Desktop and cloud catalogs differ.",
+        "source_urls": [
+          "https://devin.ai/pricing"
+        ]
+      },
+      "gemini": {
+        "value": "Gemini app: Plus gets 4 Hydrogen, Pro gets 4 Neon, Ultra gets 4 Carbon. Paid Pro also gets Carbon in Antigravity.",
+        "source_url": "https://support.google.com/gemini/answer/18648722?co=GENIE.Platform%3DDesktop&hl=en",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Highest documented selectable model per tier in Gemini Apps; Search AI Mode and Antigravity have separate entitlements.",
+        "source_urls": [
+          "https://antigravity.google/docs/plans/",
+          "https://support.google.com/googleone/answer/16105039?hl=en"
+        ]
+      }
+    },
+    "coding_agent": {
+      "claude": {
+        "value": "All three include Claude Code: local terminal, IDE or Desktop; cloud work from web, Desktop or mobile.",
+        "source_url": "https://code.claude.com/docs/en/platforms",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "source_urls": [
+          "https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-max-or-ultra-plan",
+          "https://claude.com/pricing"
+        ]
+      },
+      "chatgpt": {
+        "value": "Codex local CLI/IDE/desktop on Go, Plus and Pro; Codex Cloud on eligible Plus and all Pro tiers, not Go.",
+        "source_url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "source_urls": [
+          "https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex"
+        ]
+      },
+      "grok": {
+        "value": "Grok Build runs in your terminal on every new X tier; cloud coding agents on Premium+. Legacy Build entitlements by tier not checked.",
+        "source_url": "https://x.ai/pricing",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "The X Subscription inherently bundles Cursor; no standalone Cursor subscription is mapped. Grok Build supports macOS/Linux and Windows shells.",
+        "source_urls": [
+          "https://docs.x.ai/build/overview",
+          "https://docs.x.ai/grok/faq"
+        ]
+      },
+      "devin": {
+        "value": "Pro and Max: local Devin CLI/Desktop agents; delegate to Devin's cloud machine from web or Desktop.",
+        "source_url": "https://docs.devin.ai/desktop/devin",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Devin Cloud access in Desktop is documented as rolling out gradually.",
+        "source_urls": [
+          "https://docs.devin.ai/admin/billing/self-serve"
+        ]
+      },
+      "gemini": {
+        "value": "Antigravity desktop/IDE + CLI; Google-hosted Remote Agents roll out to Pro/Ultra, not Plus.",
+        "source_url": "https://antigravity.google/docs/remote-agents/",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "source_urls": [
+          "https://antigravity.google/docs/plans/",
+          "https://antigravity.google/docs/features/"
+        ]
+      }
+    },
+    "always_on_agent": {
+      "claude": {
+        "value": "Pro, Max and Ultra: Claude Code cloud scheduled tasks run without an open session.",
+        "source_url": "https://code.claude.com/docs/en/routines",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Cloud runs draw from account usage; local scheduled tasks are separate."
+      },
+      "chatgpt": {
+        "value": "ChatGPT Scheduled: Go 3, Plus 5, Pro 15 active tasks; Plus/Pro get eligible app triggers. The separate Plus dot pilot is not in the EU/EEA.",
+        "source_url": "https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": "The separate dot pilot for select Plus users excludes the EEA (including the EU), UK and Switzerland. That exclusion does not establish a restriction on ordinary ChatGPT Scheduled tasks.",
+        "note": "Scheduled one-off and recurring tasks are account/app dependent. Use a cloud-capable task, not a task that runs only on your computer. Go does not include event-triggered tasks.",
+        "source_urls": [
+          "https://help.openai.com/en/articles/20001530-getting-started-with-your-dot"
+        ]
+      },
+      "grok": {
+        "value": "Grok Bot runs cloud routines on Premium/Super/Ultra, not Plus. Legacy SuperGrok, Plus, Heavy and X Premium+ need account linking; Lite can't link.",
+        "source_url": "https://docs.x.ai/grok-bot/skills-routines-and-automations",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": null,
+        "note": "Legacy 'Plus' in the second sentence means SuperGrok Plus, not The X Subscription Plus.",
+        "source_urls": [
+          "https://docs.x.ai/x-subscription/grok-bot",
+          "https://docs.x.ai/grok-bot/faq",
+          "https://docs.x.ai/grok-bot/get-started"
+        ]
+      },
+      "devin": {
+        "value": "Pro/Max: scheduled Automations start cloud sessions. Max adds Devin Bots that can own recurring work.",
+        "source_url": "https://docs.devin.ai/product-guides/automations",
+        "checked": "2026-11-25",
+        "status": "verified",
+        "eu_note": null,
+        "note": "Automations and Devin Bots are distinct. Runs depend on usage balance and connected tools as applicable.",
+        "source_urls": [
+          "https://docs.devin.ai/admin/billing/self-serve",
+          "https://devin.ai/pricing",
+          "https://docs.devin.ai/work-with-devin/bots",
+          "https://docs.devin.ai/work-with-devin/bots/usage-limits"
+        ]
+      },
+      "gemini": {
+        "value": "Gemini Tasks runs background schedules in eligible countries (not EU/EEA). Separate in-chat scheduled actions run in the background, with rollout availability.",
+        "source_url": "https://support.google.com/gemini/answer/17094710?co=GENIE.Platform%3DDesktop&hl=en",
+        "checked": "2026-11-25",
+        "status": "conditional",
+        "eu_note": "Tasks in Gemini is unavailable in the EEA (incl. EU), Nigeria, Switzerland and the UK. Google’s separate in-chat schedules page does not give an EEA-specific availability guarantee.",
+        "note": "In eligible markets Pro/Ultra get time-, Gmail- and topic-triggered Tasks schedules; Plus uses a daily time window where the feature is otherwise available. Antigravity has separate background automations; offline device requirements not checked here.",
+        "source_urls": [
+          "https://support.google.com/gemini/answer/16316416",
+          "https://one.google.com/intl/en_us/about/google-ai-plans/",
+          "https://antigravity.google/docs/commands/automation/"
+        ]
+      }
+    }
+  }
+}
