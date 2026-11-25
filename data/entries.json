@@ -3,8 +3,8 @@
   "id": "46afad937d8e",
   "agent": "codex",
   "title": "Codex pricing page changed",
-  "headline": "Codex pricing page changed",
-  "takeaway": "Now on the page: 250 credits; 25 credits; 1,250 credits; 125 credits; 12.5 credits; 625 credits\nNo longer on the page: Sites is available in public beta on eligible plans. Availability depends on your region and workspac",
+  "headline": "Codex extends free Sites hosting through Jan 31, 2027 and adds credit tiers",
+  "takeaway": "Free Sites hosting is extended by a month to Jan 31, 2027; Plus, Pro, and Business plans will be charged for overages starting Feb 1, 2027.",
   "body": "Now on the page: 250 credits; 25 credits; 1,250 credits; 125 credits; 12.5 credits; 625 credits\nNo longer on the page: Sites is available in public beta on eligible plans. Availability depends on your region and workspace settings. Hosting is free through December 31, 2026. See Sites usage and cost for plan allowances, hosting rates, and a monthly cost estimate.",
   "url": "https://developers.openai.com/codex/pricing.md",
   "published": "2026-11-25",
@@ -12,7 +12,7 @@
   "date_precision": "day",
   "category": "pricing",
   "source": "https://developers.openai.com/codex/pricing.md",
-  "editor": "pricing-watch",
+  "editor": "ai",
   "pricing": {
    "agent": "codex",
    "added": [

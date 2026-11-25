@@ -11,15 +11,15 @@
   "count": 11
  },
  "2026-11-25": {
-  "headline": "16 changes across Claude Code, Codex, Devin",
+  "headline": "Codex extends free Sites hosting; Devin adds threat-modeled scans",
   "bullets": [
-   "Codex: pricing page changed.",
-   "Devin: Split scans start with a threat model",
-   "Claude Code: MCP server skills (beta) and PreSkillShellCommand hook",
-   "Devin: Format text in the message box",
-   "Devin: Category tabs and page results in Cmd+K"
+   "Codex: Sites hosting is now free through Jan 31, 2027 (extended from Dec 31, 2026); in-app usage starts Jan 1, and Plus/Pro/Business overage billing begins Feb 1, 2027.",
+   "Devin: Split security scans now build a threat model first before launching one scan per repository.",
+   "Claude Code: Invoke MCP server skills (beta) via server:skill in the / menu, and use the PreSkillShellCommand hook to block inline shell commands in skills.",
+   "Devin: Bots now have an Auto-approve automations toggle (with enterprise admin override), plus a new Engineering pulse App template for PR and CI metrics.",
+   "Devin: Typing $ in MCP headers now suggests saved secrets, and Cmd+K adds category tabs (All, Sessions, Bots, Apps, Actions) and left-rail page results."
   ],
-  "editor": "rules",
+  "editor": "ai",
   "count": 16
  }
 }
