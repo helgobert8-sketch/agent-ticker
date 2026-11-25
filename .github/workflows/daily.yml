@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main  # a queued run must see the data the run before it committed, not the SHA it was queued at
+          ref: ${{ github.ref_name }}  # branch tip, not the queued SHA: a queued run must see the data the run before it committed, not the SHA it was queued at
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
