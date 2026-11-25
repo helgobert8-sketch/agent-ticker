@@ -6,7 +6,7 @@ Live: https://helgobert8-sketch.github.io/agent-ticker/
 
 ## How it runs itself
 
-A GitHub Actions cron (`.github/workflows/daily.yml`, 05:30 UTC) does the daily work with no human in the loop:
+A GitHub Actions cron (`.github/workflows/daily.yml`, 08:30 UTC, right after the Gemini daily quota resets) does the daily work with no human in the loop:
 
 1. **Collect** official sources only: release notes, RSS/Atom feeds, GitHub releases and pricing pages (see `ticker/sources.py`).
 2. **Dedupe** against everything seen before (`data/entries.json`, `data/seen.json`).
