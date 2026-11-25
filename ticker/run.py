@@ -52,7 +52,9 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     plans = load_json(os.path.join(data_dir, "plans.json"), {})
     runs = load_json(os.path.join(data_dir, "runs.json"), [])
     seen = set(load_json(os.path.join(data_dir, "seen.json"), []))
-    log = {"date": day, "started": now_iso(), "sources": {}, "pricing": {}, "new": 0, "human_edits": 0}
+    trigger = os.environ.get("GITHUB_EVENT_NAME") or "local"
+    log = {"date": day, "started": now_iso(), "trigger": trigger, "sources": {}, "pricing": {}, "new": 0}
+    previous = runs[-1]["sources"] if runs else {}
 
     fresh = []
     for agent in agents or sources.AGENTS:
@@ -60,6 +62,9 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
             got = sources.collect(agent, year_hint=int(day[:4]), month_hint=int(day[5:7]))
             fresh.extend(got)
             log["sources"][agent] = {"ok": True, "items": len(got)}
+            before = previous.get(agent, {}).get("items") or 0
+            if not got or len(got) < before / 2:
+                log["sources"][agent]["warning"] = f"{len(got)} items, {before} on the previous run"
         except Exception as exc:
             log["sources"][agent] = {"ok": False, "error": f"{type(exc).__name__}: {exc}"[:200]}
 
@@ -73,9 +78,11 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
         try:
             res = pricing.check(agent, data_dir)
             log["pricing"][agent] = {"ok": True, "changed": res["changed"]}
+            if res["rebased"]:
+                log["pricing"][agent]["rebased"] = True  # page cleanup changed: new baseline, no alert
             if res["changed"]:
                 pricing_changes.append(res)
-                store.append(pricing_entry(res, day))
+                store.append(pricing_entry(res, day, editor))
             if res["changed"] or res["first"] or agent not in plans or plans[agent].get("stale"):
                 extracted = editor.summarize_pricing(AGENT_NAMES[agent], res["text"])
                 if extracted:
@@ -102,6 +109,10 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
 
     backlog_calls = int(os.environ.get("AI_BACKLOG_CALLS", "4"))
     if editor.enabled and backlog_calls > 0:
+        for e in [e for e in store if e.get("editor") == "pricing-watch" and e.get("pricing")][:2]:
+            note = editor.pricing_note(AGENT_NAMES[e["agent"]], e["pricing"]["added"], e["pricing"]["removed"])
+            if note["editor"] == "ai":
+                e.update(note)
         backlog = [e for e in store if e.get("editor") == "rules"][: backlog_calls * 8]
         before = {e["id"]: (e.get("category"), e.get("headline"), e.get("takeaway")) for e in backlog}
         editor.enrich(backlog, AGENT_NAMES)
@@ -129,18 +140,19 @@ def run(data_dir="data", out_dir="public", backfill_days=30, agents=None, editor
     return log
 
 
-def pricing_entry(res, day):
+def pricing_entry(res, day, editor):
     from .util import stable_id
 
     added = "; ".join(res["added"][:6])
     removed = "; ".join(res["removed"][:6])
     body = (f"Now on the page: {added}" if added else "") + (f"\nNo longer on the page: {removed}" if removed else "")
+    note = editor.pricing_note(AGENT_NAMES[res["agent"]], res["added"], res["removed"])
     return {
         "id": stable_id(res["agent"], "pricing", day),
         "agent": res["agent"],
         "title": f"{AGENT_NAMES[res['agent']]} pricing page changed",
-        "headline": f"{AGENT_NAMES[res['agent']]} pricing page changed",
-        "takeaway": body.strip()[:220] or "Official pricing page text changed.",
+        "headline": note["headline"],
+        "takeaway": note["takeaway"],
         "body": body.strip(),
         "url": res["url"],
         "published": day,
@@ -148,9 +160,14 @@ def pricing_entry(res, day):
         "date_precision": "day",
         "category": "pricing",
         "source": res["url"],
-        "editor": "pricing-watch",
+        "editor": note["editor"],
         "pricing": {"agent": res["agent"], "added": res["added"][:8], "removed": res["removed"][:8]},
     }
+
+
+def ran_on_schedule(data_dir, day):
+    runs = load_json(os.path.join(data_dir, "runs.json"), [])
+    return any(r.get("date") == day and r.get("trigger") == "schedule" for r in runs)
 
 
 def main():
@@ -159,7 +176,11 @@ def main():
     ap.add_argument("--out-dir", default="public")
     ap.add_argument("--build-only", action="store_true")
     ap.add_argument("--backfill-days", type=int, default=30)
+    ap.add_argument("--skip-if-ran-today", action="store_true", help="for the backup schedule slot")
     args = ap.parse_args()
+    if args.skip_if_ran_today and ran_on_schedule(args.data_dir, today()):
+        print("a scheduled run already finished today; rebuilding only")
+        args.build_only = True
     if args.build_only:
         site.build(args.data_dir, args.out_dir)
         return

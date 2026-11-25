@@ -47,7 +47,6 @@
    }
   },
   "new": 310,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 12,
   "ai_errors": [
@@ -58,7 +57,8 @@
    "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
   ],
   "ai_model": "openai/gpt-4.1-mini",
-  "seconds": 10.7
+  "seconds": 10.7,
+  "trigger": "push"
  },
  {
   "date": "2026-11-24",
@@ -108,7 +108,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 5,
   "ai_errors": [
@@ -119,7 +118,8 @@
    "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
   ],
   "ai_model": "openai/gpt-4.1-mini",
-  "seconds": 9.9
+  "seconds": 9.9,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-24",
@@ -169,7 +169,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 5,
   "ai_errors": [
@@ -180,7 +179,8 @@
    "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
   ],
   "ai_model": "openai/gpt-4.1-mini",
-  "seconds": 9.1
+  "seconds": 9.1,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-24",
@@ -230,7 +230,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 5,
   "ai_errors": [
@@ -241,7 +240,8 @@
    "HTTPError: HTTP Error 429: Too Many Requests"
   ],
   "ai_model": "gpt-4.1-mini",
-  "seconds": 12.1
+  "seconds": 12.1,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-24",
@@ -291,7 +291,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 0,
   "pricing_changes": 0,
   "ai_calls": 15,
@@ -303,7 +302,8 @@
    "HTTP 400: Bad Request"
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 8.4
+  "seconds": 8.4,
+  "trigger": "push"
  },
  {
   "date": "2026-11-24",
@@ -353,7 +353,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 0,
   "pricing_changes": 0,
   "ai_calls": 15,
@@ -365,7 +364,8 @@
    "HTTP 503: Service Unavailable"
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 127.9
+  "seconds": 127.9,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-24",
@@ -415,7 +415,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 0,
   "pricing_changes": 0,
   "ai_calls": 16,
@@ -427,7 +426,8 @@
    "HTTP 429: Too Many Requests"
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 283.6
+  "seconds": 283.6,
+  "trigger": "push"
  },
  {
   "date": "2026-11-24",
@@ -477,14 +477,14 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 2,
   "ai_errors": [
    "HTTP 429: RESOURCE_EXHAUSTED: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to:…"
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 27.9
+  "seconds": 27.9,
+  "trigger": "push"
  },
  {
   "date": "2026-11-24",
@@ -534,7 +534,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 0,
   "pricing_changes": 0,
   "ai_calls": 1,
@@ -542,7 +541,8 @@
    "HTTP 429: RESOURCE_EXHAUSTED: Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-4-hydrogen, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits."
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 10.7
+  "seconds": 10.7,
+  "trigger": "push"
  },
  {
   "date": "2026-11-24",
@@ -592,7 +592,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 0,
   "pricing_changes": 0,
   "ai_calls": 1,
@@ -600,7 +599,8 @@
    "HTTP 429: RESOURCE_EXHAUSTED: Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-4-hydrogen, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits."
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 9.6
+  "seconds": 9.6,
+  "trigger": "push"
  },
  {
   "date": "2026-11-25",
@@ -650,14 +650,14 @@
    }
   },
   "new": 1,
-  "human_edits": 0,
   "pricing_changes": 1,
   "ai_calls": 1,
   "ai_errors": [
    "HTTP 429: RESOURCE_EXHAUSTED: Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-4-hydrogen, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits."
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 10.4
+  "seconds": 10.4,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-25",
@@ -707,14 +707,14 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "pricing_changes": 0,
   "ai_calls": 1,
   "ai_errors": [
    "HTTP 429: RESOURCE_EXHAUSTED: Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-4-hydrogen, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits."
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 17.1
+  "seconds": 17.1,
+  "trigger": "push"
  },
  {
   "date": "2026-11-25",
@@ -764,13 +764,13 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 32,
   "pricing_changes": 0,
   "ai_calls": 6,
   "ai_errors": [],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 94.3
+  "seconds": 94.3,
+  "trigger": "workflow_dispatch"
  },
  {
   "date": "2026-11-25",
@@ -820,13 +820,13 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 32,
   "pricing_changes": 0,
   "ai_calls": 4,
   "ai_errors": [],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 90.7
+  "seconds": 90.7,
+  "trigger": "push"
  },
  {
   "date": "2026-11-25",
@@ -876,7 +876,6 @@
    }
   },
   "new": 0,
-  "human_edits": 0,
   "ai_backlog": 8,
   "pricing_changes": 0,
   "ai_calls": 4,
@@ -886,6 +885,7 @@
    "HTTP 429: RESOURCE_EXHAUSTED: Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-4-hydrogen, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits."
   ],
   "ai_model": "gemini-4-hydrogen",
-  "seconds": 88.4
+  "seconds": 88.4,
+  "trigger": "schedule"
  }
 ]

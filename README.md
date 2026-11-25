@@ -6,15 +6,15 @@ Live: https://helgobert8-sketch.github.io/agent-ticker/
 
 ## How it runs itself
 
-A GitHub Actions cron (`.github/workflows/daily.yml`, 08:30 UTC, right after the Gemini daily quota resets) does the daily work with no human in the loop:
+A GitHub Actions cron (`.github/workflows/daily.yml`, 08:30 UTC, right after the Gemini daily quota resets, with a 14:30 UTC backup slot that skips itself if the first one ran) does the daily work with no human in the loop. Runs started by a push to `main` use rules only, so they never use up the AI quota:
 
-1. **Collect** official sources only: release notes, RSS/Atom feeds, GitHub releases and pricing pages (see `ticker/sources.py`).
+1. **Collect** official sources only: release notes, RSS feeds, GitHub releases via the REST API and pricing pages (see `ticker/sources.py`). Every page fetch checks the site's robots.txt first.
 2. **Dedupe** against everything seen before (`data/entries.json`, `data/seen.json`).
 3. **Edit** with an LLM (Google Gemini free tier by default, or any OpenAI-compatible API): category, headline, one-line takeaway, and the daily brief. Without a token or on quota errors it falls back to rules, so the ticker never stalls.
-4. **Watch pricing**: normalized snapshots in `data/pricing/` are diffed daily; price lines that move become a pricing item.
+4. **Watch pricing**: normalized snapshots in `data/pricing/` are diffed daily; price lines that move become a pricing item, written up by the AI editor. When the page cleanup changes, `NORMALIZE_VERSION` in `ticker/pricing.py` is bumped so snapshots are re-based without an alert.
 5. **Publish** a static site, RSS (`feed.xml`) and JSON (`data.json`) to GitHub Pages, and commit the data back.
 
-Every run is logged on the site's *Autonomy* page.
+Every run is logged on the site's *How it runs* page with its trigger, plus a warning when a source returns 0 items or less than half of the previous run.
 
 ## Configuration
 

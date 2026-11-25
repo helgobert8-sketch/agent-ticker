@@ -3,17 +3,85 @@ import html
 import json
 import os
 import re
+import urllib.error
 import urllib.request
 from datetime import date, datetime, timezone
 from html.parser import HTMLParser
+from urllib.parse import urlsplit
 
 USER_AGENT = "AgentTicker/1.0 (+https://github.com/helgobert8-sketch/agent-ticker)"
 
 
-def fetch(url, headers=None, timeout=30):
+ROBOTS_EXEMPT = {"api.github.com"}  # a documented REST API, not a crawled website
+_robots_cache = {}
+
+
+class RobotsDisallowed(Exception):
+    pass
+
+
+def _get(url, headers=None, timeout=30):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, **(headers or {})})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.read().decode("utf-8", errors="replace")
+
+
+def fetch(url, headers=None, timeout=30):
+    """GET a page, but only if the site's robots.txt allows it."""
+    if not robots_allows(robots_rules(url), url):
+        raise RobotsDisallowed(f"robots.txt disallows {url}")
+    return _get(url, headers, timeout)
+
+
+def robots_rules(url):
+    parts = urlsplit(url)
+    if parts.netloc in ROBOTS_EXEMPT:
+        return []
+    key = f"{parts.scheme}://{parts.netloc}"
+    if key not in _robots_cache:
+        try:
+            _robots_cache[key] = parse_robots(_get(key + "/robots.txt", timeout=15))
+        except urllib.error.HTTPError as exc:
+            if exc.code >= 500:
+                raise
+            _robots_cache[key] = [(False, "/")] if exc.code in (401, 403) else []
+    return _robots_cache[key]
+
+
+def parse_robots(text, agent="agentticker"):
+    """Return [(allow, path)] for our user agent, falling back to the '*' group."""
+    groups, current, in_rules = [], None, False
+    for line in text.splitlines():
+        line = line.split("#", 1)[0].strip()
+        if ":" not in line:
+            continue
+        key, val = (x.strip() for x in line.split(":", 1))
+        key = key.lower()
+        if key == "user-agent":
+            if current is None or in_rules:
+                current, in_rules = {"agents": [], "rules": []}, False
+                groups.append(current)
+            current["agents"].append(val.lower())
+        elif key in ("allow", "disallow") and current is not None:
+            in_rules = True
+            if val:
+                current["rules"].append((key == "allow", val))
+    mine = [g for g in groups if any(a != "*" and a in agent for a in g["agents"])]
+    return [r for g in (mine or [g for g in groups if "*" in g["agents"]]) for r in g["rules"]]
+
+
+def robots_allows(rules, url):
+    """Longest matching rule wins, Allow wins ties; supports * and $ like Google and GitHub use."""
+    parts = urlsplit(url)
+    path = (parts.path or "/") + (f"?{parts.query}" if parts.query else "")
+    best = (-1, True)
+    for allow, rule in rules:
+        rx = re.escape(rule).replace(r"\*", ".*")
+        if rx.endswith(r"\$"):
+            rx = rx[:-2] + "$"
+        if re.match(rx, path):
+            best = max(best, (len(rule), allow))
+    return best[1]
 
 
 def github_headers():

@@ -137,7 +137,7 @@ def build(data_dir="data", out_dir="public"):
         precision = items[0].get("date_precision", "day")
         timeline.append(f'<section class="day"><h4>{nice_date(d, precision)}</h4>{"".join(entry_html(e) for e in items)}</section>')
     hero = f"""<section class="hero"><h1>What changed in your AI coding agents today.</h1>
-<p>Features, models and pricing from <b>Devin</b>, <b>Claude Code</b>, <b>Codex</b>, <b>Cursor</b> and <b>Grok</b>, read from official changelogs every morning and explained in one line each.</p>
+<p>Features, models and pricing from <b>Devin</b>, <b>Claude Code</b>, <b>Codex</b>, <b>Cursor</b> and <b>Grok</b>, read from official changelogs every day and explained in one line each.</p>
 <p class="cta"><a class="btn" href="#follow">Follow the ticker</a><a class="btn ghost" href="autonomy.html">See how the AI runs it</a></p></section>"""
     body = hero + (tape(entries) if entries else "")
     if latest_brief_day:
@@ -171,7 +171,7 @@ def build(data_dir="data", out_dir="public"):
 {'<p class="muted">The pricing page changed; this summary is being refreshed.</p>' if (p or {}).get('stale') else ''}
 {f'<table>{plan_rows}</table>' if plan_rows else '<p class="muted">The plan table is filled in by the AI editor; until then, open the official pricing page.</p>'}</section>"""
         )
-    write(out_dir, "pricing.html", page("Agent-Ticker · Pricing watch", "<h1>Pricing watch</h1><p>Every morning the ticker re-reads each official pricing page, compares it with yesterday and flags any price or plan line that changed.</p>" + "".join(rows), "pricing"))
+    write(out_dir, "pricing.html", page("Agent-Ticker · Pricing watch", "<h1>Pricing watch</h1><p>Every day the ticker re-reads each official pricing page, compares it with yesterday and flags any price or plan line that changed.</p>" + "".join(rows), "pricing"))
 
     write(out_dir, "autonomy.html", page("Agent-Ticker · How it runs itself", autonomy_html(runs, entries), "autonomy"))
     write(out_dir, "feed.xml", rss(entries, briefs))
@@ -180,31 +180,41 @@ def build(data_dir="data", out_dir="public"):
     return out_dir
 
 
+TRIGGERS = {"schedule": "scheduled", "workflow_dispatch": "manual start", "push": "code update"}
+
+
+def run_time(r):
+    return (r.get("started") or r["date"]).replace("T", " ")[:16] + (" UTC" if r.get("started") else "")
+
+
 def autonomy_html(runs, entries):
     total_runs = len(runs)
-    human = sum(r.get("human_edits", 0) for r in runs)
+    scheduled = sum(1 for r in runs if r.get("trigger") == "schedule")
     ai_items = sum(1 for e in entries if e.get("editor") == "ai")
+    last = runs[-1] if runs else None
     rows = []
     for r in reversed(runs[-60:]):
         ok = sum(1 for s in r["sources"].values() if s.get("ok"))
+        warns = [f"{a}: {s['warning']}" for a, s in r["sources"].items() if s.get("warning")]
+        warn = f' <span class="warn" title="{E_("; ".join(warns))}">· {len(warns)} warning{"s" if len(warns) != 1 else ""}</span>' if warns else ""
         rows.append(
-            f"<tr><td>{r['date']}</td><td>{ok}/{len(r['sources'])}</td><td>{r.get('new', 0)}</td><td>{r.get('pricing_changes', 0)}</td>"
-            f"<td>{r.get('ai_calls', 0)}</td><td>{r.get('seconds', '')}s</td><td>{r.get('human_edits', 0)}</td></tr>"
+            f"<tr><td>{run_time(r)}</td><td>{TRIGGERS.get(r.get('trigger'), r.get('trigger') or '–')}</td><td>{ok}/{len(r['sources'])}{warn}</td><td>{r.get('new', 0)}</td>"
+            f"<td>{r.get('pricing_changes', 0)}</td><td>{r.get('ai_calls', 0)}</td><td>{r.get('seconds', '')}s</td></tr>"
         )
     steps = [
-        ("08:30 UTC", "A scheduled GitHub Actions job wakes up. No server, no human."),
+        ("Every day", "A GitHub Actions schedule set for 08:30 UTC starts the job, with a backup slot at 14:30 UTC in case GitHub starts it late or skips it. No server, no human."),
         ("Collect", "It reads the official changelogs: Devin release notes, Claude Code and Codex GitHub releases, Cursor's changelog feed and xAI's release notes."),
         ("Watch prices", "It re-reads each official pricing page and diffs the price and plan lines against yesterday's snapshot."),
         ("Edit", "An AI editor (Google Gemini, on its free tier) tags every new item as feature, model, pricing, removal or fix, writes a one-line takeaway and the daily brief. If the AI is unavailable, rule-based editing takes over so the site never stalls."),
         ("Publish", "It rebuilds this site, the RSS feed and the JSON API, commits the data and deploys to GitHub Pages."),
-        ("Report", "Every run is logged below, including source failures and human edits."),
+        ("Report", "Every run is logged below with what started it, source failures, and a warning when a source suddenly returns far fewer items."),
     ]
     step_html = "".join(f"<li><b>{E_(a)}</b> {E_(b)}</li>" for a, b in steps)
     return f"""<h1>How Agent-Ticker runs itself</h1>
-<div class="stats"><div><b>{total_runs}</b><span>daily runs</span></div><div><b>{len(entries)}</b><span>changes tracked</span></div>
-<div><b>{ai_items}</b><span>items written by AI</span></div><div><b>{human}</b><span>human edits</span></div></div>
-<ol class="steps">{step_html}</ol><p>Only official, publicly offered sources are read, and each site's robots.txt is respected. The human only steers: which agents to track and what the site looks like.</p>
-<h2>Run log</h2><table class="log"><tr><th>Date</th><th>Sources OK</th><th>New items</th><th>Price changes</th><th>AI calls</th><th>Runtime</th><th>Human edits</th></tr>{''.join(rows)}</table>"""
+<div class="stats"><div><b>{total_runs}</b><span>runs, {scheduled} scheduled</span></div><div><b>{len(entries)}</b><span>changes tracked</span></div>
+<div><b>{ai_items}</b><span>items written by AI</span></div><div><b>{run_time(last) if last else "–"}</b><span>last run{(" (" + TRIGGERS.get(last.get("trigger"), "") + ")") if last and last.get("trigger") in TRIGGERS else ""}</span></div></div>
+<ol class="steps">{step_html}</ol><p>Only official, publicly offered sources are read. Before every page fetch the ticker checks the site's robots.txt and skips anything it disallows; GitHub releases come from GitHub's REST API. The human only steers: which agents to track and what the site looks like.</p>
+<h2>Run log</h2><table class="log"><tr><th>Started</th><th>Trigger</th><th>Sources OK</th><th>New items</th><th>Price changes</th><th>AI calls</th><th>Runtime</th></tr>{''.join(rows)}</table>"""
 
 
 def rss(entries, briefs):

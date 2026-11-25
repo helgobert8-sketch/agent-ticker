@@ -3,7 +3,9 @@ import difflib
 import os
 import re
 
-from .util import fetch, html_to_text, md_to_text
+from .util import fetch, html_to_text, load_json, md_to_text, save_json
+
+NORMALIZE_VERSION = 2  # bump when normalize() changes: snapshots are then re-based without a pricing alert
 
 PRICING_PAGES = {
     "devin": "https://devin.ai/pricing",
@@ -56,9 +58,12 @@ def check(agent, data_dir, raw=None):
     raw = raw if raw is not None else fetch(PRICING_PAGES[agent])
     text = normalize(raw)
     path = snapshot_path(data_dir, agent)
+    vpath = os.path.join(data_dir, "pricing", "versions.json")
+    versions = load_json(vpath, None)
+    rebased = versions is not None and versions.get(agent) != NORMALIZE_VERSION
     old = open(path).read() if os.path.exists(path) else None
-    result = {"agent": agent, "url": PRICING_PAGES[agent], "text": text, "first": old is None}
-    if old is None:
+    result = {"agent": agent, "url": PRICING_PAGES[agent], "text": text, "first": old is None, "rebased": rebased and old is not None}
+    if old is None or rebased:
         result.update(changed=False, added=[], removed=[])
     else:
         added, removed = diff(old, text)
@@ -66,4 +71,5 @@ def check(agent, data_dir, raw=None):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
         f.write(text + "\n")
+    save_json(vpath, {**(versions or {}), agent: NORMALIZE_VERSION})
     return result
