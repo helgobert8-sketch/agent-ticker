@@ -2,10 +2,17 @@
  "signup_url": "https://24a5f13b.sibforms.com/serve/MUIFAF8csDr53JfRFHZyzCpZg7hA9Q2TQv6Nx0ZfQiiyWL_tC9RwULqR2TtRZT9nW6i2Fz60RheBPk-5jUwmg5W1KBr0t68_wMAGp-sX2JOzJvthiUAjiKE-YO1REOIJ2R0fFMSgrJC3-WIMYSaRpUcNfMFphf7jzIy0BDh4tvqT8SP6ABucFRGtaomRPvoZ5nnVzoFHIoKL0QCB3Q==",
  "campaigns": {
   "2026-11-25": {
+   "id": 5,
    "name": "Agent-Ticker daily brief 2026-11-25",
-   "status": "error",
-   "error": "BrevoError: HTTP 405 method_not_allowed: You are not allowed to avail tag option for your campaign",
-   "checked": "2026-11-25T22:54:45+00:00"
+   "status": "queued",
+   "created": "2026-11-25T22:57:55+00:00",
+   "listIds": [
+    3
+   ],
+   "sendRequested": "2026-11-25T22:57:56+00:00",
+   "recipients": 0,
+   "sentDate": null,
+   "checked": "2026-11-25T22:57:56+00:00"
   }
  },
  "list": {
