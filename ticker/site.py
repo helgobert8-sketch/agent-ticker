@@ -192,7 +192,7 @@ def autonomy_html(runs, entries):
             f"<td>{r.get('ai_calls', 0)}</td><td>{r.get('seconds', '')}s</td><td>{r.get('human_edits', 0)}</td></tr>"
         )
     steps = [
-        ("05:30 UTC", "A scheduled GitHub Actions job wakes up. No server, no human."),
+        ("08:30 UTC", "A scheduled GitHub Actions job wakes up. No server, no human."),
         ("Collect", "It reads the official changelogs: Devin release notes, Claude Code and Codex GitHub releases, Cursor's changelog feed and xAI's release notes."),
         ("Watch prices", "It re-reads each official pricing page and diffs the price and plan lines against yesterday's snapshot."),
         ("Edit", "An AI editor (Google Gemini, on its free tier) tags every new item as feature, model, pricing, removal or fix, writes a one-line takeaway and the daily brief. If the AI is unavailable, rule-based editing takes over so the site never stalls."),
