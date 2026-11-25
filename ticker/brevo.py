@@ -91,17 +91,17 @@ def choose_list(key, state):
         if not found:
             raise BrevoError(f"configured BREVO_LIST_ID {wanted} was not found")
         return found
-    saved = (state.get("list") or {}).get("id")
-    if saved:
-        found = next((x for x in lists if x.get("id") == saved), None)
-        if found:
-            return found
     name_wanted = (os.environ.get("BREVO_LIST_NAME") or "").strip().lower()
     if name_wanted:
         found = next((x for x in lists if (x.get("name") or "").lower() == name_wanted), None)
         if found:
             return found
         raise BrevoError(f"configured BREVO_LIST_NAME {name_wanted!r} was not found")
+    saved = (state.get("list") or {}).get("id")
+    if saved:
+        found = next((x for x in lists if x.get("id") == saved), None)
+        if found:
+            return found
     for x in lists:
         name = (x.get("name") or "").lower().replace("_", "-")
         if "agent" in name and "ticker" in name:

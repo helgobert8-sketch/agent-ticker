@@ -99,6 +99,12 @@ class BrevoTests(unittest.TestCase):
             state = json.load(open(os.path.join(d, "newsletter.json")))
             self.assertIn("HTTP 503", state["campaigns"]["2026-11-25"]["error"])
 
+    def test_configured_list_name_overrides_saved_list(self):
+        lists = {"lists": [{"id": 1, "name": "Old list"}, {"id": 2, "name": "New list"}]}
+        with mock.patch.object(brevo, "api", return_value=lists), \
+             mock.patch.dict(os.environ, {"BREVO_LIST_ID": "", "BREVO_LIST_NAME": "New list"}):
+            self.assertEqual(brevo.choose_list("k", {"list": {"id": 1}})["id"], 2)
+
     def test_signup_slot_is_hidden_until_url_is_configured(self):
         with mock.patch.dict(os.environ, {"BREVO_SIGNUP_URL": ""}):
             self.assertNotIn("Sign up for the newsletter", site.follow_html())
