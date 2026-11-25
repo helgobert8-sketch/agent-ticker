@@ -1,5 +1,51 @@
 [
  {
+  "id": "46afad937d8e",
+  "agent": "codex",
+  "title": "Codex pricing page changed",
+  "headline": "Codex pricing page changed",
+  "takeaway": "Now on the page: <td style=\"text-align:center\">250 credits</td>; <td style=\"text-align:center\">25 credits</td>; <td style=\"text-align:center\">1,250 credits</td>; <td style=\"text-align:center\">125 credits</td>; <td style=",
+  "body": "Now on the page: <td style=\"text-align:center\">250 credits</td>; <td style=\"text-align:center\">25 credits</td>; <td style=\"text-align:center\">1,250 credits</td>; <td style=\"text-align:center\">125 credits</td>; <td style=\"text-align:center\">12.5 credits</td>; <td style=\"text-align:center\">625 credits</td>\nNo longer on the page: Sites is available in public beta on eligible plans. Availability depends on your region and workspace settings. Hosting is free through December 31, 2026. See Sites usage and cost for plan allowances, hosting rates, and a monthly cost estimate.",
+  "url": "https://developers.openai.com/codex/pricing.md",
+  "published": "2026-11-25",
+  "first_seen": "2026-11-25",
+  "date_precision": "day",
+  "category": "pricing",
+  "source": "https://developers.openai.com/codex/pricing.md",
+  "editor": "pricing-watch",
+  "pricing": {
+   "agent": "codex",
+   "added": [
+    "<td style=\"text-align:center\">250 credits</td>",
+    "<td style=\"text-align:center\">25 credits</td>",
+    "<td style=\"text-align:center\">1,250 credits</td>",
+    "<td style=\"text-align:center\">125 credits</td>",
+    "<td style=\"text-align:center\">12.5 credits</td>",
+    "<td style=\"text-align:center\">625 credits</td>",
+    "Sites is available in public beta on eligible plans. Availability depends on your region and workspace settings.",
+    "We plan to show your Sites hosting usage in the app starting January 1, 2027. Hosting is free through January 31, 2027. We plan to start charging Plus, Pro, and Business customers for hosting usage above their monthly allowance on February 1, 2027. Enterprise billing follows your organization’s agreement."
+   ],
+   "removed": [
+    "Sites is available in public beta on eligible plans. Availability depends on your region and workspace settings. Hosting is free through December 31, 2026. See Sites usage and cost for plan allowances, hosting rates, and a monthly cost estimate."
+   ]
+  }
+ },
+ {
+  "id": "ee8d3b7bb75e",
+  "agent": "claude-code",
+  "title": "Claude Code 2.1.332",
+  "body": "What's changed:\n• Added skills from MCP servers (beta). They show as server:skill in the / menu; other skills keep their names\n• Added a PreSkillShellCommand hook event that can refuse a skill or command's inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens a dialog at start\n• Added \"Always deliver\" to the prompt for held messages from other sessions\n• Added a footer line that stays while a flagged message has your session on a different model, until you pick one with /model\n• Added an OpenTelemetry assistant_response event for text Claude sends through SendUserMessage or Cowork's message tool, when response logging is on\n• Added a warning in VS Code and Desktop's Code tab when part of a session couldn't be saved, saying how to save it with /compact\n• Added a notice in VS Code and Desktop's Code tab when a resumed session's earlier messages weren't loaded, as the terminal already shows\n• Added your Cyber Verification Program access tier to the startup header, beside the model name when your tier applies to that model and you're signed in with a claude.ai account\n• Fixed claude auth login reporting Login successful. when a claude.ai login could not be saved: it now exits 1 and says what to check, such as a leftover lock file or a full disk\n• Fixed Read, @-mentions and compaction hanging on a named pipe that nothing writes to, such as a .env mounted by a locked secrets manager; the read now fails after 20 seconds\n• Fixed turns ending in…",
+  "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.332",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://api.github.com/repos/anthropics/claude-code/releases/457391405",
+  "first_seen": "2026-11-25",
+  "category": "feature",
+  "headline": "Claude Code 2.1.332",
+  "takeaway": "Added skills from MCP servers (beta). They show as server:skill in the / menu; other skills keep their names",
+  "editor": "rules"
+ },
+ {
   "id": "8f5bab403b72",
   "agent": "codex",
   "title": "Codex CLI 0.172.0",

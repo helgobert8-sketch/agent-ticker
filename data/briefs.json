@@ -9,5 +9,14 @@
   ],
   "editor": "ai",
   "count": 11
+ },
+ "2026-11-25": {
+  "headline": "2 changes across Claude Code, Codex",
+  "bullets": [
+   "Codex: pricing page changed.",
+   "Claude Code: Claude Code 2.1.332"
+  ],
+  "editor": "rules",
+  "count": 2
  }
 }
