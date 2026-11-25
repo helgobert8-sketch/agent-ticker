@@ -83,10 +83,20 @@ def brief_html(day, brief, link=False):
 <h2>{title}</h2>{f'<ul>{bullets}</ul>' if bullets else ''}</section>"""
 
 
-def follow_html():
+def newsletter_signup_html(signup_url=None):
+    url = (signup_url or os.environ.get("BREVO_SIGNUP_URL", "")).strip()
+    if not url.startswith(("https://", "http://")):
+        return ""
+    return f"""<div class="newsletter-signup"><h3>Get the daily brief by email</h3>
+<p>The same AI-edited briefing lands in your inbox once a day.</p>
+<p class="cta"><a class="btn" href="{E_(url)}" rel="noopener">Sign up for the newsletter</a></p></div>"""
+
+
+def follow_html(signup_url=None):
     feed = f"{SITE_URL}/feed.xml"
     share = quote(f"What changed in your AI coding agents today: {SITE_URL}/", safe="")
     return f"""<section class="follow" id="follow"><h2>Follow Agent-Ticker</h2>
+{newsletter_signup_html(signup_url)}
 <p>Paste the feed address into any RSS reader (Feedly, Inoreader, NetNewsWire, Slack's /feed) and the daily brief and every new change arrive by themselves.</p>
 <div class="copy"><input id="feed-url" readonly value="{feed}"><button class="btn" data-copy="{feed}">Copy feed URL</button></div>
 <p class="cta"><a class="btn ghost" href="{REPO_URL}">Star or watch on GitHub</a><a class="btn ghost" href="https://x.com/intent/post?text={share}" rel="noopener">Share on X</a>
@@ -146,7 +156,9 @@ def build(data_dir="data", out_dir="public"):
     body = hero + (tape(entries) if entries else "")
     if latest_brief_day:
         body += brief_html(latest_brief_day, briefs[latest_brief_day])
-    body += f'<section class="cards">{cards}</section>{filters()}<p id="stale-note" class="stale"></p><div id="timeline">{"".join(timeline)}</div>' + follow_html()
+    newsletter_state = load_json(os.path.join(data_dir, "newsletter.json"), {})
+    signup_url = os.environ.get("BREVO_SIGNUP_URL") or newsletter_state.get("signup_url")
+    body += f'<section class="cards">{cards}</section>{filters()}<p id="stale-note" class="stale"></p><div id="timeline">{"".join(timeline)}</div>' + follow_html(signup_url)
     write(out_dir, "index.html", page("Agent-Ticker · daily changes at AI coding agents", body, "home"))
 
     archive_items = []

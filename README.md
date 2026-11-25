@@ -27,6 +27,12 @@ Every run is logged on the site's *How it runs* page with its trigger, plus a wa
 Rule-based editing is the fallback whenever the AI is missing or fails.
 | `AI_MAX_CALLS` | env | `18` per run (Gemini free tier allows 20 requests a day) |
 | `AI_BACKLOG_CALLS` | env | `4` per run: AI re-edits up to 32 older rule-written items a day |
+| `BREVO_API_KEY` | secret | sends the stored daily brief as one Brevo email campaign per UTC day; unset or unavailable: newsletter step skips/logs without failing the run |
+| `BREVO_LIST_ID` / `BREVO_LIST_NAME` | variable | optional contact-list override; otherwise the sender discovers the Agent-Ticker list through the API and pins it in `data/newsletter.json` |
+| `BREVO_SENDER_ID` / `BREVO_SENDER_EMAIL` | variable | optional sender override; otherwise the first active Brevo sender is used |
+| `BREVO_SIGNUP_URL` | variable | optional public signup-form link overriding `signup_url` in `data/newsletter.json`; while neither is set the newsletter signup slot is not rendered |
+
+Manual newsletter runs use the `Daily ticker` workflow's `brevo_action` input: `send-only` rebuilds from stored data and sends today's brief without collection or Gemini calls, and `verify-only` prints the campaign status and recipient count from the Brevo API.
 
 ## Local run
 
