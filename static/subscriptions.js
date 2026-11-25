@@ -27,8 +27,21 @@
     return { owned, gaps, overlap: owned.filter(result => result.verified.length >= 2).length };
   }
 
+  function evidenceCards(row, evidence) {
+    const grouped = new Map();
+    for (const plan of evidence) {
+      if (!grouped.has(plan.vendor)) grouped.set(plan.vendor, []);
+      grouped.get(plan.vendor).push(plan);
+    }
+    return Array.from(grouped, ([vendor, plans]) => ({
+      card: row.cells[vendor].card.cloneNode(true),
+      plans,
+    }));
+  }
+
   if (typeof module !== "undefined") {
     module.exports = compare;
+    module.exports.evidenceCards = evidenceCards;
     return;
   }
 
@@ -67,23 +80,14 @@
     const details = node("details", null, "stack-row");
     details.append(node("summary", row.label + status + (marked ? " · Matters to me" : "")));
     const cards = node("div", null, "stack-evidence");
-    const grouped = new Map();
-    for (const plan of evidence) {
-      if (["not checked", "not included"].includes(planStatus(plan, row))) continue;
-      if (!grouped.has(plan.vendor)) grouped.set(plan.vendor, []);
-      grouped.get(plan.vendor).push(plan);
-    }
-    for (const [vendor, group] of grouped) {
-      const cell = row.cells[vendor];
-      const card = cell.card.cloneNode(true);
-      card.querySelector("h3").after(node("p", group.map(plan => plan.name).join(", "), "stack-plan-label"));
-      if (group.some(plan => planStatus(plan, row) !== "verified")) {
-        card.append(node("small", "Vendor-level evidence; check the terms for your tier."));
+    for (const { card, plans } of evidenceCards(row, evidence)) {
+      card.querySelector("h3").after(node("p", plans.map(plan => plan.name).join(", "), "stack-plan-label"));
+      if (plans.some(plan => planStatus(plan, row) !== "verified")) {
+        card.append(node("small", "Vendor-level source and notes; see the status for your tier above."));
       }
       cards.append(card);
     }
     if (!evidence.length) cards.append(node("p", "No other plan has an offer documented here."));
-    else if (!grouped.size) cards.append(node("p", "See the map for the vendor sources and notes."));
     details.append(cards);
     return details;
   }

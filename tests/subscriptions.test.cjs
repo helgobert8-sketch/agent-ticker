@@ -78,6 +78,25 @@ test("picking only SuperGrok Lite leaves top model access and coding agent gaps"
   assert.equal(overlap, 0);
 });
 
+test("unchecked and excluded plans retain the full vendor source card and flags", () => {
+  const lite = { name: "SuperGrok Lite", vendor: "grok", selected: true };
+  const vendorCard = {
+    source: "https://docs.x.ai/",
+    flags: ["New update, check", "Source changed, check"],
+  };
+  for (const status of ["not checked", "not included"]) {
+    const row = { id: "grok", cells: { grok: {
+      ...tierCell([lite.name], status),
+      card: { cloneNode: deep => {
+        assert.equal(deep, true);
+        return vendorCard;
+      } },
+    } } };
+    const { owned } = compare([row], [lite], new Set());
+    assert.deepEqual(compare.evidenceCards(row, owned[0].evidence), [{ card: vendorCard, plans: [lite] }]);
+  }
+});
+
 test("a vendor-level verified cell does not verify legacy entitlements", () => {
   const legacyOnly = [{ ...plans[4], selected: true }];
   const { verified } = compare(rows, legacyOnly, new Set()).owned[0];
