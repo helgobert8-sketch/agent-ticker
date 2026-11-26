@@ -1,5 +1,101 @@
 [
  {
+  "id": "f2c20e6f7ba8",
+  "agent": "devin",
+  "title": "Enable the element picker on Devin Apps in the Browser tab",
+  "body": "You can now use the element picker on a Devin App opened in a session's Browser tab; its button was previously disabled there.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Apps",
+  "first_seen": "2026-11-26",
+  "category": "feature",
+  "headline": "Use element picker on Devin Apps in Browser tab",
+  "takeaway": "You can now pick UI elements directly inside a Devin App opened in a session's Browser tab.",
+  "editor": "ai"
+ },
+ {
+  "id": "565ea3073ebc",
+  "agent": "devin",
+  "title": "PR review: show the scan Fixes tab on the full review page",
+  "body": "The full Devin Review pull request page now has a \"Fixes\" tab listing the code-scan findings the PR fixes.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Devin Review",
+  "first_seen": "2026-11-26",
+  "category": "feature",
+  "headline": "Show code-scan Fixes tab on full PR review page",
+  "takeaway": "The full Devin Review PR page now includes a Fixes tab listing the code-scan findings resolved by the pull request.",
+  "editor": "ai"
+ },
+ {
+  "id": "efff0f1ce2c3",
+  "agent": "devin",
+  "title": "Let an enterprise admin add themselves to a session under the Creator-only sharing limit",
+  "body": "Under the \"Creator only\" session sharing limit, an enterprise admin can now add themselves to a session and open it read-only.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-26",
+  "category": "feature",
+  "headline": "Enterprise admins can join Creator-only sessions",
+  "takeaway": "Under the \"Creator only\" sharing limit, enterprise admins can now add themselves to a session and view it read-only.",
+  "editor": "ai"
+ },
+ {
+  "id": "afa83954df4c",
+  "agent": "devin",
+  "title": "Blueprints: add clone.filter for blobless/treeless initial clones",
+  "body": "Environment blueprints accept a new clone.filter option (for example blob:none or tree:none) so repositories can be cloned blobless or treeless for faster initial clones.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-26",
+  "category": "feature",
+  "headline": "Add clone.filter to blueprints for faster clones",
+  "takeaway": "Use clone.filter (e.g., blob:none or tree:none) in environment blueprints to run blobless or treeless initial repo clones.",
+  "editor": "ai"
+ },
+ {
+  "id": "84c72b3b8259",
+  "agent": "devin",
+  "title": "Show failed client-credentials token requests on MCP save and Connect",
+  "body": "When an MCP's OAuth client-credentials token request fails, saving or clicking Connect now says so, showing the token endpoint, HTTP status and error code, a \"token not issued\" state, and an IP allowlisting docs link, instead of reporting success.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Integrations & MCPs",
+  "first_seen": "2026-11-26",
+  "category": "fix",
+  "headline": "Show failed OAuth token requests on MCP save/Connect",
+  "takeaway": "Failed MCP OAuth client-credentials token requests now show the endpoint, HTTP status, error code, and IP allowlisting docs instead of reporting success.",
+  "editor": "ai"
+ },
+ {
+  "id": "73738f7aefe2",
+  "agent": "devin",
+  "title": "Jira Rovo: apply configured playbooks and ingest work item attachments",
+  "body": "Sessions started by mentioning or assigning @Devin in Jira (Rovo agent) now apply your configured Jira playbooks (label macros like !triage, per-project or site default) and receive the work item's attachments.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-25",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Integrations & MCPs",
+  "first_seen": "2026-11-26",
+  "category": "feature",
+  "headline": "Jira Rovo @Devin sessions use playbooks and attachments",
+  "takeaway": "Sessions triggered by @Devin in Jira now apply configured playbooks (like !triage) and ingest work item attachments.",
+  "editor": "ai"
+ },
+ {
   "id": "46afad937d8e",
   "agent": "codex",
   "title": "Codex pricing page changed",
@@ -57,9 +153,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Format text in the message box",
-  "takeaway": "Select text in the message box to make it bold, italic, strikethrough or inline code, or turn it into a bullet list, quote or code block. You can also paste rich text or type Markdown directly.",
-  "editor": "rules"
+  "headline": "Format text and paste rich text in the message box",
+  "takeaway": "You can format prompts with bold, lists, quotes, or code blocks, or paste rich text and Markdown directly.",
+  "editor": "ai"
  },
  {
   "id": "dce653496d70",
@@ -73,9 +169,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Category tabs and page results in Cmd+K",
-  "takeaway": "The command palette (Cmd/Ctrl+K) has All, Sessions, Bots, Apps and Actions tabs (Tab/Shift+Tab to switch), lists every left-rail page such as Home, Bots, Security and Compliance, and Enter on Create…",
-  "editor": "rules"
+  "headline": "Cmd/Ctrl+K adds category tabs and page results",
+  "takeaway": "Quickly jump between Sessions, Bots, Apps, Actions, and left-rail pages, or hit Enter on Create app to start an App session.",
+  "editor": "ai"
  },
  {
   "id": "7f0a843a383c",
@@ -89,9 +185,9 @@
   "section": "Apps",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Apps page opens on popular Apps",
-  "takeaway": "The Apps page opens on serving Apps sorted by this week's traffic, and its top row shows the most popular ones.",
-  "editor": "rules"
+  "headline": "Apps page now opens on popular serving Apps",
+  "takeaway": "Serving Apps are sorted by this week's traffic, with the most popular ones shown in the top row.",
+  "editor": "ai"
  },
  {
   "id": "ccbf42f38326",
@@ -105,9 +201,9 @@
   "section": "Apps",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Engineering pulse App template",
-  "takeaway": "The new Engineering pulse template builds a dashboard of PRs waiting on review, review and merge times, recent merges and failing CI. It replaces the Incident dashboard template.",
-  "editor": "rules"
+  "headline": "New Engineering pulse App template replaces Incident dashboard",
+  "takeaway": "Spin up a dashboard tracking PRs waiting on review, review and merge times, recent merges, and failing CI.",
+  "editor": "ai"
  },
  {
   "id": "de45bae1d2bb",
@@ -121,9 +217,9 @@
   "section": "Bots",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "DevinDash Bot template",
-  "takeaway": "The DevinDash template, which orders food through DoorDash, is now listed in the Create Bot template picker and the template library.",
-  "editor": "rules"
+  "headline": "DevinDash Bot template added for DoorDash orders",
+  "takeaway": "You can now pick the DevinDash template from the Create Bot picker or template library to order food via DoorDash.",
+  "editor": "ai"
  },
  {
   "id": "d43dcfc58187",
@@ -137,9 +233,9 @@
   "section": "Bots",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Approve automations that Bots save",
-  "takeaway": "A Bot's Automations settings have an Auto-approve automations switch. Enterprise admins can also require every Bot to get a person's approval before it saves its own automations, under Trigger…",
-  "editor": "rules"
+  "headline": "Require human approval for Bot-saved automations",
+  "takeaway": "Toggle Auto-approve automations per Bot, or let enterprise admins require person-in-the-loop approval under Trigger policies.",
+  "editor": "ai"
  },
  {
   "id": "2c3d7e2ae3e4",
@@ -153,9 +249,9 @@
   "section": "Security",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Share and update saved Findings views",
-  "takeaway": "A saved view's link opens the view with its current filters, and the save icon on a view overwrites it with the filters you have applied.",
-  "editor": "rules"
+  "headline": "Share links to and update saved Findings views",
+  "takeaway": "Saved view links preserve your current filters for teammates, and the save icon overwrites the view with your applied filters.",
+  "editor": "ai"
  },
  {
   "id": "8738224c9778",
@@ -169,9 +265,9 @@
   "section": "Security",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Pending filter for findings",
-  "takeaway": "The Pull request filter on Findings has a Pending option for findings a remediation session has claimed but not opened a PR for yet.",
-  "editor": "rules"
+  "headline": "Findings Pull request filter adds a Pending option",
+  "takeaway": "Filter for findings that a remediation session has already claimed but hasn't opened a PR for yet.",
+  "editor": "ai"
  },
  {
   "id": "7063736ed88b",
@@ -185,9 +281,9 @@
   "section": "Security",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Findings tab for each scan run",
-  "takeaway": "In a code scan setup session, each scan run's findings open in their own tab, labeled with the repository and start time.",
-  "editor": "rules"
+  "headline": "Devin opens each code scan run's findings in its own tab",
+  "takeaway": "Makes it easier to compare security scan results across repositories and timestamps without losing track of earlier runs.",
+  "editor": "ai"
  },
  {
   "id": "93a459b4d014",
@@ -200,10 +296,10 @@
   "source": "https://docs.devin.ai/release-notes/overview.md",
   "section": "Security",
   "first_seen": "2026-11-25",
-  "category": "model",
-  "headline": "Split scans start with a threat model",
-  "takeaway": "Choosing Split scan for a security scan starts a session that builds a threat model first, then launches one scan per repository.",
-  "editor": "rules"
+  "category": "feature",
+  "headline": "Devin Split scan builds a threat model before scanning repos",
+  "takeaway": "Gives multi-repo security scans a shared threat model upfront, then runs individual scans per repository.",
+  "editor": "ai"
  },
  {
   "id": "0702da92f433",
@@ -217,9 +313,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Secret suggestions in MCP headers",
-  "takeaway": "Typing \\$ in an MCP header value suggests your saved secrets and inserts the reference.",
-  "editor": "rules"
+  "headline": "Devin suggests saved secrets when typing \\$ in MCP headers",
+  "takeaway": "Speeds up MCP server setup by letting you autocomplete and reference stored secrets directly in header values.",
+  "editor": "ai"
  },
  {
   "id": "8684b48a3ae3",
@@ -233,9 +329,9 @@
   "section": "Automations",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Shareable filtered Automations links",
-  "takeaway": "Filters on the Automations list are saved in the URL, so a copied link opens the same filtered list.",
-  "editor": "rules"
+  "headline": "Devin Automations list filters now persist in the URL",
+  "takeaway": "You can bookmark or share filtered views of your automations with teammates using a direct link.",
+  "editor": "ai"
  },
  {
   "id": "d34a730a0b5c",
@@ -249,9 +345,9 @@
   "section": "Automations",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Enable or disable from the right-click menu",
-  "takeaway": "Right-click an automation or reminder on the Automations list to enable or disable it.",
-  "editor": "rules"
+  "headline": "Right-click to enable or disable Devin automations and reminders",
+  "takeaway": "Lets you quickly toggle automations or reminders on and off directly from the Automations list.",
+  "editor": "ai"
  },
  {
   "id": "08f73594e81c",
@@ -265,9 +361,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-25",
   "category": "feature",
-  "headline": "Teams typing indicator in threads",
-  "takeaway": "In Microsoft Teams, Devin's typing indicator shows in channel threads and in threads of 1:1 chats.",
-  "editor": "rules"
+  "headline": "Devin shows a typing indicator in Microsoft Teams threads",
+  "takeaway": "Gives you visual feedback that Devin is actively responding in Teams channel threads and 1:1 chat threads.",
+  "editor": "ai"
  },
  {
   "id": "8f5bab403b72",
@@ -1539,9 +1635,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Update branch from Devin Review",
-  "takeaway": "When a GitHub pull request is behind its base and you can update it, Devin Review's merge button becomes Update branch, which asks GitHub to update the branch.",
-  "editor": "rules"
+  "headline": "Devin Review adds an Update branch button for behind GitHub PRs",
+  "takeaway": "Lets you bring a pull request up to date with its base branch directly from Devin Review instead of switching to GitHub.",
+  "editor": "ai"
  },
  {
   "id": "593780e1ab59",
@@ -1555,9 +1651,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Source column in the Security findings table",
-  "takeaway": "The Security findings table has an optional Source column (turn it on from the column picker) showing where each finding came from: a scan, a connection import, a red team or a pull request review.",
-  "editor": "rules"
+  "headline": "Devin adds an optional Source column to Security findings",
+  "takeaway": "Helps you trace whether each security finding came from a scan, connection import, red team, or pull request review.",
+  "editor": "ai"
  },
  {
   "id": "128cae41c0da",
@@ -1571,9 +1667,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Chat about selected findings",
-  "takeaway": "When you select findings on the Security findings page, the selection bar has a Chat button that opens the findings chat.",
-  "editor": "rules"
+  "headline": "Chat about selected security findings",
+  "takeaway": "Select findings on the Security findings page and click Chat in the selection bar to discuss them.",
+  "editor": "ai"
  },
  {
   "id": "2844f0abbee5",
@@ -1587,9 +1683,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Search a security profile's allowed domains",
-  "takeaway": "Org admins can search the allowed domain list when editing a security profile, by domain or label.",
-  "editor": "rules"
+  "headline": "Search allowed domains in security profiles",
+  "takeaway": "Org admins can filter the allowed domain list by domain or label when editing a security profile.",
+  "editor": "ai"
  },
  {
   "id": "353d84999369",
@@ -1603,9 +1699,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "See which Google account an MCP connection uses",
-  "takeaway": "MCP connections signed in with a Google account show the address they are signed in as, in Customize > MCPs, on MCP cards in the session, and in the API.",
-  "editor": "rules"
+  "headline": "View Google account used by MCP connections",
+  "takeaway": "See which Google email an MCP connection uses in Customize > MCPs, session MCP cards, and the API.",
+  "editor": "ai"
  },
  {
   "id": "7a7722a218ab",
@@ -1619,9 +1715,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Personal or shared access on MCP installations",
-  "takeaway": "In Customize > MCPs, an organization's or enterprise's MCP installation says whether it uses Personal access (each member signs in) or Shared access.",
-  "editor": "rules"
+  "headline": "See personal or shared access on MCP installs",
+  "takeaway": "Customize > MCPs now labels org and enterprise MCP installations as Personal access or Shared access.",
+  "editor": "ai"
  },
  {
   "id": "9f1b64a524a4",
@@ -1635,9 +1731,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Choose where an MCP installation goes",
-  "takeaway": "In Customize, a plugin MCP's button reads Add installation to the layer it adds to, with an Add somewhere else option (including yourself), and each installation says who it is installed for.",
-  "editor": "rules"
+  "headline": "Choose where plugin MCP installations go",
+  "takeaway": "Pick the target layer or yourself when adding a plugin MCP, and see who each installation is for.",
+  "editor": "ai"
  },
  {
   "id": "da05d283ae30",
@@ -1651,9 +1747,9 @@
   "section": "Integrations & MCPs",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "DevinDash MCP is out of beta",
-  "takeaway": "The DevinDash MCP in the MCP marketplace is no longer marked beta.",
-  "editor": "rules"
+  "headline": "DevinDash MCP is now out of beta",
+  "takeaway": "The DevinDash MCP in the MCP marketplace is no longer marked as beta.",
+  "editor": "ai"
  },
  {
   "id": "131c554bc389",
@@ -1667,9 +1763,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Replies from people without session access in Slack threads",
-  "takeaway": "When someone without access to a session replies in a Slack thread the session watches, the session shows their message under their name, notes that Devin wasn't shown it, and links to it in Slack.",
-  "editor": "rules"
+  "headline": "Show Slack replies from users without session access",
+  "takeaway": "Sessions display Slack thread replies from non-members under their name with a Slack link, while noting Devin wasn't shown them.",
+  "editor": "ai"
  },
  {
   "id": "3769bed1c04c",
@@ -1683,9 +1779,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Devin can delete its own Slack messages",
-  "takeaway": "Devin can now delete Slack messages its own session posted, and it can read Slack canvases.",
-  "editor": "rules"
+  "headline": "Devin can delete its Slack messages and read canvases",
+  "takeaway": "Devin can now remove Slack messages posted by its own session and read Slack canvases.",
+  "editor": "ai"
  },
  {
   "id": "7f7ebd66722f",
@@ -1700,8 +1796,8 @@
   "first_seen": "2026-11-24",
   "category": "feature",
   "headline": "Devin can edit its Microsoft Teams direct messages",
-  "takeaway": "In Microsoft Teams, Devin can edit a direct message it sent, replacing its text and card.",
-  "editor": "rules"
+  "takeaway": "Devin can update its own Teams DMs in place, replacing both text and cards instead of sending follow-up messages.",
+  "editor": "ai"
  },
  {
   "id": "4274c67e3dd6",
@@ -1715,9 +1811,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Teams channel mentions open the channel",
-  "takeaway": "Microsoft Teams channel mentions in session messages and the composer show as #channel chips that open the channel in Teams.",
-  "editor": "rules"
+  "headline": "Teams #channel mentions in Devin open the channel",
+  "takeaway": "Channel mentions in session messages and the composer render as clickable #channel chips that jump straight to Teams.",
+  "editor": "ai"
  },
  {
   "id": "9b7b05ab36eb",
@@ -1730,9 +1826,9 @@
   "source": "https://api.github.com/repos/openai/codex/releases/449494076",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Codex CLI 0.170.0",
-  "takeaway": "Added WebRTC negotiation for realtime voice calls in the TUI. (#61172)",
-  "editor": "rules"
+  "headline": "Codex CLI 0.170.0 adds TUI voice calls and MCP fixes",
+  "takeaway": "Adds WebRTC realtime voice calls in the TUI, experimental cross-environment MCP server naming, and fixes for OAuth races and sandboxes.",
+  "editor": "ai"
  },
  {
   "id": "ea82ef76075c",
@@ -1746,9 +1842,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Simpler people search when sharing a session",
-  "takeaway": "The session Share dialog now has an always-open people search field, and it warns you when the session runs on a standalone environment.",
-  "editor": "rules"
+  "headline": "Devin session Share dialog adds always-open people search",
+  "takeaway": "Sharing sessions is faster with an always-open people search field, plus a warning if the session runs on a standalone environment.",
+  "editor": "ai"
  },
  {
   "id": "babd6a2d686f",
@@ -1762,9 +1858,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Search Apps from Cmd+K",
-  "takeaway": "The command palette (Cmd+K) now searches your Apps, showing each result's thumbnail, description and status, with scope chips and an option to create an App from your search.",
-  "editor": "rules"
+  "headline": "Search and create Devin Apps from Cmd+K",
+  "takeaway": "The Cmd+K command palette now searches your Apps with thumbnails, descriptions, status, scope chips, and a quick-create option.",
+  "editor": "ai"
  },
  {
   "id": "e67c19cce87f",
@@ -1778,9 +1874,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Security gets its own tab in Review settings",
-  "takeaway": "Review settings now have a separate Security tab for vulnerability and security-hardening suggestions (Settings > Review > Security).",
-  "editor": "rules"
+  "headline": "Devin Review settings add a dedicated Security tab",
+  "takeaway": "Vulnerability and security-hardening suggestions now live in their own tab under Settings > Review > Security.",
+  "editor": "ai"
  },
  {
   "id": "66f57e1057f6",
@@ -1794,9 +1890,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Devin Review status on Azure DevOps pull requests",
-  "takeaway": "Organizations that post Devin Review checks now also get a Devin Review status on Azure DevOps pull requests, attached to the pull request's latest iteration.",
-  "editor": "rules"
+  "headline": "Devin Review status now appears on Azure DevOps PRs",
+  "takeaway": "Orgs posting Devin Review checks now see a Devin Review status attached to the latest iteration of Azure DevOps pull requests.",
+  "editor": "ai"
  },
  {
   "id": "58885d5a6128",
@@ -1810,9 +1906,9 @@
   "section": "Devin Review",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Org-scoped Review settings for enterprise orgs",
-  "takeaway": "Enterprise admins can open Review settings for a single organization in the enterprise; enterprise-level controls show there as read-only.",
-  "editor": "rules"
+  "headline": "Enterprise admins can view org-scoped Review settings",
+  "takeaway": "Enterprise admins can open Review settings for individual orgs, with enterprise-level controls displayed as read-only.",
+  "editor": "ai"
  },
  {
   "id": "0c1f543a65fe",

@@ -221,11 +221,8 @@ Company
 - Brand
 - Future
 - Anysphere ↗
-Legal
-- Terms of Service
-- Acceptable Use Policy
-- Grok Bot Terms
-- SpaceXSI Subscription Terms ↗
+Terms and Policies
+- Legal
 - Privacy Policy
 - Cookie Policy
 - Data Use
@@ -469,11 +466,8 @@ Company
 - Brand
 - Future
 - Anysphere ↗
-Legal
-- Terms of Service
-- Acceptable Use Policy
-- Grok Bot Terms
-- SpaceXSI Subscription Terms ↗
+Terms and Policies
+- Legal
 - Privacy Policy
 - Cookie Policy
 - Data Use

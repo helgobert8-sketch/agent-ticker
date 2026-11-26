@@ -21,5 +21,17 @@
   ],
   "editor": "ai",
   "count": 16
+ },
+ "2026-11-26": {
+  "headline": "Devin adds Browser element picker, faster repo clones, and PR review updates",
+  "bullets": [
+   "Devin: Use the element picker directly inside Devin Apps opened in a session's Browser tab.",
+   "Devin: Add clone.filter (e.g., blob:none or tree:none) to environment blueprints for faster blobless or treeless repo clones.",
+   "Devin: The full Devin Review PR page now includes a Fixes tab listing code-scan findings resolved by the pull request.",
+   "Devin: Jira Rovo @Devin sessions now apply configured playbooks (like !triage) and ingest work item attachments.",
+   "Devin: Failed MCP OAuth client-credentials token requests now show the endpoint, HTTP status, error code, and IP allowlisting docs."
+  ],
+  "editor": "ai",
+  "count": 6
  }
 }
