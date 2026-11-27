@@ -27,6 +27,19 @@
    "sentDate": "2026-11-26T19:37:45.000+01:00",
    "checked": "2026-11-26T23:07:56+00:00",
    "deduped": true
+  },
+  "2026-11-27": {
+   "id": 7,
+   "name": "Agent-Ticker daily brief 2026-11-27",
+   "status": "queued",
+   "created": "2026-11-27T18:28:53+00:00",
+   "listIds": [
+    3
+   ],
+   "sendRequested": "2026-11-27T18:28:53+00:00",
+   "recipients": 0,
+   "sentDate": null,
+   "checked": "2026-11-27T18:28:54+00:00"
   }
  },
  "list": {

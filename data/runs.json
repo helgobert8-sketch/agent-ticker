@@ -1061,5 +1061,71 @@
   "ai_errors": [],
   "ai_model": "gemini-4-hydrogen",
   "seconds": 117.5
+ },
+ {
+  "date": "2026-11-27",
+  "started": "2026-11-27T18:23:44+00:00",
+  "trigger": "schedule",
+  "sources": {
+   "devin": {
+    "ok": true,
+    "items": 1215
+   },
+   "claude-code": {
+    "ok": true,
+    "items": 30
+   },
+   "codex": {
+    "ok": true,
+    "items": 9
+   },
+   "cursor": {
+    "ok": true,
+    "items": 50
+   },
+   "grok": {
+    "ok": true,
+    "items": 60
+   }
+  },
+  "pricing": {
+   "devin": {
+    "ok": true,
+    "changed": false
+   },
+   "claude-code": {
+    "ok": true,
+    "changed": false
+   },
+   "codex": {
+    "ok": true,
+    "changed": false
+   },
+   "cursor": {
+    "ok": true,
+    "changed": false
+   },
+   "grok": {
+    "ok": true,
+    "changed": false
+   }
+  },
+  "new": 11,
+  "subscription_map": {
+   "source_pages": 26,
+   "failed": 1,
+   "ticker_matches": 0
+  },
+  "ai_backlog": 16,
+  "pricing_changes": 0,
+  "ai_calls": 7,
+  "ai_errors": [
+   "TimeoutError: The read operation timed out",
+   "HTTP 503: UNAVAILABLE: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+   "HTTP 503: UNAVAILABLE: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+   "HTTP 503: UNAVAILABLE: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+  ],
+  "ai_model": "gemini-4-hydrogen",
+  "seconds": 306.9
  }
 ]

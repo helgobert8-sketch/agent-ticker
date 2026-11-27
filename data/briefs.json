@@ -33,5 +33,16 @@
   ],
   "editor": "ai",
   "count": 6
+ },
+ "2026-11-27": {
+  "headline": "Devin adds deleted file previews, Slack automation pings, and Oncall language settings",
+  "bullets": [
+   "Devin: The Changes pane now displays the contents of files deleted by Devin.",
+   "Devin: Automations can post dispatch status notifications to a Slack channel via the v3 API's notifications.slack.",
+   "Devin: Returning to the Bots tile from another tab reopens your chat, open session, and workspace tab as you left them.",
+   "Devin: Oncall responders and incident settings now include a Response language dropdown."
+  ],
+  "editor": "ai",
+  "count": 11
  }
 }

@@ -1,5 +1,181 @@
 [
  {
+  "id": "f3de61f3d086",
+  "agent": "devin",
+  "title": "Show a deleted file's contents in the Changes pane",
+  "body": "The Changes pane now shows the contents of a file Devin deleted.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Sessions & Workspace",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Show a deleted file's contents in the Changes pane",
+  "takeaway": "The Changes pane now shows the contents of a file Devin deleted.",
+  "editor": "rules"
+ },
+ {
+  "id": "6da21f60118c",
+  "agent": "devin",
+  "title": "Bots tile reopens the Devin's chat as it was left",
+  "body": "Returning to Bots from another tab reopens your Devin's chat as you left it, including the open session and workspace tab.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Bots",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Bots tile reopens the Devin's chat as it was left",
+  "takeaway": "Returning to Bots from another tab reopens your Devin's chat as you left it, including the open session and workspace tab.",
+  "editor": "rules"
+ },
+ {
+  "id": "31088232c538",
+  "agent": "devin",
+  "title": "Bots: admit Enterprise Grid senders under Slack workspace access",
+  "body": "On Slack Enterprise Grid workspaces, people can now DM and mention a Bot whose \"Who can message\" is set to \"Anyone in your Slack workspace\".",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Bots",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Bots: admit Enterprise Grid senders under Slack workspace access",
+  "takeaway": "On Slack Enterprise Grid workspaces, people can now DM and mention a Bot whose \"Who can message\" is set to \"Anyone in your Slack workspace\".",
+  "editor": "rules"
+ },
+ {
+  "id": "0bc8396f05c8",
+  "agent": "devin",
+  "title": "Scan cards: a bulk batch scan's View findings opens that scan's findings",
+  "body": "On a session that started a bulk code scan, a scan card's View findings now opens that scan's findings instead of the generic page.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Security",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Scan cards: a bulk batch scan's View findings opens that scan's findings",
+  "takeaway": "On a session that started a bulk code scan, a scan card's View findings now opens that scan's findings instead of the generic page.",
+  "editor": "rules"
+ },
+ {
+  "id": "988d1b7bb7cb",
+  "agent": "devin",
+  "title": "Read manageable service users from the caller's grants, in pages",
+  "body": "The Service users list and the manageable-service-users API now page through the caller's grants instead of loading every service user at once, so very large organizations no longer hit timeouts and errors.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Read manageable service users from the caller's grants, in pages",
+  "takeaway": "The Service users list and the manageable-service-users API now page through the caller's grants instead of loading every service user at once, so very large organizations no longer hit timeouts and…",
+  "editor": "rules"
+ },
+ {
+  "id": "3d3d81c6fbff",
+  "agent": "devin",
+  "title": "Let an enterprise admin add themselves with write access under the Creator-only sharing limit",
+  "body": "Under the Creator-only sharing limit, an enterprise admin can now add themselves to a session with write access instead of read-only.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Let an enterprise admin add themselves with write access under the Creator-only sharing limit",
+  "takeaway": "Under the Creator-only sharing limit, an enterprise admin can now add themselves to a session with write access instead of read-only.",
+  "editor": "rules"
+ },
+ {
+  "id": "ef4b5ae43216",
+  "agent": "devin",
+  "title": "Show the owner and real access in the session share dialog",
+  "body": "The session share dialog now lists the session's owner, shows role groups only where they really grant access, and hides the share button when account policy blocks sharing.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Show the owner and real access in the session share dialog",
+  "takeaway": "The session share dialog now lists the session's owner, shows role groups only where they really grant access, and hides the share button when account policy blocks sharing.",
+  "editor": "rules"
+ },
+ {
+  "id": "f41f551c19c0",
+  "agent": "devin",
+  "title": "Share dialog search: read the access list from the resource's grants, not the account's",
+  "body": "Searching in the share dialog's access list now returns quickly instead of timing out on accounts with very many grants.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Share dialog search: read the access list from the resource's grants, not the account's",
+  "takeaway": "Searching in the share dialog's access list now returns quickly instead of timing out on accounts with very many grants.",
+  "editor": "rules"
+ },
+ {
+  "id": "4f7a6e1eb3a0",
+  "agent": "devin",
+  "title": "Add a Response language setting to Devin Oncall responders and incident settings",
+  "body": "Devin Oncall responders and incident settings gain a Response language dropdown so incidents are answered in a chosen language.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Enterprise & Settings",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Add a Response language setting to Devin Oncall responders and incident settings",
+  "takeaway": "Devin Oncall responders and incident settings gain a Response language dropdown so incidents are answered in a chosen language.",
+  "editor": "rules"
+ },
+ {
+  "id": "10b261ea1737",
+  "agent": "devin",
+  "title": "Automations can post dispatch pings to Slack channels",
+  "body": "An automation's dispatch status notifications can now be posted to a Slack channel, configured through the v3 API's notifications.slack.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Automations",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Automations can post dispatch pings to Slack channels",
+  "takeaway": "An automation's dispatch status notifications can now be posted to a Slack channel, configured through the v3 API's notifications.slack.",
+  "editor": "rules"
+ },
+ {
+  "id": "8b963495537f",
+  "agent": "devin",
+  "title": "Link Slack settings from the Slack \"not a member\" reply",
+  "body": "The Slack \"not a member\" reply now links to Slack settings so users with a stale Slack connection can re-authorize.",
+  "url": "https://docs.devin.ai/release-notes/overview",
+  "published": "2026-11-26",
+  "date_precision": "day",
+  "source": "https://docs.devin.ai/release-notes/overview.md",
+  "section": "Slack & Microsoft Teams",
+  "first_seen": "2026-11-27",
+  "category": "feature",
+  "headline": "Link Slack settings from the Slack \"not a member\" reply",
+  "takeaway": "The Slack \"not a member\" reply now links to Slack settings so users with a stale Slack connection can re-authorize.",
+  "editor": "rules"
+ },
+ {
   "id": "f2c20e6f7ba8",
   "agent": "devin",
   "title": "Enable the element picker on Devin Apps in the Browser tab",
@@ -2001,9 +2177,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/449173658",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.327",
-  "takeaway": "Added a confirmation before /install-github-app changes a repository",
-  "editor": "rules"
+  "headline": "Claude Code 2.1.327 adds stdin MCP config and /status diagnostics",
+  "takeaway": "Keep tokens off the command line with claude mcp add-json <name> - and catch broken skills, hooks, or permission overrides in /status.",
+  "editor": "ai"
  },
  {
   "id": "657dbafe8030",
@@ -2016,9 +2192,9 @@
   "source": "https://api.github.com/repos/openai/codex/releases/449266447",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Codex CLI 0.169.1",
-  "takeaway": "Chores:",
-  "editor": "rules"
+  "headline": "Codex CLI 0.169.1 maintenance release",
+  "takeaway": "No verified release highlights are listed for this update; check the full GitHub compare link for details.",
+  "editor": "ai"
  },
  {
   "id": "7d505e285f32",
@@ -2032,9 +2208,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Subscribers and Mark done",
-  "takeaway": "Your sidebar now shows the sessions you are subscribed to. Mark done replaces Archive: it moves a session to your Done folder while it keeps running and stays in the sidebars of its other…",
-  "editor": "rules"
+  "headline": "Devin replaces Archive with Mark done and subscriber sidebars",
+  "takeaway": "Clear your sidebar without stopping a running session or removing it from other subscribers' views.",
+  "editor": "ai"
  },
  {
   "id": "070adf3ac005",
@@ -2048,9 +2224,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Phonebook: one identity across your connected services",
-  "takeaway": "Devin now keeps a phonebook of each member's linked identities across Devin, Slack, Microsoft Teams, your git providers, Jira, Linear and Pylon. Devin has a tool to match a person to their connected…",
-  "editor": "rules"
+  "headline": "Devin links user identities across Slack, Teams, Git, Jira, and Linear",
+  "takeaway": "Mentioning a teammate in Devin now tags their linked identity in Devin and Slack at the same time.",
+  "editor": "ai"
  },
  {
   "id": "6c30df4f3855",
@@ -2064,9 +2240,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Slack channel picker in the composer",
-  "takeaway": "Type # in any cloud session composer to pick a Slack channel.",
-  "editor": "rules"
+  "headline": "Devin adds a Slack channel picker to the cloud session composer",
+  "takeaway": "Type # in any cloud session composer to quickly select and reference a Slack channel.",
+  "editor": "ai"
  },
  {
   "id": "86563d11f491",
@@ -2080,9 +2256,9 @@
   "section": "Sessions & Workspace",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Session event search matches words separately",
-  "takeaway": "Searching a session's events now matches each word on its own, so a query finds events that contain the words in any order.",
-  "editor": "rules"
+  "headline": "Devin session event search now matches words in any order",
+  "takeaway": "Find relevant session events faster without needing to type search terms in an exact sequence.",
+  "editor": "ai"
  },
  {
   "id": "39fbacfb2c8b",
@@ -2096,9 +2272,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "CSV export of Security Findings",
-  "takeaway": "Export the Security Findings table to CSV.",
-  "editor": "rules"
+  "headline": "Devin adds CSV export for Security Findings",
+  "takeaway": "Download the Security Findings table as a CSV to share or analyze results outside Devin.",
+  "editor": "ai"
  },
  {
   "id": "d6fcb4341d13",
@@ -2112,9 +2288,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Configure is now Customize",
-  "takeaway": "Security > Configure is renamed Customize. Manage security-profile plugins there, let a profile's skills set scan paths and include/exclude globs, pick the repositories a threat-model rule applies…",
-  "editor": "rules"
+  "headline": "Devin renames Security > Configure to Customize with new controls",
+  "takeaway": "Manage security-profile plugins, set scan paths and globs, scope threat-model rules by repo, and keep skills writable.",
+  "editor": "ai"
  },
  {
   "id": "247fe22c1055",
@@ -2128,9 +2304,9 @@
   "section": "Security",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Findings polish",
-  "takeaway": "The browser tab is named after the open finding, severity is spelled out in the finding title, and the finding sheet crossfades between findings.",
-  "editor": "rules"
+  "headline": "Devin polishes Findings UI with tab names and crossfades",
+  "takeaway": "The browser tab now shows the open finding name, severity is spelled out in titles, and the finding sheet crossfades between findings.",
+  "editor": "ai"
  },
  {
   "id": "1a6c44142a1a",
@@ -2144,9 +2320,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Enterprise Knowledge managers maintain migrated skills",
-  "takeaway": "Enterprise Knowledge managers can read and maintain skills migrated from Knowledge.",
-  "editor": "rules"
+  "headline": "Enterprise Knowledge managers can maintain migrated skills",
+  "takeaway": "Enterprise Knowledge managers can now read and maintain skills that were migrated from Knowledge.",
+  "editor": "ai"
  },
  {
   "id": "3f048dc73c74",
@@ -2160,9 +2336,9 @@
   "section": "Enterprise & Settings",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Skills layers page in Customize",
-  "takeaway": "Customize > Skills has a page listing the layers you can write skills to, and malformed plugin content says what is wrong in the catalog.",
-  "editor": "rules"
+  "headline": "Devin adds Skills layers page and plugin error details",
+  "takeaway": "Customize > Skills now lists the layers you can write skills to, and malformed plugin content displays what is wrong in the catalog.",
+  "editor": "ai"
  },
  {
   "id": "c87fbf56ceb2",
@@ -2176,9 +2352,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Tagging Devin in an old Slack thread starts a new session",
-  "takeaway": "When Devin is tagged in a Slack thread whose session is too old to resume, it starts a new session instead of failing. !ultrafast is accepted as an alias of !fastultra in Slack and Teams.",
-  "editor": "rules"
+  "headline": "Tagging Devin in old Slack threads starts a new session",
+  "takeaway": "Devin now starts a new session instead of failing when tagged in an unresumable Slack thread, and accepts !ultrafast as an alias of !fastultra.",
+  "editor": "ai"
  },
  {
   "id": "2f258496b836",
@@ -2192,9 +2368,9 @@
   "section": "Slack & Microsoft Teams",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Mentions on Teams and in quotes",
-  "takeaway": "On Microsoft Teams, @user mentions are written back as native mentions. The quote of a user's message names the mentioned person, and message headers name Slack or Teams.",
-  "editor": "rules"
+  "headline": "Devin adds native Teams mentions and clearer quote headers",
+  "takeaway": "On Microsoft Teams, @user mentions now write back as native mentions, quoted messages name the mentioned person, and headers name Slack or Teams.",
+  "editor": "ai"
  },
  {
   "id": "d4a0e7bd1c97",
@@ -2207,9 +2383,9 @@
   "source": "https://api.github.com/repos/anthropics/claude-code/releases/447444139",
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Claude Code 2.1.326",
-  "takeaway": "Added support for turning on Code Mode while agent teams are enabled; if you already turned it on, sessions with teams on now start in Code Mode",
-  "editor": "rules"
+  "headline": "Claude Code 2.1.326 supports Code Mode with agent teams",
+  "takeaway": "You can now use Code Mode with agent teams enabled, plus get startup warnings for incomplete --allowedTools rules and /status rows for DISABLE_TELEMETRY.",
+  "editor": "ai"
  },
  {
   "id": "32b73d6073fc",
@@ -2223,9 +2399,9 @@
   "section": null,
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "German UI Language",
-  "takeaway": "Deutsch can now be selected as the display language in Preferences, using the terms engineers use for session, merge, push, prompt, logs, service user and secrets.",
-  "editor": "rules"
+  "headline": "Devin adds German UI language option in Preferences",
+  "takeaway": "You can now select Deutsch as the display language in Preferences, using standard engineering terms for session, merge, push, prompt, and logs.",
+  "editor": "ai"
  },
  {
   "id": "b95783897fd6",
@@ -2239,9 +2415,9 @@
   "section": null,
   "first_seen": "2026-11-24",
   "category": "feature",
-  "headline": "Session File Editor Saves on Cmd/Ctrl+S",
-  "takeaway": "The session file editor no longer saves automatically: press Cmd/Ctrl+S to save, a dot on the tab marks unsaved files, a cloud icon in the editor header confirms each save to Devin's machine, and…",
-  "editor": "rules"
+  "headline": "Devin session file editor now saves on Cmd/Ctrl+S",
+  "takeaway": "The session file editor no longer auto-saves; press Cmd/Ctrl+S to save to Devin's machine, with unsaved indicators and prompts before closing.",
+  "editor": "ai"
  },
  {
   "id": "6f08853362b0",

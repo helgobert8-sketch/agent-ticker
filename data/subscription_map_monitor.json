@@ -2,133 +2,144 @@
  "sources": {
   "https://claude.com/pricing": {
    "hash": "0349010e60933f3199f98921183ed9f4c5ae46d48ded1b3d32b9cc22686fd4ff",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers": {
-   "hash": "c899f55766399717e1e3fdaaa4513ecd2645eaa0e337623ca0d2e4dbe751c851",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "37ddf8c3006ae77ba7b067d9b091769a0e0f4c47838cbbe7a6bc12eea0290447",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://docs.x.ai/x-subscription/pricing": {
    "hash": "fae027cc80053a63f4027ec53a219f79136a4488e798b841f25c46aa61067471",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://devin.ai/pricing": {
    "hash": "bc7a1be8d9055a735996d7792f7c3bcf97bafac1efc2013cc1b94da543b053f7",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://one.google.com/intl/en_us/about/google-ai-plans/": {
    "hash": "f2f10d0589832e4ebd5c5a3a0004f70d0b7bb45ea85cf7c04d1b66158e57d57b",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans": {
-   "hash": "3bf8ec26c92c55199ca8682f5ff8015f1bab3e471670ad378966b1e458f25c15",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "d5ae63f73ae8124da14f8adc8e5a41ad801ce27ced99274da717f8aaa1c872e2",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://help.openai.com/en/articles/12642688-using-credits-for-flexible-usage-in-chatgpt-personal-plans": {
-   "hash": "ae2d4135f1af68a96147a22a9efd3a5fbd5f9244ce63b2e8054d8499d639f76c",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "5a391767b1d990035e535593b76731c702bc86fffd58395625d5230d41c133bf",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://docs.devin.ai/admin/billing/self-serve": {
    "hash": "50f80a3bbc5c2de0985868555ca5876925b1f1121bfaf4175b1f41344af2b922",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://support.google.com/googleone/answer/16287445?hl=en": {
    "hash": "bbc893105ab2dbb750956026002e063cdaf670e00768549c33a964ae01e58bb4",
    "checked": "2026-11-26",
-   "version": 2
+   "version": 2,
+   "error": "TimeoutError: The read operation timed out"
   },
   "https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex": {
-   "hash": "88166803d0340df939831a60dcbdc72c94c9baf8d2c2c6edd61525383cdaf054",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "dcb74abe49a28f6ca35b75282e01aecb50af553a0efafcb38adca5980049fa0b",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://docs.x.ai/x-subscription/usage-limits": {
    "hash": "15b0a5e222f31f35d5369000cffcbfd7274a22ad05f28352bf36df2325230fa9",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://support.google.com/gemini/answer/16275805?hl=en-GB": {
-   "hash": "879c12d5aaed7a4bc3e079de1d105c522f603f91a638eb49eb32a4b77435607a",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "ddca5551222bb763dd9554e7f15e13c1c5a46807c059c0d1c2e36e93ee1be580",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan": {
    "hash": "b1724f1383a7f3f567a3960f57eb8a8763497f40ff234c61c1507d7a347965c8",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://help.openai.com/en/articles/20001354-gpt-6-and-other-models-in-chatgpt": {
-   "hash": "2284463d7b57f54c15367d937aee19c0c1e18c8e9397fda83d59c9a64069a11c",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "209ec964aaa66fc7ffbbefe3b7c65b3e5043240be3a30d26c3aa1ad52d8146e6",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://x.ai/pricing": {
    "hash": "af5756131d046093e67e24d8bb0cc078d16da2521bb35ee1462a883db5854791",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://docs.devin.ai/desktop/models": {
    "hash": "5376abafc5ff284856869b9392d4722215857556fdecd48d7159feddfbe7a17f",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://support.google.com/gemini/answer/18648722?co=GENIE.Platform%3DDesktop&hl=en": {
-   "hash": "5904e0f3cdd0258edaabb7c75bb13a6f6d47d21b7acdab4ef70068faea1be86c",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "11b6f8bdd777db63ee931efd05f91b32c0a2f64156409fb259fb8ab0ab536414",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://code.claude.com/docs/en/platforms": {
    "hash": "fbb348f0b202da186818f6ffa54cffc0a313e5e140fc935503e9aa53d69c3911",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan": {
-   "hash": "c0b924f0a0d9fe9bca5234841ded491d61b7fcc86d27b00165da81de51bb1ac4",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "2aeef357c37d29483739455b1e3952ae38b9cb442e903b3ee9d64d612ed404e5",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://docs.devin.ai/desktop/devin": {
    "hash": "0ee6c1aa056d6fb41575a6f0da3d40bab6221cc66289d10ad6bee2b153d1e5c5",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://antigravity.google/docs/remote-agents/": {
    "hash": "bfe633a708e4ecaa0dd72010b3c76e802b4618fea4647eaee39a20e49181cd04",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://code.claude.com/docs/en/routines": {
    "hash": "629d74fdc304a43d0b0e7eb42102c2969cde818167e395f92ece952c27230969",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt": {
-   "hash": "bc7b53c48a4e0b0e4d0abb16f43eb7a244ca881351e06055ab2773149b1dce15",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "c5db0c850af34d15a2fa343fefe719558881a66ae52969914534d57ce6d4760c",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   },
   "https://docs.x.ai/grok-bot/skills-routines-and-automations": {
    "hash": "2af0f5102a0ebee4de206bfa66ec40debe4c6e70b2a39f89f1c783c707095a7c",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://docs.devin.ai/product-guides/automations": {
    "hash": "533b2a1b34c5c35e1042d462d1e3c7186c6546ddd2c4cac91cfe94f5bc9b21a2",
-   "checked": "2026-11-26",
+   "checked": "2026-11-27",
    "version": 2
   },
   "https://support.google.com/gemini/answer/17094710?co=GENIE.Platform%3DDesktop&hl=en": {
-   "hash": "4ccb88160785e82b973d32004a1a8111dc4f964b077bfb25698c2fc61d5aeaa5",
-   "checked": "2026-11-26",
-   "version": 2
+   "hash": "966cffc85ee7ad563367590e781dee726b6c511b8f6e39e2f220af5dcc46b464",
+   "checked": "2026-11-27",
+   "version": 2,
+   "changed": "2026-11-27"
   }
  },
  "updates": {}

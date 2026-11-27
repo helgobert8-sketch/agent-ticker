@@ -27,7 +27,7 @@
     "note": "Highest priority support, dedicated account management, SCIM, RBAC, dedicated deployment"
    }
   ],
-  "checked": "2026-11-26",
+  "checked": "2026-11-27",
   "url": "https://devin.ai/pricing"
  },
  "codex": {
@@ -63,7 +63,7 @@
     "note": "Priority processing, SCIM, EKM, RBAC, audit logs, data residency controls"
    }
   ],
-  "checked": "2026-11-26",
+  "checked": "2026-11-27",
   "url": "https://developers.openai.com/codex/pricing.md"
  },
  "cursor": {
@@ -99,7 +99,7 @@
     "note": "4-50x Plus usage, centralized billing, SAML/OIDC SSO"
    }
   ],
-  "checked": "2026-11-26",
+  "checked": "2026-11-27",
   "url": "https://cursor.com/pricing"
  },
  "grok": {
@@ -130,7 +130,7 @@
     "note": "Plus $0.004 / text input"
    }
   ],
-  "checked": "2026-11-26",
+  "checked": "2026-11-27",
   "url": "https://docs.x.ai/docs/models.md"
  },
  "claude-code": {
@@ -161,7 +161,7 @@
     "note": "For teams of 2 to 150; all Claude features, plus more usage than Pro."
    }
   ],
-  "checked": "2026-11-26",
+  "checked": "2026-11-27",
   "url": "https://claude.com/pricing"
  }
 }
